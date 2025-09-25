@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Flota de Vehículos Eléctricos</title>
-    </head>
+</head>
 
 <body>
     <h1>
@@ -52,5 +52,66 @@
     <a href = "#vehiculos">Ver vehículos</a>
 
     <p>Precio medio: 40 &euro; / hora</p>
+
+    <section id = "vehiculos">
+        <table border = "1">
+        <thead>
+        <caption>
+            Vehículos disponibles
+        </caption>
+        <tr>
+            <th scope="col">
+                Matrícula
+            </th>
+
+            <th scope="col">
+                Marca
+            </th>
+
+            <th scope="col">
+                Autonomía (km)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+        </table>
+    </section>
+
+     <br><br>
+
+
+    <section id="reservas">
+        <fieldset>
+        <legend>Rellena el formulario de reserva:</legend>
+      <form>
+        <label for="nombre">Nombre: </label> 
+        <input type="text" name="nombre" placeholder="Escribe tu nombre" required><br><br>
+        <label for= "email">Correo Electrónico: </label> 
+        <input type="email" name="correo" placeholder="ejemplo@correo.com" required><br><br>
+        <br>
+        <select id="coches" name="coches">
+            <optgroup label="Coches">
+            <option value="1">Mazda CX-5</option>
+            <option value="2">Renault Megane</option>
+            <option value="3">Ford Fiesta</option>
+            </optgroup>
+        </select>
+        <br><br>
+        <label for= "fecha_inicio">Fecha de inicio: </label> 
+        <input type="datetime-local" name="fecha_inicio" required><br><br>
+        <label for= "fecha_fin">Fecha de fin: </label> 
+        <input type="datetime-local" name="fecha_fin" required><br><br>
+        <label for= "telephone">Teléfono: </label> 
+        <input type="tel" name="telephone" pattern = "\d{9}"><br><br>
+        <label for="condiciones">Condiciones: </label> 
+        <input type="checkbox" name="condiciones" checked><br><br>
+        <button type="submit" name="enviar">Enviar</button>
+        <input type="reset" value="Limpiar el formulario">
+     </form>
+      </fieldset>
+    </section>
+
 
 </body>
