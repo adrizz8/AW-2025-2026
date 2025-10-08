@@ -61,20 +61,34 @@
             </ul>
 
             <h3>Tecnologías que utilizamos</h3>
-            <dl>
-                       <img src="img/frontend.png" id="logofront" alt="Logo del frontend" width="50">
-                <dt>Frontend</dt>
-                <dd>HTML, CSS, JavaScript</dd>
-                       <img src="img/backend.png" id="logoback" alt="Logo del backend" width="50">
-                <dt>Backend</dt>
-                <dd>Node.js, Express</dd>
-                       <img src="img/basedatos.png" id="logobase" alt="Logo de la base de datos" width="50">
-                <dt>Base de datos</dt>
-                <dd>MongoDB</dd>
-                       <img src="img/nube.png" id="logonube" alt="Logo de la nube" width="50">
-                <dt>Servicios en la nube</dt>
-                <dd>AWS, Azure</dd>
-            </dl>
+            <dl id="tecnologias">
+    <div class="tecnologia" id="frontend">
+        <img src="img/frontend.png" id="iconofrontend" alt="Logo del frontend" width="50">
+        <dt>Frontend</dt>
+        <dd>HTML, CSS, JavaScript</dd>
+    </div>
+
+    <div class="tecnologia" id="backend">
+        <img src="img/backend.png" alt="Logo del backend" width="50">
+        <dt>Backend</dt>
+        <dd>Node.js, Express</dd>
+    </div>
+
+    <div class="tecnologia" id="basedatos">
+        <img src="img/basedatos.png" alt="Logo de la base de datos" width="50">
+        <dt>Base de datos</dt>
+        <dd>MongoDB</dd>
+    </div>
+
+    <div class="tecnologia" id="nube">
+        <img src="img/nube.png" alt="Logo de la nube" width="50">
+        <dt>Servicios en la nube</dt>
+        <dd>AWS, Azure</dd>
+    </div>
+</dl>
+
+<br>
+
         </section>
 
         <a href="https://www.ucm.es/" aria-label="Página UCM" target="_blank">Visita la página web de la universidad
@@ -119,8 +133,10 @@
                 <legend>Rellena el formulario de reserva:</legend>
                 <form>
                     <label for="nombre" aria-label="nombre">Nombre: </label>
+                    <br>
                     <input type="text" id = "nombre" name="nombre" placeholder="Escribe tu nombre" required><br><br>
                     <label for="email" aria-label="email">Correo Electrónico: </label>
+                    <br>
                     <input type="email" id = "email" name="correo" placeholder="ejemplo@correo.com" required><br><br>
                     <br>
                     <select aria-label="Coches" id="coches" name="coches">
@@ -132,10 +148,13 @@
                     </select>
                     <br><br>
                     <label for="fechaini" aria-label="Fecha de inicio">Fecha de inicio: </label>
+                    <br>
                     <input type="datetime-local" id="fechaini" name="fecha_inicio" required><br><br>
                     <label for="fechafin" aria-label="Fecha de fin">Fecha de fin: </label>
+                    <br>
                     <input type="datetime-local" id = "fechafin" name="fecha_fin" required><br><br>
                     <label for="telephone" aria-label="Teléfono">Teléfono: </label>
+                    <br>
                     <input type="tel" id = telephone name="telephone" pattern="\d{9}"><br><br>
                     <label for="condiciones" aria-label="Condiciones">Condiciones: </label>
                     <input type="checkbox" id = "condiciones" name="condiciones" checked><br><br>
