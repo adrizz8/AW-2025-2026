@@ -1,8 +1,9 @@
-html, body {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
+html,
+body {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 header {
@@ -30,8 +31,8 @@ h2 {
     font-size: 20px;
     text-align: justify;
     background-color: rgb(57, 54, 54);
-padding-top: 30px;
-margin-bottom: 30px;
+    padding-top: 30px;
+    margin-bottom: 30px;
 }
 
 ul {
@@ -64,14 +65,14 @@ h3 {
 
 
 iframe {
-border: none;
-width: 80%;
-border-radius: 10px;
-margin-bottom: 20px;
-margin-top: 20px;
-display: block;
-margin-left: auto;
-margin-right: auto;
+    border: none;
+    width: 80%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table {
@@ -79,7 +80,13 @@ table {
     width: 100%;
 }
 
-#logo{
+.error {
+    display: none;
+    color: red;
+    font-size: 0.9em;
+}
+
+#logo {
     vertical-align: middle;
     margin-right: 25px;
     margin-left: 20px;
@@ -157,24 +164,25 @@ nav {
     font-size: 18px;
     font-weight: bold;
     word-spacing: 5px;
-    position:relative;
+    position: relative;
 }
 
-#registro, #iniciosesion{
+#registro,
+#iniciosesion {
     float: right;
     margin-right: 20px;
 }
 
 
-nav a{
+nav a {
     color: rgb(255, 255, 255);
     padding: 14px 20px;
     text-decoration: none;
-    
+
 }
 
 nav a:hover {
-    color:greenyellow;
+    color: greenyellow;
 }
 
 body {
@@ -196,14 +204,14 @@ footer {
     font-size: 18px;
     font-weight: bold;
     word-spacing: 5px;
-    position:relative;
+    position: relative;
 }
 
-footer a{
+footer a {
     color: rgb(255, 255, 255);
     padding: 14px 20px;
     text-decoration: none;
-    
+
 }
 
 #frontend {
@@ -217,7 +225,7 @@ footer a{
     color: white;
 }
 
-#backend{
+#backend {
     background: rgb(70, 157, 11);
     border-radius: 20px;
     padding: 10px;
@@ -227,6 +235,7 @@ footer a{
     text-align: center;
     color: white;
 }
+
 #basedatos {
     background: rgb(81, 190, 9);
     border-radius: 20px;
@@ -237,6 +246,7 @@ footer a{
     text-align: center;
     color: white;
 }
+
 #nube {
     background: rgb(96, 231, 6);
     border-radius: 20px;
@@ -248,7 +258,10 @@ footer a{
     color: white;
 }
 
-#iconofrontend, #iconobackend, #iconobasedatos, #icononube {
+#iconofrontend,
+#iconobackend,
+#iconobasedatos,
+#icononube {
     width: 80px;
 }
 

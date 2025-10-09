@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Gestión de Flota de Vehículos Eléctricos</title>
+
+</head>
+
+<body>
+
+    <nav>
+        <img src="img/logo.png" id="logo" alt="Logo de la empresa" width="50">
+        <a href="index.html" id="inicio" aria-label="Inicio">Inicio</a>
+        <a href="vehiculos.html" aria-label="Vehiculos">Vehiculos</a>
+        <a href="reservas.html" aria-label="Reservas">Reservas</a>
+        <a href="contacto.html" aria-label="Contacto">Contacto</a>
+        <a href="registro.html" id=registro aria-label="Registro">Regístrate</a>
+        <a href="login.html" id=iniciosesion aria-label="Login">Inicia sesión</a>
+    </nav>
+
+
+    <header>
+        <h1>
+            Bienvenido a la Gestión de Flota de Vehículos Eléctricos / Move It &copy;
+        </h1>
+    </header>
+
+
+    <main>
+
+        <h2>Haz tu reserva</h2>
+        <fieldset>
+            <legend>Rellena el formulario de reserva:</legend>
+            <form>
+                <label for="nombre" aria-label="nombre">Nombre: </label>
+                <br>
+                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+                <span class="error" id="nombreerror">El nombre no es válido</span>
+                <br><br>
+                <label for="email" aria-label="email">Correo Electrónico: </label>
+                <br>
+                <input type="email" id="email" name="correo" placeholder="ejemplo@correo.com" required>
+                <span class="error" id="emailerror">El correo electrónico no es válido</span>
+                <br><br>
+                <br>
+                <label for="vehiculos" id="vehiculos">Coches</label> <br>
+                <select aria-label="Coches" id="coches" name="coches">
+                    <optgroup label="Coches">
+                        <option value="1">Mazda CX-5</option>
+                        <option value="2">Renault Megane</option>
+                        <option value="3">Ford Fiesta</option>
+                    </optgroup>
+                </select>
+                <br><br>
+                <label for="fechaini" aria-label="Fecha de inicio">Fecha de inicio: </label>
+                <br>
+                <input type="datetime-local" id="fechaini" name="fecha_inicio" required>
+                <span id="fechainierror">La fecha de inicio de reserva es incorrecta</span><br><br>
+                <label for="fechafin" aria-label="Fecha de fin">Fecha de fin: </label>
+                <br>
+                <input type="datetime-local" id="fechafin" name="fecha_fin" required>
+                <span id="fechafinerror">La fecha de fin de reserva es incorrecta</span><br><br>
+                <label for="telephone" aria-label="Teléfono">Teléfono: </label>
+                <br>
+                <input type="tel" id=telephone name="telephone" pattern="\d{9}"><br><br>
+                <label for="condiciones" aria-label="Condiciones">Condiciones: </label>
+
+                
+                <input type="checkbox" id="condiciones" name="condiciones" checked><br><br>
+                <button aria-label="Enviar" type="submit" name="enviar">Enviar</button>
+                <input aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
+            </form>
+        </fieldset>
+
+    </main>
+
+    <footer>
+        <h4>Derechos reservados &copy; 2025</h4>
+        <a href="#informacion" aria-label="Información" accesskey="p">Lo que hacemos</a>
+        <a href="#vehiculos" aria-label="Ver vehículos" accesskey="v">Ver vehículos</a>
+        <a href="#reservas" aria-label="Ver reservas" accesskey="r">Ver reserva</a>
+        <a href="/contacto.html" aria-label="Contacto" accesskey="c">Contáctanos</a>
+    </footer>
+
+      <script src="js/formulario.js"></script>
+
+</body>
