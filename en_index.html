@@ -4,100 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Flota de Vehículos Eléctricos</title>
-
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Electric Vehicle Fleet Management</title>
 </head>
 
 <body>
 
     <nav>
-        <img src="img/logo.png" alt="Logo de la empresa" width="50">
-        <a href="index.html" aria-label="Inicio">Inicio</a>
-        <a href="vehiculos.html" aria-label="Vehiculos">Vehiculos</a>
-        <a href="reservas.html" aria-label="Reservas">Reservas</a>
-        <a href="contacto.html" aria-label="Contacto">Contacto</a>
+        <img src="img/logo.png" id="logo" alt="Company Logo" width="50">
+        <a href="en_index.html" id="home" aria-label="Home">Home</a>
+        <a href="vehiculos.html" aria-label="Vehicles">Vehicles</a>
+        <a href="reservas.html" aria-label="Bookings">Bookings</a>
+        <a href="contacto.html" aria-label="Contact">Contact</a>
+        <div class="right-nav">
+            <a href="registro.html" id="register" aria-label="Register">Sign Up</a>
+            <a href="login.html" id="login" aria-label="Login">Log In</a>
+            <a href="index.html"><img src="img/es.png" alt="Español" width="25"></a>
+            <a href="en_index.html"><img src="img/en.png" alt="Inglés" width="25"></a>
+        </div>
     </nav>
 
     <header>
         <h1>
-            Bienvenido a la Gestión de Flota de Vehículos Eléctricos / Move It &copy;
+            Welcome to the Electric Vehicle Fleet Management / Move It &copy;
         </h1>
     </header>
 
-
-
     <main>
+
+        <h3>Sustainable Mobility Platform</h3>
+        <iframe width="734" height="500" src="https://www.youtube.com/embed/03ldjZbX5wo"
+            title="Competition for Electric Mobility in China" allow="accelerometer; autoplay; clipboard-write;
+            encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+
         <section id="informacion">
-            <h2>Plataforma de movilidad sostenible</h2>
-            <iframe width="734" height="500" src="https://www.youtube.com/embed/03ldjZbX5wo"
-                title="Competencia por la movilidad eléctrica en China" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
-                ncrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
+
+            <h2>What Does Our Platform Offer?</h2>
 
             <p>
-                Nuestra plataforma ofrece una <strong>solución integral</strong> para la <strong>gestión eficiente de
-                    flotas de vehículos eléctricos</strong>,
-                facilitando la <em>administración, monitoreo y optimización de recursos</em> para empresas y
-                organizaciones comprometidas con la sostenibilidad ambiental.</p>
+                Our platform provides a <strong>comprehensive solution</strong> for the <strong>efficient management of
+                    electric vehicle fleets</strong>,
+                making it easier to <em>administer, monitor, and optimize resources</em> for companies and organizations
+                committed to environmental sustainability.
             </p>
-            <h3>Beneficios de los vehículos eléctricos</h3>
+
+            <h3>Benefits of Electric Vehicles</h3>
             <ol>
-                <li>Reducción de emisiones contaminantes</li>
-                <li>Ahorro en costos de combustible y mantenimiento</li>
-                <li>Contribución a la sostenibilidad ambiental</li>
+                <li>Reduction of pollutant emissions</li>
+                <li>Fuel and maintenance cost savings</li>
+                <li>Contribution to environmental sustainability</li>
             </ol>
 
-            <h3>Características de nuestra plataforma</h3>
+            <h3>Platform Features</h3>
             <ul>
-                <li>Monitoreo en tiempo real del estado de los vehículos</li>
-                <li>Reportes detallados de uso y rendimiento</li>
-                <li>Soporte técnico y asesoramiento personalizado</li>
+                <li>Real-time monitoring of vehicle status</li>
+                <li>Detailed usage and performance reports</li>
+                <li>Technical support and personalized assistance</li>
             </ul>
 
-            <h3>Tecnologías que utilizamos</h3>
-            <dl>
-                <dt>Frontend</dt>
-                <dd>HTML, CSS, JavaScript</dd>
-                <dt>Backend</dt>
-                <dd>Node.js, Express</dd>
-                <dt>Base de datos</dt>
-                <dd>MongoDB</dd>
-                <dt>Servicios en la nube</dt>
-                <dd>AWS, Azure</dd>
+            <h3>Technologies We Use</h3>
+            <dl id="technologies">
+                <div class="technology" id="frontend">
+                    <img src="img/frontend.png" id="iconfrontend" alt="Frontend Logo" width="50">
+                    <dt>Frontend</dt>
+                    <dd>HTML, CSS, JavaScript</dd>
+                </div>
+
+                <div class="technology" id="backend">
+                    <img src="img/backend.png" alt="Backend Logo" width="50">
+                    <dt>Backend</dt>
+                    <dd>Node.js, Express</dd>
+                </div>
+
+                <div class="technology" id="basedatos">
+                    <img src="img/basedatos.png" alt="Database Logo" width="50">
+                    <dt>Database</dt>
+                    <dd>MongoDB</dd>
+                </div>
+
+                <div class="technology" id="nube">
+                    <img src="img/nube.png" alt="Cloud Logo" width="50">
+                    <dt>Cloud Services</dt>
+                    <dd>AWS, Azure</dd>
+                </div>
             </dl>
+
+            <br>
+
         </section>
 
-        <a href="https://www.ucm.es/" aria-label="Página UCM" target="_blank">Visita la página web de la universidad
-            Complutense</a>
+        <a href="https://www.ucm.es/" aria-label="UCM Website" target="_blank">Visit the Complutense University
+            Website</a>
         <br>
-        <a href="/contacto.html" aria-label="Contacto">Contáctanos</a>
+        <a href="/contact.html" aria-label="Contact">Contact Us</a>
         <br>
-        <img src="img/coche1.png" alt="Vehículo Eléctrico" width="200">
+        <img src="img/coche1.png" alt="Electric Vehicle" width="200">
         <br>
-        <a href="img/coche1.png" aria-label="Coche HD">Coche HD</a>
+        <a href="img/coche1.png" aria-label="HD Car">HD Car Image</a>
         <br>
-        <a href="#vehiculos" aria-label="Ver vehículos">Ver vehículos</a>
+        <a href="#vehicles" aria-label="View Vehicles">View Vehicles</a>
 
-        <p>Precio medio: 40 &euro; / hora</p>
+        <p>Average price: 40 &euro; / hour</p>
+        <br>
 
-        <section id="vehiculos">
-            <table border="1">
+        <section id="vehicles">
+            <h2>Our Vehicles</h2>
+            <table>
                 <thead>
-                    <caption>
-                        Vehículos disponibles
-                    </caption>
                     <tr>
-                        <th scope="col">
-                            Matrícula
-                        </th>
-
-                        <th scope="col">
-                            Marca
-                        </th>
-
-                        <th scope="col">
-                            Autonomía (km)
-                        </th>
+                        <th colspan="3">Available Vehicles</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">License Plate</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Range (km)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,45 +129,59 @@
 
         <br><br>
 
-
         <section id="reservas">
+            <h2>Make Your Booking</h2>
             <fieldset>
-                <legend>Rellena el formulario de reserva:</legend>
+                <legend>Fill in the booking form:</legend>
                 <form>
-                    <label for="nombre" aria-label="nombre">Nombre: </label>
-                    <input type="text" name="nombre" placeholder="Escribe tu nombre" required><br><br>
-                    <label for="email" aria-label="email">Correo Electrónico: </label>
-                    <input type="email" name="correo" placeholder="ejemplo@correo.com" required><br><br>
+                    <label for="name" aria-label="Name">Name: </label>
                     <br>
-                    <select aria-label="Coches" id="coches" name="coches">
-                        <optgroup label="Coches">
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+
+                    <label for="email" aria-label="Email">Email: </label>
+                    <br>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required><br><br>
+
+                    <label for="cars" aria-label="Select Car">Select a car: </label> <br>
+                    <select aria-label="Cars" id="cars" name="cars">
+                        <optgroup label="Cars">
                             <option value="1">Mazda CX-5</option>
                             <option value="2">Renault Megane</option>
                             <option value="3">Ford Fiesta</option>
                         </optgroup>
                     </select>
                     <br><br>
-                    <label for="fecha_inicio" aria-label="Fecha de inicio">Fecha de inicio: </label>
-                    <input type="datetime-local" name="fecha_inicio" required><br><br>
-                    <label for="fecha_fin" aria-label="Fecha de fin">Fecha de fin: </label>
-                    <input type="datetime-local" name="fecha_fin" required><br><br>
-                    <label for="telephone" aria-label="Teléfono">Teléfono: </label>
-                    <input type="tel" name="telephone" pattern="\d{9}"><br><br>
-                    <label for="condiciones" aria-label="Condiciones">Condiciones: </label>
-                    <input type="checkbox" name="condiciones" checked><br><br>
-                    <button aria-label="Enviar" type="submit" name="enviar">Enviar</button>
-                    <input aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
+
+                    <label for="startdate" aria-label="Start Date">Start Date: </label>
+                    <br>
+                    <input type="datetime-local" id="startdate" name="start_date" required><br><br>
+
+                    <label for="enddate" aria-label="End Date">End Date: </label>
+                    <br>
+                    <input type="datetime-local" id="enddate" name="end_date" required><br><br>
+
+                    <label for="phone" aria-label="Phone">Phone: </label>
+                    <br>
+                    <input type="tel" id="phone" name="phone" pattern="\d{9}"><br><br>
+
+                    <label for="terms" aria-label="Terms">Terms and Conditions: </label>
+                    <input type="checkbox" id="terms" name="terms" checked><br><br>
+
+                    <button aria-label="Submit" type="submit" name="submit">Submit</button>
+                    <input aria-label="Clear Form" type="reset" value="Clear Form">
                 </form>
             </fieldset>
         </section>
     </main>
 
     <footer>
-        <h4>Derechos reservados &copy; 2025</h4>
-        <a href="#informacion" aria-label="Información" acceskey="i">Lo que hacemos</a>
-        <a href="#vehiculos" aria-label="Ver vehículos" accesskey="v">Ver vehículos</a>
-        <a href="#reservas" aria-label="Ver reservas" accesskey="r">Ver reserva</a>
-        <a href="/contacto.html" aria-label="Contacto" accesskey="c">Contáctanos</a>
+        <h4>All rights reserved &copy; 2025</h4>
+        <a href="#information" aria-label="Information" accesskey="p">What We Do</a>
+        <a href="#vehicles" aria-label="View Vehicles" accesskey="v">View Vehicles</a>
+        <a href="#bookings" aria-label="View Bookings" accesskey="r">View Booking</a>
+        <a href="/contact.html" aria-label="Contact" accesskey="c">Contact Us</a>
     </footer>
 
 </body>
+
+</html>

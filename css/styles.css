@@ -158,31 +158,42 @@ textarea {
 
 
 nav {
-    /*background: linear-gradient(to right, #59970c, #79c41d);*/
     background: rgb(29, 78, 29);
-    padding: 10px 0;
+    padding: 10px 20px;
+    display: flex; /* convierte el nav en un contenedor flexible */
+    align-items: center; /* centra verticalmente */
+    justify-content: space-between; /* separa izquierda y derecha */
     font-size: 18px;
     font-weight: bold;
     word-spacing: 5px;
     position: relative;
 }
 
-#registro,
-#iniciosesion {
-    float: right;
-    margin-right: 20px;
+nav img {
+  margin-right: 20px;
 }
-
 
 nav a {
     color: rgb(255, 255, 255);
     padding: 14px 20px;
     text-decoration: none;
-
 }
 
 nav a:hover {
     color: greenyellow;
+}
+
+/* Grupo de enlaces a la derecha */
+.right-nav {
+    margin-left: auto; /* empuja este bloque a la derecha */
+    display: flex;
+    gap: 10px; /* separa los enlaces entre sí */
+}
+
+#registro,
+#iniciosesion {
+    float: right;
+    margin-right: 20px;
 }
 
 body {

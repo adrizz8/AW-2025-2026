@@ -1,48 +1,100 @@
 try {
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Evita el envío del formulario por defecto
-            // Validar campos del formulario
-            const nombre = document.getElementById("nombre").value;
-            const email = document.getElementById("email").value;
-            const fechaini = document.getElementById("fechaini").value;
-            const fechafin = document.getElementById("fechafin").value;
-            const vehiculo = document.getElementById("coches").value;
 
-            const emailError = document.getElementById("emailerror");
-            const nombreerror = document.getElementById("nombreerror");
-            const fechainiError = document.getElementById("fechainierror");
-            const fechafinError = document.getElementById("fechafinerror");
+        const nombre = document.getElementById("nombre");
+        const email = document.getElementById("email");
+        const fechaini = document.getElementById("fechaini");
+        const fechafin = document.getElementById("fechafin");
+        const vehiculo = document.getElementById("coches");
 
-            nombreerror.style.display = "none";
-            emailError.style.display = "none";
-            fechainiError.style.display = "none";
-            fechafinError.style.display = "none";
+        const emailError = document.getElementById("emailerror");
+        const nombreError = document.getElementById("nombreerror");
+        const fechainiError = document.getElementById("fechainierror");
+        const fechafinError = document.getElementById("fechafinerror");
 
-            if (nombre.length < 3) {
-                nombreerror.style.display = "inline";
-                return;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // Funciones de validación
+        function validarNombre() {
+            if (nombre.value.trim().length < 3) {
+                nombreError.style.display = "inline";
+                nombre.style.borderColor = "red";
+                return false;
+            } else {
+                nombreError.style.display = "none";
+                nombre.style.borderColor = "green";
+                return true;
             }
-
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-            if (!emailPattern.test(email)) {
-                emailError.style.display="inline";
-                return;
-            }
-
-            if (new Date(fechaini) > new Date(fechafin)) {
-                fechafinError.style.display="inline";
-                return;
-            }
-
-        });
-
-    });
-
-}
-
-catch (error) {
-            console.error("Error al cargar el script:", error);
         }
+
+        function validarEmail() {
+            if (!emailPattern.test(email.value.trim())) {
+                emailError.style.display = "inline";
+                email.style.borderColor = "red";
+                return false;
+            } else {
+                emailError.style.display = "none";
+                email.style.borderColor = "green";
+                return true;
+            }
+        }
+
+        function validarFechas() {
+            const fechaInicio = new Date(fechaini.value);
+            const fechaFin = new Date(fechafin.value);
+            let valido = true;
+
+            if (fechaini.value === "") {
+                fechainiError.textContent = "Introduce una fecha de inicio.";
+                fechainiError.style.display = "inline";
+                fechaini.style.borderColor = "red";
+                valido = false;
+            } else {
+                fechainiError.style.display = "none";
+                fechaini.style.borderColor = "green";
+            }
+
+            if (fechafin.value === "") {
+                fechafinError.textContent = "Introduce una fecha de fin.";
+                fechafinError.style.display = "inline";
+                fechafin.style.borderColor = "red";
+                valido = false;
+            } else if (fechaInicio > fechaFin) {
+                fechafinError.textContent = "La fecha de fin debe ser posterior a la de inicio.";
+                fechafinError.style.display = "inline";
+                fechafin.style.borderColor = "red";
+                valido = false;
+            } else {
+                fechafinError.style.display = "none";
+                fechafin.style.borderColor = "green";
+            }
+
+            return valido;
+        }
+
+        // Validación en tiempo real
+        nombre.addEventListener("input", validarNombre);
+        email.addEventListener("input", validarEmail);
+        fechaini.addEventListener("change", validarFechas);
+        fechafin.addEventListener("change", validarFechas);
+
+        // Validación al enviar
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const nombreValido = validarNombre();
+            const emailValido = validarEmail();
+            const fechasValidas = validarFechas();
+
+            if (nombreValido && emailValido && fechasValidas) {
+                console.log("Formulario válido. Enviando...");
+                // form.submit(); // Descomenta si quieres enviarlo realmente
+            } else {
+                console.log("Formulario inválido. Corrige los errores.");
+            }
+        });
+    });
+} catch (error) {
+    console.error("Error al cargar el script:", error);
+}
+  

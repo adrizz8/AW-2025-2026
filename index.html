@@ -13,12 +13,17 @@
 
     <nav>
         <img src="img/logo.png" id="logo" alt="Logo de la empresa" width="50">
-        <a href="index.html" id = "inicio" aria-label="Inicio">Inicio</a>
+        <a href="index.html" id="inicio" aria-label="Inicio">Inicio</a>
         <a href="vehiculos.html" aria-label="Vehiculos">Vehiculos</a>
         <a href="reservas.html" aria-label="Reservas">Reservas</a>
         <a href="contacto.html" aria-label="Contacto">Contacto</a>
-        <a href ="registro.html" id =registro aria-label="Registro">Regístrate</a>
-        <a href ="login.html" id = iniciosesion aria-label="Login">Inicia sesión</a>
+        <div class="right-nav">
+            <a href="registro.html" id="registro" aria-label="Registro">Regístrate</a>
+            <a href="login.html" id="iniciosesion" aria-label="Login">Inicia sesión</a>
+            <a href="index.html"><img src="img/es.png" alt="Español" width="25"></a>
+            <a href="en_index.html"><img src="img/en.png" alt="Inglés" width="25"></a>
+        </div>
+    </nav>
     </nav>
 
     <header>
@@ -30,14 +35,14 @@
 
 
     <main>
-        
-            <h3>Plataforma de movilidad sostenible</h3>
-            <iframe width="734" height="500" src="https://www.youtube.com/embed/03ldjZbX5wo"
-                title="Competencia por la movilidad eléctrica en China" allow="accelerometer; autoplay; clipboard-write;
-                ncrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
 
-            <section id="informacion">
+        <h3>Plataforma de movilidad sostenible</h3>
+        <iframe width="734" height="500" src="https://www.youtube.com/embed/03ldjZbX5wo"
+            title="Competencia por la movilidad eléctrica en China" allow="accelerometer; autoplay; clipboard-write;
+                ncrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+
+        <section id="informacion">
 
             <h2>¿Qué ofrece nuestra plataforma?</h2>
 
@@ -62,32 +67,32 @@
 
             <h3>Tecnologías que utilizamos</h3>
             <dl id="tecnologias">
-    <div class="tecnologia" id="frontend">
-        <img src="img/frontend.png" id="iconofrontend" alt="Logo del frontend" width="50">
-        <dt>Frontend</dt>
-        <dd>HTML, CSS, JavaScript</dd>
-    </div>
+                <div class="tecnologia" id="frontend">
+                    <img src="img/frontend.png" id="iconofrontend" alt="Logo del frontend" width="50">
+                    <dt>Frontend</dt>
+                    <dd>HTML, CSS, JavaScript</dd>
+                </div>
 
-    <div class="tecnologia" id="backend">
-        <img src="img/backend.png" alt="Logo del backend" width="50">
-        <dt>Backend</dt>
-        <dd>Node.js, Express</dd>
-    </div>
+                <div class="tecnologia" id="backend">
+                    <img src="img/backend.png" alt="Logo del backend" width="50">
+                    <dt>Backend</dt>
+                    <dd>Node.js, Express</dd>
+                </div>
 
-    <div class="tecnologia" id="basedatos">
-        <img src="img/basedatos.png" alt="Logo de la base de datos" width="50">
-        <dt>Base de datos</dt>
-        <dd>MongoDB</dd>
-    </div>
+                <div class="tecnologia" id="basedatos">
+                    <img src="img/basedatos.png" alt="Logo de la base de datos" width="50">
+                    <dt>Base de datos</dt>
+                    <dd>MongoDB</dd>
+                </div>
 
-    <div class="tecnologia" id="nube">
-        <img src="img/nube.png" alt="Logo de la nube" width="50">
-        <dt>Servicios en la nube</dt>
-        <dd>AWS, Azure</dd>
-    </div>
-</dl>
+                <div class="tecnologia" id="nube">
+                    <img src="img/nube.png" alt="Logo de la nube" width="50">
+                    <dt>Servicios en la nube</dt>
+                    <dd>AWS, Azure</dd>
+                </div>
+            </dl>
 
-<br>
+            <br>
 
         </section>
 
@@ -106,7 +111,7 @@
         <br>
 
         <section id="vehiculos">
-        <h2>Nuestros vehículos</h2>
+            <h2>Nuestros vehículos</h2>
             <table>
                 <thead>
                     <tr>
@@ -126,19 +131,20 @@
 
         <br><br>
 
-    
+
         <section id="reservas">
-                <h2>Haz tu reserva</h2>
+            <h2>Haz tu reserva</h2>
             <fieldset>
                 <legend>Rellena el formulario de reserva:</legend>
                 <form>
                     <label for="nombre" aria-label="nombre">Nombre: </label>
                     <br>
-                    <input type="text" id = "nombre" name="nombre" placeholder="Escribe tu nombre" required><br><br>
+                    <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required><br><br>
                     <label for="email" aria-label="email">Correo Electrónico: </label>
                     <br>
-                    <input type="email" id = "email" name="correo" placeholder="ejemplo@correo.com" required><br><br>
+                    <input type="email" id="email" name="correo" placeholder="ejemplo@correo.com" required><br><br>
                     <br>
+                    <label for="tit-coches" aria-label="Título de coches">Selecciona un coche: </label> <br>
                     <select aria-label="Coches" id="coches" name="coches">
                         <optgroup label="Coches">
                             <option value="1">Mazda CX-5</option>
@@ -152,12 +158,12 @@
                     <input type="datetime-local" id="fechaini" name="fecha_inicio" required><br><br>
                     <label for="fechafin" aria-label="Fecha de fin">Fecha de fin: </label>
                     <br>
-                    <input type="datetime-local" id = "fechafin" name="fecha_fin" required><br><br>
+                    <input type="datetime-local" id="fechafin" name="fecha_fin" required><br><br>
                     <label for="telephone" aria-label="Teléfono">Teléfono: </label>
                     <br>
-                    <input type="tel" id = telephone name="telephone" pattern="\d{9}"><br><br>
+                    <input type="tel" id=telephone name="telephone" pattern="\d{9}"><br><br>
                     <label for="condiciones" aria-label="Condiciones">Condiciones: </label>
-                    <input type="checkbox" id = "condiciones" name="condiciones" checked><br><br>
+                    <input type="checkbox" id="condiciones" name="condiciones" checked><br><br>
                     <button aria-label="Enviar" type="submit" name="enviar">Enviar</button>
                     <input aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
                 </form>
@@ -165,7 +171,7 @@
         </section>
     </main>
 
-    
+
     <footer>
         <h4>Derechos reservados &copy; 2025</h4>
         <a href="#informacion" aria-label="Información" accesskey="p">Lo que hacemos</a>
