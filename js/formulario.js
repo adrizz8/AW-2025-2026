@@ -7,6 +7,11 @@ try {
         const fechaini = document.getElementById("fechaini");
         const fechafin = document.getElementById("fechafin");
         const vehiculo = document.getElementById("coches");
+        const tipoVehiculo = document.getElementById("tipovehiculo");
+        const vehiculoError = document.getElementById("vehiculoerror");
+
+        const duracion = document.getElementById("duracion");
+        const duracionError = document.getElementById("duracionerror");
 
         const emailError = document.getElementById("emailerror");
         const nombreError = document.getElementById("nombreerror");
@@ -73,11 +78,44 @@ try {
             return valido;
         }
 
+        function validarDuracion() {
+            const valor = parseFloat(duracion.value);
+
+            if (isNaN(valor) || valor <= 0) {
+                duracion.classList.add("invalid");
+                duracion.classList.remove("valid");
+                duracionError.style.display = "inline";
+                return false;
+            } else {
+                duracion.classList.add("valid");
+                duracion.classList.remove("invalid");
+                duracionError.style.display = "none";
+                return true;
+            }
+        }
+
+        function validarVehiculo() {
+            if (tipoVehiculo.value === "") {
+                tipoVehiculo.classList.add("invalid");
+                tipoVehiculo.classList.remove("valid");
+                vehiculoError.style.display = "inline";
+                return false;
+            } else {
+                tipoVehiculo.classList.add("valid");
+                tipoVehiculo.classList.remove("invalid");
+                vehiculoError.style.display = "none";
+                return true;
+            }
+        }
+
         // Validación en tiempo real
         nombre.addEventListener("input", validarNombre);
         email.addEventListener("input", validarEmail);
         fechaini.addEventListener("change", validarFechas);
         fechafin.addEventListener("change", validarFechas);
+        tipoVehiculo.addEventListener("change", validarVehiculo);
+        duracion.addEventListener("input", validarDuracion);
+
 
         // Validación al enviar
         form.addEventListener("submit", function (event) {
@@ -85,8 +123,10 @@ try {
             const nombreValido = validarNombre();
             const emailValido = validarEmail();
             const fechasValidas = validarFechas();
+            const vehiculoValido = validarVehiculo();
+              const duracionValida = validarDuracion();
 
-            if (nombreValido && emailValido && fechasValidas) {
+            if (nombreValido && emailValido && fechasValidas && duracionValida && vehiculoValido) {
                 console.log("Formulario válido. Enviando...");
                 // form.submit(); // Descomenta si quieres enviarlo realmente
             } else {
@@ -97,4 +137,3 @@ try {
 } catch (error) {
     console.error("Error al cargar el script:", error);
 }
-  

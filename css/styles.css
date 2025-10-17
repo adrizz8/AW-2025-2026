@@ -281,3 +281,14 @@ dt {
     margin-top: 10px;
     font-size: 40px;
 }
+
+
+select.valid {
+  border: 2px solid green;
+  background-color: #e6ffe6;
+}
+
+select.invalid {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}

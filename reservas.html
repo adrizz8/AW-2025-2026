@@ -46,15 +46,17 @@
                 <span class="error" id="emailerror">El correo electrónico no es válido</span>
                 <br><br>
                 <br>
-                <label for="vehiculos" id="vehiculos">Coches</label> <br>
-                <select aria-label="Coches" id="coches" name="coches">
-                    <optgroup label="Coches">
-                        <option value="1">Mazda CX-5</option>
-                        <option value="2">Renault Megane</option>
-                        <option value="3">Ford Fiesta</option>
-                    </optgroup>
+                <label for="tipovehiculo" aria-label="Tipo de vehículo">Tipo de vehículo:</label>
+                <br>
+                <select id="tipovehiculo" name="tipovehiculo" required>
+                    <option value="">-- Selecciona un tipo --</option>
+                    <option value="coche">Coche</option>
+                    <option value="moto">Moto</option>
+                    <option value="patinete">Patinete eléctrico</option>
                 </select>
+                <span class="error" id="vehiculoerror">Por favor, selecciona un tipo de vehículo.</span>
                 <br><br>
+
                 <label for="fechaini" aria-label="Fecha de inicio">Fecha de inicio: </label>
                 <br>
                 <input type="datetime-local" id="fechaini" name="fecha_inicio" required>
@@ -65,10 +67,20 @@
                 <span id="fechafinerror">La fecha de fin de reserva es incorrecta</span><br><br>
                 <label for="telephone" aria-label="Teléfono">Teléfono: </label>
                 <br>
+
+                <label for="duracion" aria-label="Duración de la reserva">Duración (horas):</label>
+                <br>
+                <input type="number" id="duracion" name="duracion" min="1" placeholder="Ej. 5" required>
+                <span class="error" id="duracionerror">Introduce una duración válida (mayor que 0).</span>
+                <br><br>
+
+
+
+
                 <input type="tel" id=telephone name="telephone" pattern="\d{9}"><br><br>
                 <label for="condiciones" aria-label="Condiciones">Condiciones: </label>
 
-                
+
                 <input type="checkbox" id="condiciones" name="condiciones" checked><br><br>
                 <button aria-label="Enviar" type="submit" name="enviar">Enviar</button>
                 <input aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
@@ -85,6 +97,6 @@
         <a href="/contacto.html" aria-label="Contacto" accesskey="c">Contáctanos</a>
     </footer>
 
-      <script src="js/formulario.js"></script>
+    <script src="js/formulario.js"></script>
 
 </body>
