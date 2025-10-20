@@ -8,6 +8,8 @@ try {
         const fechafin = document.getElementById("fechafin");
         const vehiculo = document.getElementById("coches");
         const tipoVehiculo = document.getElementById("tipovehiculo");
+        const borrarBtn = document.getElementById("borrarBtn");
+        const progress = document.querySelector("progress");
         const vehiculoError = document.getElementById("vehiculoerror");
 
         const duracion = document.getElementById("duracion");
@@ -18,32 +20,69 @@ try {
         const fechainiError = document.getElementById("fechainierror");
         const fechafinError = document.getElementById("fechafinerror");
 
+
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        // Funciones de validación
-        function validarNombre() {
-            if (nombre.value.trim().length < 3) {
-                nombreError.style.display = "inline";
-                nombre.style.borderColor = "red";
-                return false;
-            } else {
-                nombreError.style.display = "none";
-                nombre.style.borderColor = "green";
-                return true;
-            }
+        let nombreValido = false;
+        let emailValido = false;
+        let fechasValidas = false;
+        let vehiculoValido = false;
+        let duracionValida = false;
+
+        function animarProgreso(incremento) {
+            const velocidad = 10;
+            const barra = progress;
+            const objetivo = Math.max(0, Math.min(barra.value + incremento, 100));
+
+            const intervalo = setInterval(() => {
+                if ((incremento > 0 && barra.value < objetivo) ||
+                    (incremento < 0 && barra.value > objetivo)) {
+                    barra.value += incremento > 0 ? 1 : -1;
+                } else {
+                    clearInterval(intervalo);
+                }
+            }, velocidad);
         }
 
-        function validarEmail() {
-            if (!emailPattern.test(email.value.trim())) {
-                emailError.style.display = "inline";
-                email.style.borderColor = "red";
-                return false;
-            } else {
-                emailError.style.display = "none";
-                email.style.borderColor = "green";
-                return true;
+
+        function validarNombre() {
+            const valido = nombre.value.trim().length >= 3;
+
+            if (valido && !nombreValido) {
+                animarProgreso(20);
+                nombreValido = true;
+            } else if (!valido && nombreValido) {
+                animarProgreso(-20);
+                nombreValido = false;
             }
+
+            nombreError.style.display = valido ? "none" : "inline";
+            nombre.style.borderColor = valido ? "green" : "red";
+            return valido;
         }
+
+
+
+
+
+        function validarEmail() {
+            const valido = emailPattern.test(email.value.trim());
+
+            if (valido && !emailValido) {
+                animarProgreso(20);
+                emailValido = true;
+            } else if (!valido && emailValido) {
+                animarProgreso(-20);
+                emailValido = false;
+            }
+
+            emailError.style.display = valido ? "none" : "inline";
+            email.style.borderColor = valido ? "green" : "red";
+
+            return valido;
+        }
+
+
 
         function validarFechas() {
             const fechaInicio = new Date(fechaini.value);
@@ -75,38 +114,71 @@ try {
                 fechafin.style.borderColor = "green";
             }
 
+            // Controla si cambia el estado
+            if (valido && !fechasValidas) {
+                animarProgreso(20);
+                fechasValidas = true;
+            } else if (!valido && fechasValidas) {
+                animarProgreso(-20);
+                fechasValidas = false;
+            }
+
             return valido;
         }
 
+
+
         function validarDuracion() {
             const valor = parseFloat(duracion.value);
+            const valido = !isNaN(valor) && valor > 0;
 
-            if (isNaN(valor) || valor <= 0) {
-                duracion.classList.add("invalid");
-                duracion.classList.remove("valid");
-                duracionError.style.display = "inline";
-                return false;
-            } else {
-                duracion.classList.add("valid");
-                duracion.classList.remove("invalid");
-                duracionError.style.display = "none";
-                return true;
+            if (valido && !duracionValida) {
+                animarProgreso(20);
+                duracionValida = true;
+            } else if (!valido && duracionValida) {
+                animarProgreso(-20);
+                duracionValida = false;
             }
+
+            duracionError.style.display = valido ? "none" : "inline";
+            duracion.style.borderColor = valido ? "green" : "red";
+
+            return valido;
         }
 
         function validarVehiculo() {
-            if (tipoVehiculo.value === "") {
-                tipoVehiculo.classList.add("invalid");
-                tipoVehiculo.classList.remove("valid");
-                vehiculoError.style.display = "inline";
-                return false;
-            } else {
-                tipoVehiculo.classList.add("valid");
-                tipoVehiculo.classList.remove("invalid");
-                vehiculoError.style.display = "none";
-                return true;
+            const valido = tipoVehiculo.value !== "";
+
+            if (valido && !vehiculoValido) {
+                animarProgreso(20);
+                vehiculoValido = true;
+            } else if (!valido && vehiculoValido) {
+                animarProgreso(-20);
+                vehiculoValido = false;
             }
+
+            vehiculoError.style.display = valido ? "none" : "inline";
+            tipoVehiculo.style.borderColor = valido ? "green" : "red";
+
+            return valido;
         }
+
+
+
+
+        borrarBtn.addEventListener("click", () => {
+            form.reset();
+            // Elimina clases de validación
+            const campos = form.querySelectorAll("input, select");
+            campos.forEach(campo => {
+                campo.classList.remove("valid", "invalid");
+            });
+            // Oculta todos los mensajes de error
+            const errores = form.querySelectorAll(".error");
+            errores.forEach(err => (err.style.display = "none"));
+
+        });
+
 
         // Validación en tiempo real
         nombre.addEventListener("input", validarNombre);
@@ -124,11 +196,10 @@ try {
             const emailValido = validarEmail();
             const fechasValidas = validarFechas();
             const vehiculoValido = validarVehiculo();
-              const duracionValida = validarDuracion();
+            const duracionValida = validarDuracion();
 
             if (nombreValido && emailValido && fechasValidas && duracionValida && vehiculoValido) {
-                console.log("Formulario válido. Enviando...");
-                // form.submit(); // Descomenta si quieres enviarlo realmente
+                form.submit();
             } else {
                 console.log("Formulario inválido. Corrige los errores.");
             }

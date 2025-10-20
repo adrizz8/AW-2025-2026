@@ -38,12 +38,12 @@
                 <label for="nombre" aria-label="nombre">Nombre: </label>
                 <br>
                 <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
-                <span class="error" id="nombreerror">El nombre no es válido</span>
+                <span class="error" id="nombreerror" aria-live="polite">El nombre no es válido</span>
                 <br><br>
                 <label for="email" aria-label="email">Correo Electrónico: </label>
                 <br>
                 <input type="email" id="email" name="correo" placeholder="ejemplo@correo.com" required>
-                <span class="error" id="emailerror">El correo electrónico no es válido</span>
+                <span class="error" id="emailerror" aria-live="polite">El correo electrónico no es válido</span>
                 <br><br>
                 <br>
                 <label for="tipovehiculo" aria-label="Tipo de vehículo">Tipo de vehículo:</label>
@@ -54,24 +54,22 @@
                     <option value="moto">Moto</option>
                     <option value="patinete">Patinete eléctrico</option>
                 </select>
-                <span class="error" id="vehiculoerror">Por favor, selecciona un tipo de vehículo.</span>
+                <span class="error" id="vehiculoerror" aria-live="polite">Por favor, selecciona un tipo de vehículo.</span>
                 <br><br>
 
                 <label for="fechaini" aria-label="Fecha de inicio">Fecha de inicio: </label>
                 <br>
                 <input type="datetime-local" id="fechaini" name="fecha_inicio" required>
-                <span id="fechainierror">La fecha de inicio de reserva es incorrecta</span><br><br>
                 <label for="fechafin" aria-label="Fecha de fin">Fecha de fin: </label>
                 <br>
                 <input type="datetime-local" id="fechafin" name="fecha_fin" required>
-                <span id="fechafinerror">La fecha de fin de reserva es incorrecta</span><br><br>
                 <label for="telephone" aria-label="Teléfono">Teléfono: </label>
                 <br>
 
                 <label for="duracion" aria-label="Duración de la reserva">Duración (horas):</label>
                 <br>
                 <input type="number" id="duracion" name="duracion" min="1" placeholder="Ej. 5" required>
-                <span class="error" id="duracionerror">Introduce una duración válida (mayor que 0).</span>
+                <span class="error" id="duracionerror" aria-live="polite">Introduce una duración válida (mayor que 0).</span>
                 <br><br>
 
 
@@ -83,7 +81,10 @@
 
                 <input type="checkbox" id="condiciones" name="condiciones" checked><br><br>
                 <button aria-label="Enviar" type="submit" name="enviar">Enviar</button>
-                <input aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
+                <input id="borrarBtn" aria-label="Borrar datos" type="reset" value="Limpiar el formulario">
+
+                  <progress value="0" max="100"></progress>
+                <br>
             </form>
         </fieldset>
 
