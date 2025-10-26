@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Electric Vehicle Fleet Management</title>
+</head>
+
+<body>
+
+    <nav>
+        <img src="img/logo.png" id="logo" alt="Company Logo" width="50">
+        <a href="en_index.html" id="home" aria-label="Home">Home</a>
+        <a href="vehiculos.html" aria-label="Vehicles">Vehicles</a>
+        <a href="reservas.html" aria-label="Bookings">Bookings</a>
+        <a href="contacto.html" aria-label="Contact">Contact</a>
+        <div class="right-nav">
+            <a href="registro.html" id="register" aria-label="Register">Sign Up</a>
+            <a href="login.html" id="login" aria-label="Login">Log In</a>
+            <a href="index.html"><img src="img/es.png" alt="Español" width="25"></a>
+            <a href="en_index.html"><img src="img/en.png" alt="Inglés" width="25"></a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>
+            Welcome to the Electric Vehicle Fleet Management / Move It &copy;
+        </h1>
+    </header>
+
+    <main>
+
+        <h3>Sustainable Mobility Platform</h3>
+        <iframe width="734" height="500" src="https://www.youtube.com/embed/03ldjZbX5wo"
+            title="Competition for Electric Mobility in China" allow="accelerometer; autoplay; clipboard-write;
+            encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+
+        <section id="informacion">
+
+            <h2>What Does Our Platform Offer?</h2>
+
+            <p>
+                Our platform provides a <strong>comprehensive solution</strong> for the <strong>efficient management of
+                    electric vehicle fleets</strong>,
+                making it easier to <em>administer, monitor, and optimize resources</em> for companies and organizations
+                committed to environmental sustainability.
+            </p>
+
+            <h3>Benefits of Electric Vehicles</h3>
+            <ol>
+                <li>Reduction of pollutant emissions</li>
+                <li>Fuel and maintenance cost savings</li>
+                <li>Contribution to environmental sustainability</li>
+            </ol>
+
+            <h3>Platform Features</h3>
+            <ul>
+                <li>Real-time monitoring of vehicle status</li>
+                <li>Detailed usage and performance reports</li>
+                <li>Technical support and personalized assistance</li>
+            </ul>
+
+            <h3>Technologies We Use</h3>
+            <dl id="technologies">
+                <div class="technology" id="frontend">
+                    <img src="img/frontend.png" id="iconfrontend" alt="Frontend Logo" width="50">
+                    <dt>Frontend</dt>
+                    <dd>HTML, CSS, JavaScript</dd>
+                </div>
+
+                <div class="technology" id="backend">
+                    <img src="img/backend.png" alt="Backend Logo" width="50">
+                    <dt>Backend</dt>
+                    <dd>Node.js, Express</dd>
+                </div>
+
+                <div class="technology" id="basedatos">
+                    <img src="img/basedatos.png" alt="Database Logo" width="50">
+                    <dt>Database</dt>
+                    <dd>MongoDB</dd>
+                </div>
+
+                <div class="technology" id="nube">
+                    <img src="img/nube.png" alt="Cloud Logo" width="50">
+                    <dt>Cloud Services</dt>
+                    <dd>AWS, Azure</dd>
+                </div>
+            </dl>
+
+            <br>
+
+        </section>
+
+        <a href="https://www.ucm.es/" aria-label="UCM Website" target="_blank">Visit the Complutense University
+            Website</a>
+        <br>
+        <a href="/contact.html" aria-label="Contact">Contact Us</a>
+        <br>
+        <img src="img/coche1.png" alt="Electric Vehicle" width="200">
+        <br>
+        <a href="img/coche1.png" aria-label="HD Car">HD Car Image</a>
+        <br>
+        <a href="#vehicles" aria-label="View Vehicles">View Vehicles</a>
+
+        <p>Average price: 40 &euro; / hour</p>
+        <br>
+
+        <section id="vehicles">
+            <h2>Our Vehicles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">Available Vehicles</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">License Plate</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Range (km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </section>
+
+        <br><br>
+
+        <section id="reservas">
+            <h2>Make Your Booking</h2>
+            <fieldset>
+                <legend>Fill in the booking form:</legend>
+                <form>
+                    <label for="name" aria-label="Name">Name: </label>
+                    <br>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+
+                    <label for="email" aria-label="Email">Email: </label>
+                    <br>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required><br><br>
+
+                    <label for="cars" aria-label="Select Car">Select a car: </label> <br>
+                    <select aria-label="Cars" id="cars" name="cars">
+                        <optgroup label="Cars">
+                            <option value="1">Mazda CX-5</option>
+                            <option value="2">Renault Megane</option>
+                            <option value="3">Ford Fiesta</option>
+                        </optgroup>
+                    </select>
+                    <br><br>
+
+                    <label for="startdate" aria-label="Start Date">Start Date: </label>
+                    <br>
+                    <input type="datetime-local" id="startdate" name="start_date" required><br><br>
+
+                    <label for="enddate" aria-label="End Date">End Date: </label>
+                    <br>
+                    <input type="datetime-local" id="enddate" name="end_date" required><br><br>
+
+                    <label for="phone" aria-label="Phone">Phone: </label>
+                    <br>
+                    <input type="tel" id="phone" name="phone" pattern="\d{9}"><br><br>
+
+                    <label for="terms" aria-label="Terms">Terms and Conditions: </label>
+                    <input type="checkbox" id="terms" name="terms" checked><br><br>
+
+                    <button aria-label="Submit" type="submit" name="submit">Submit</button>
+                    <input aria-label="Clear Form" type="reset" value="Clear Form">
+                </form>
+            </fieldset>
+        </section>
+    </main>
+
+    <footer>
+        <h4>All rights reserved &copy; 2025</h4>
+        <a href="#information" aria-label="Information" accesskey="p">What We Do</a>
+        <a href="#vehicles" aria-label="View Vehicles" accesskey="v">View Vehicles</a>
+        <a href="#bookings" aria-label="View Bookings" accesskey="r">View Booking</a>
+        <a href="/contact.html" aria-label="Contact" accesskey="c">Contact Us</a>
+    </footer>
+
+</body>
+
+</html>
