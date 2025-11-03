@@ -21,6 +21,8 @@ let servidor = http.createServer(function(request, response){
     const query = parsedUrl.query;
     let filePath = '';
 
+    console.log('Ruta solicitada:', pathname);
+
     if (pathname === '/') {
         filePath = path.join(__dirname, 'public', 'index.html');
         
@@ -35,15 +37,15 @@ let servidor = http.createServer(function(request, response){
         });
     }
 
-    else if (pathname === '/reservas' && request.method === 'GET') {
-        filePath = path.join(__dirname, 'public', 'reservas.html');
+    else if (pathname === '/reservar') {
+        filePath = path.join(__dirname, 'public', 'reservar.html');
         
-        fs.readFile(filePath, function(error, data){
+        fs.readFile(filePath,'utf8', function(error, data){
             if (error) {
                 response.writeHead(500);
                 response.end('Error interno del servidor');
             } else {
-                response.writeHead(200, {'Content-Type': 'text/html'});
+                response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
                 response.end(data);
             }
         });
@@ -96,7 +98,7 @@ let servidor = http.createServer(function(request, response){
         }
     }
 
-        else if (pathname === '/procesar-reserva' && request.method === 'POST') {
+    else if (pathname === '/procesar-reserva' && request.method === 'POST') {
         let body = '';
         
         request.on('data', function(chunk) {
@@ -154,6 +156,7 @@ let servidor = http.createServer(function(request, response){
     else {
         // Rutas no encontradas
         response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        console.log('Ruta solicitada:', pathname);
         response.end('404 - Página no encontrada');
     }
 });
