@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva Confirmada</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="confirmacion">
+        <h1>✅ Reserva Confirmada</h1>
+        <p style="text-align: center;">Tu reserva #{{ID}} ha sido registrada exitosamente.</p>
+        
+        <div class="detalle">
+            <strong>Nombre:</strong> {{NOMBRE}}
+        </div>
+        <div class="detalle">
+            <strong>Email:</strong> {{EMAIL}}
+        </div>
+        <div class="detalle">
+            <strong>Teléfono:</strong> {{TELEFONO}}
+        </div>
+        <div class="detalle">
+            <strong>Vehículo:</strong> {{TIPO_VEHICULO}}
+        </div>
+        <div class="detalle">
+            <strong>Recogida:</strong> {{FECHA_INICIO}} a las {{HORA_INICIO}}
+        </div>
+        <div class="detalle">
+            <strong>Devolución:</strong> {{FECHA_FIN}} a las {{HORA_FIN}}
+        </div>
+        
+        <a href="/" class="volver">← Volver al inicio</a>
+    </div>
+</body>
+</html>
