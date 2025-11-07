@@ -1,17 +1,28 @@
 // app.js
-const http = require('http');
-const manejarRutas = require('./routes');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const routes = require('./routes');
 
-const servidor = http.createServer((req, res) => {
-    manejarRutas(req, res);
-});
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: 'clave-secreta-super-segura',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// ⚠️ Primero las rutas dinámicas
+app.use('/', routes);
+
+// ✅ Luego los archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = 3000;
-
-servidor.listen(PORT, (error) => {
-    if (error) {
-        console.error('❌ Error al iniciar el servidor:', error);
-    } else {
-        console.log(`✅ Servidor iniciado en http://localhost:${PORT}`);
-    }
+app.listen(PORT, () => {
+  console.log(`✅ Servidor Express iniciado en http://localhost:${PORT}`);
 });

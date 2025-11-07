@@ -216,3 +216,61 @@ li:hover {
 .reserva-item strong {
   color: #333;
 }
+
+/* === Sección de usuario (login / bienvenida) === */
+.user-info {
+  margin: 1.2rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.user-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.user-info strong {
+  color: #0074d9;
+}
+
+/* === Botones tipo .cta (ya usas esta clase) === */
+a.cta {
+  display: inline-block;
+  margin: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #0074d9;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+a.cta:hover {
+  background-color: #005fa3;
+  transform: translateY(-2px);
+}
+
+/* === Meta text (debajo del main) === */
+.meta {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+/* === Ajuste de <main> card === */
+main.card {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  font-family: system-ui, sans-serif;
+}

@@ -1,191 +1,192 @@
 // routes.js
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
-const url = require('url');
-const querystring = require('querystring');
+const fs = require('fs');
 
-// Datos compartidos
+const router = express.Router();
+
+// --- Datos simulados ---
 const reservas = [];
+const usuarios = []; // 🆕 Aquí se almacenan los usuarios en memoria (email único)
 
 const tiposVehiculos = [
-    'Coche', 'Moto', 'Camión', 'Autobús',
-    'Bicicleta', 'Furgoneta', 'Camioneta', 'Scooter'
+  'Coche', 'Moto', 'Camión', 'Autobús',
+  'Bicicleta', 'Furgoneta', 'Camioneta', 'Scooter'
 ];
 
-// Función manejadora de rutas
-function manejarRutas(request, response) {
-    const parsedUrl = url.parse(request.url, true);
-    const pathname = parsedUrl.pathname;
-    const query = parsedUrl.query;
+// --- RUTA: / (inicio) ---
+router.get('/', (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'index.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error al cargar la página de inicio');
 
-    let filePath = '';
-    console.log(`📥 Ruta solicitada: ${pathname} - Método: ${request.method}`);
-
-    // --- RUTA: /
-    if (pathname === '/') {
-        filePath = path.join(__dirname, 'public', 'index.html');
-        return servirArchivo(filePath, 'text/html', response);
+    if (req.session.usuario) {
+      // Si el usuario ha iniciado sesión
+      const nombreUsuario = req.session.usuario.nombre;
+      const mensaje = `
+        <div class="user-info">
+          <p>👋 Hola, <strong>${nombreUsuario}</strong></p>
+          <a class="cta" href="/logout">Cerrar sesión</a>
+        </div>`;
+      data = data.replace('{{MENSAJE_USUARIO}}', mensaje);
+    } else {
+      // Si no hay sesión activa
+      const mensaje = `
+        <div class="user-info">
+          <a class="cta" href="/login">Iniciar sesión</a>
+          <a class="cta" href="/registro">Registrarse</a>
+        </div>`;
+      data = data.replace('{{MENSAJE_USUARIO}}', mensaje);
     }
 
-    // --- RUTA: /reservar
-    else if (pathname === '/reservar') {
-        filePath = path.join(__dirname, 'public', 'reservar.html');
-        return servirArchivo(filePath, 'text/html; charset=utf-8', response);
-    }
+    res.send(data);
+  });
+});
 
-    // --- RUTA: /vehiculos
-    else if (pathname === '/vehiculos') {
-        let tiposFiltrados = tiposVehiculos;
 
-        if (query.tipo) {
-            tiposFiltrados = tiposVehiculos.filter(t =>
-                t.toLowerCase().includes(query.tipo.toLowerCase())
-            );
-        }
+// --- RUTA: /vehiculos ---
+router.get('/vehiculos', (req, res) => {
+  const tipo = req.query.tipo;
+  let tiposFiltrados = tiposVehiculos;
 
-        if (query.format === 'json') {
-            response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            response.end(JSON.stringify({
-                total: tiposFiltrados.length,
-                filtro: query.tipo || 'ninguno',
-                tipos: tiposFiltrados
-            }, null, 2));
-        } else {
-            filePath = path.join(__dirname, 'public', 'vehiculos.html');
-            fs.readFile(filePath, 'utf8', function (error, data) {
-                if (error) {
-                    response.writeHead(500);
-                    response.end('Error interno del servidor');
-                } else {
-                    const listaHTML = tiposFiltrados.map(tipo => `<li>${tipo}</li>`).join('');
-                    const mensaje = query.tipo
-                        ? `Mostrando tipos que contienen: <strong>${query.tipo}</strong> (${tiposFiltrados.length} resultados)`
-                        : `Mostrando todos los tipos de vehículos (${tiposFiltrados.length} resultados)`;
+  if (tipo) {
+    tiposFiltrados = tiposVehiculos.filter(t =>
+      t.toLowerCase().includes(tipo.toLowerCase())
+    );
+  }
 
-                    data = data.replace('{{MENSAJE}}', mensaje);
-                    data = data.replace('{{LISTA_VEHICULOS}}', listaHTML);
-
-                    response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-                    response.end(data);
-                }
-            });
-        }
-    }
-
-    // --- RUTA: /procesar-reserva
-    else if (pathname === '/procesar-reserva') {
-        if (request.method === 'POST') {
-            let body = '';
-            request.on('data', chunk => body += chunk.toString());
-
-            request.on('end', () => {
-                const datosReserva = querystring.parse(body);
-                const nuevaReserva = {
-                    id: reservas.length + 1,
-                    nombre: datosReserva.nombre,
-                    email: datosReserva.email,
-                    telefono: datosReserva.telefono,
-                    tipo_vehiculo: datosReserva.tipo_vehiculo,
-                    fecha_inicio: datosReserva.fecha_inicio,
-                    hora_inicio: datosReserva.hora_inicio,
-                    fecha_fin: datosReserva.fecha_fin,
-                    hora_fin: datosReserva.hora_fin,
-                    fecha_reserva: new Date().toISOString()
-                };
-
-                reservas.push(nuevaReserva);
-                console.log('✅ Nueva reserva registrada:', nuevaReserva);
-
-                filePath = path.join(__dirname, 'public', 'procesar-reserva.html');
-                fs.readFile(filePath, 'utf8', (error, data) => {
-                    if (error) {
-                        response.writeHead(500);
-                        response.end('Error al cargar la página de confirmación');
-                    } else {
-                        data = data
-                            .replace('{{ID}}', nuevaReserva.id)
-                            .replace('{{NOMBRE}}', nuevaReserva.nombre)
-                            .replace('{{EMAIL}}', nuevaReserva.email)
-                            .replace('{{TELEFONO}}', nuevaReserva.telefono)
-                            .replace('{{TIPO_VEHICULO}}', nuevaReserva.tipo_vehiculo.charAt(0).toUpperCase() + nuevaReserva.tipo_vehiculo.slice(1))
-                            .replace('{{FECHA_INICIO}}', nuevaReserva.fecha_inicio)
-                            .replace('{{HORA_INICIO}}', nuevaReserva.hora_inicio)
-                            .replace('{{FECHA_FIN}}', nuevaReserva.fecha_fin)
-                            .replace('{{HORA_FIN}}', nuevaReserva.hora_fin);
-
-                        response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-                        response.end(data);
-                    }
-                });
-            });
-        } else {
-            response.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
-            response.end('405 - Método no permitido');
-        }
-    }
-
-    // --- RUTA: /lista_reservas
-    else if (pathname === '/lista_reservas') {
-        filePath = path.join(__dirname, 'public', 'lista_reservas.html');
-        fs.readFile(filePath, 'utf8', function (error, data) {
-            if (error) {
-                response.writeHead(500);
-                response.end('Error interno del servidor');
-            } else {
-                let reservasHTML = reservas.length
-                    ? reservas.map(r => `
-                        <div class="reserva-item">
-                            <strong>Reserva #${r.id}</strong><br>
-                            Cliente: ${r.nombre}<br>
-                            Email: ${r.email}<br>
-                            Vehículo: ${r.tipo_vehiculo}<br>
-                            Desde: ${r.fecha_inicio} ${r.hora_inicio}<br>
-                            Hasta: ${r.fecha_fin} ${r.hora_fin}
-                        </div>
-                    `).join('')
-                    : '<p style="text-align:center; color:#666;">No hay reservas registradas aún.</p>';
-
-                data = data.replace('{{RESERVAS}}', reservasHTML);
-                data = data.replace('{{TOTAL}}', reservas.length);
-
-                response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-                response.end(data);
-            }
-        });
-    }
-
-    // --- RUTA: /styles.css
-    else if (pathname === '/styles.css') {
-        filePath = path.join(__dirname, 'public', 'styles.css');
-        return servirArchivo(filePath, 'text/css', response);
-    }
-
-    // --- RUTA NO ENCONTRADA
-    else {
-        const notFoundPath = path.join(__dirname, 'public', '404.html');
-        fs.readFile(notFoundPath, (error, data) => {
-            if (error) {
-                response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-                response.end('404 - Página no encontrada');
-            } else {
-                response.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-                response.end(data);
-            }
-        });
-    }
-}
-
-// Función auxiliar para servir archivos estáticos
-function servirArchivo(ruta, tipo, response) {
-    fs.readFile(ruta, function (error, data) {
-        if (error) {
-            response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-            response.end('Error interno del servidor');
-        } else {
-            response.writeHead(200, { 'Content-Type': tipo });
-            response.end(data);
-        }
+  if (req.query.format === 'json') {
+    return res.json({
+      total: tiposFiltrados.length,
+      filtro: tipo || 'ninguno',
+      tipos: tiposFiltrados
     });
-}
+  }
 
-module.exports = manejarRutas;
+  const filePath = path.join(__dirname, 'public', 'vehiculos.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error al cargar la página');
+
+    const listaHTML = tiposFiltrados.map(t => `<li>${t}</li>`).join('');
+    const mensaje = tipo
+      ? `Mostrando tipos que contienen: <strong>${tipo}</strong> (${tiposFiltrados.length} resultados)`
+      : `Mostrando todos los tipos de vehículos (${tiposFiltrados.length} resultados)`;
+
+    data = data.replace('{{MENSAJE}}', mensaje);
+    data = data.replace('{{LISTA_VEHICULOS}}', listaHTML);
+
+    res.send(data);
+  });
+});
+
+// --- RUTA: /reservar ---
+router.get('/reservar', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'reservar.html'));
+});
+
+// --- RUTA: /procesar-reserva ---
+router.post('/procesar-reserva', (req, res) => {
+  const datos = req.body;
+
+  const nuevaReserva = {
+    id: reservas.length + 1,
+    nombre: datos.nombre,
+    email: datos.email,
+    telefono: datos.telefono,
+    tipo_vehiculo: datos.tipo_vehiculo,
+    fecha_inicio: datos.fecha_inicio,
+    hora_inicio: datos.hora_inicio,
+    fecha_fin: datos.fecha_fin,
+    hora_fin: datos.hora_fin,
+    fecha_reserva: new Date().toISOString()
+  };
+
+  reservas.push(nuevaReserva);
+  console.log('✅ Nueva reserva registrada:', nuevaReserva);
+
+  const filePath = path.join(__dirname, 'public', 'procesar-reserva.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error al cargar la página de confirmación');
+
+    data = data
+      .replace('{{ID}}', nuevaReserva.id)
+      .replace('{{NOMBRE}}', nuevaReserva.nombre)
+      .replace('{{EMAIL}}', nuevaReserva.email)
+      .replace('{{TELEFONO}}', nuevaReserva.telefono)
+      .replace('{{TIPO_VEHICULO}}', nuevaReserva.tipo_vehiculo)
+      .replace('{{FECHA_INICIO}}', nuevaReserva.fecha_inicio)
+      .replace('{{HORA_INICIO}}', nuevaReserva.hora_inicio)
+      .replace('{{FECHA_FIN}}', nuevaReserva.fecha_fin)
+      .replace('{{HORA_FIN}}', nuevaReserva.hora_fin);
+
+    res.send(data);
+  });
+});
+
+// --- RUTA: /lista_reservas ---
+router.get('/lista_reservas', (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'lista_reservas.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error interno del servidor');
+
+    let reservasHTML = reservas.length
+      ? reservas.map(r => `
+        <div class="reserva-item">
+          <strong>Reserva #${r.id}</strong><br>
+          Cliente: ${r.nombre}<br>
+          Email: ${r.email}<br>
+          Vehículo: ${r.tipo_vehiculo}<br>
+          Desde: ${r.fecha_inicio} ${r.hora_inicio}<br>
+          Hasta: ${r.fecha_fin} ${r.hora_fin}
+        </div>
+      `).join('')
+      : '<p style="text-align:center; color:#666;">No hay reservas registradas aún.</p>';
+
+    data = data.replace('{{RESERVAS}}', reservasHTML);
+    data = data.replace('{{TOTAL}}', reservas.length);
+
+    res.send(data);
+  });
+});
+
+// --- RUTAS DE USUARIO ---
+// Registro
+router.get('/registro', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'registro.html'));
+});
+
+router.post('/registro', (req, res) => {
+  const { nombre, email, contraseña } = req.body;
+
+  const existe = usuarios.find(u => u.email === email);
+  if (existe) {
+    return res.send('⚠️ El usuario ya está registrado. <a href="/login">Ir al login</a>');
+  }
+
+  usuarios.push({ nombre, email, contraseña });
+  res.send('✅ Registro exitoso. <a href="/login">Iniciar sesión</a>');
+});
+
+// Login
+router.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+router.post('/login', (req, res) => {
+  const { email, contraseña } = req.body;
+  const usuario = usuarios.find(u => u.email === email && u.contraseña === contraseña);
+
+  if (!usuario) return res.send('❌ Credenciales incorrectas.');
+
+  req.session.usuario = usuario; // 🆕 guardamos el usuario en la sesión
+  res.redirect('/'); // 🆕 redirigimos al inicio para mostrar mensaje personalizado
+});
+
+// Logout
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
+});
+
+module.exports = router;
