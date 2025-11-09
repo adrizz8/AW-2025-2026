@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tipos de Vehículos</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-    <h1>Tipos de Vehículos</h1>
-    
-    <div class="filtros">
-        <strong>Filtros rápidos:</strong><br><br>
-        <a href="/vehiculos">Todos</a>
-        <a href="/vehiculos?tipo=coche">Coche</a>
-        <a href="/vehiculos?tipo=moto">Moto</a>
-        <a href="/vehiculos?tipo=camión">Camión</a>
-        <a href="/vehiculos?format=json">Ver JSON</a>
-    </div>
 
-    <div class="busqueda">
-        <strong>Buscar tipo:</strong><br><br>
-        <form action="/vehiculos" method="GET">
-            <input type="text" name="tipo" placeholder="Ej: moto, coche...">
-            <button type="submit">Buscar</button>
-        </form>
-    </div>
-    
-    <p>{{MENSAJE}}</p>
-    
-    <ul>
-        {{LISTA_VEHICULOS}}
-    </ul>
-    
-    <p><a href="/">Volver al inicio</a></p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipos de Vehículos</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <h1>Tipos de Vehículos</h1>
+  <div class="filtros"> <strong>Filtros rápidos:</strong><br><br> <a href="/vehiculos">Todos</a> <a
+      href="/vehiculos?tipo=coche">Coche</a> <a href="/vehiculos?tipo=moto">Moto</a> <a
+      href="/vehiculos?tipo=camión">Camión</a> <a href="/vehiculos?format=json">Ver JSON</a> </div>
+  <div class="busqueda"> <strong>Buscar tipo:</strong><br><br>
+    <form action="/vehiculos" method="GET"> <input type="text" name="tipo" placeholder="Ej: moto, coche..."> <button
+        type="submit">Buscar</button> </form>
+  </div>
+  <p>{{MENSAJE}}</p>
+  <ul> {{LISTA_VEHICULOS}} </ul>
+  <p><a href="/">Volver al inicio</a></p>
 </body>
+
 </html>

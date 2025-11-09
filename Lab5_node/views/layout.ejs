@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Sistema de Reservas</title>
+
+  <!-- ✅ Enlace al CSS dentro de /public -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Sistema de Gestión de Reservas</h1>
+
+    <% if (usuario) { %>
+      <div class="user-info">
+        👋 Hola, <strong><%= usuario.nombre %></strong>
+        <a href="/logout" class="cta">Cerrar sesión</a>
+      </div>
+    <% } else { %>
+      <div class="user-info">
+        <a href="/login" class="cta">Iniciar sesión</a>
+        <a href="/registro" class="cta">Registrarse</a>
+      </div>
+    <% } %>
+  </header>
+
+  <main class="card">
+    <%- body %> <!-- Aquí se insertará el contenido de cada vista -->
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sistema de Reservas</p>
+  </footer>
+</body>
+</html>
