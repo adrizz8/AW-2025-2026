@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Vehículo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <main class="card">
+    <h1>🚗 Detalle del Vehículo</h1>
+
+    <% if (vehiculo) { %>
+      <p><strong>ID:</strong> <%= id %></p>
+      <p><strong>Tipo:</strong> <%= vehiculo %></p>
+      <p><%= descripcion %></p>
+    <% } else { %>
+      <p style="color:red;">❌ Vehículo no encontrado.</p>
+    <% } %>
+
+    <a href="/vehiculos" class="volver">← Volver a la lista</a>
+  </main>
+</body>
+
+</html>

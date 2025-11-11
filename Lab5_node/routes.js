@@ -43,7 +43,6 @@ router.get('/', (req, res) => {
   });
 });
 
-
 // --- RUTA: /vehiculos ---
 router.get('/vehiculos', (req, res) => {
   const tipo = req.query.tipo;
@@ -63,17 +62,35 @@ router.get('/vehiculos', (req, res) => {
     });
   }
 
-  const filePath = path.join(__dirname, 'public', 'vehiculos.html');
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(500).send('Error al cargar la página');
-
-    const listaHTML = tiposFiltrados.map(t => `<li>${t}</li>`).join('');
-    const mensaje = tipo
+  res.render('vehiculos', {
+    vehiculos: tiposFiltrados,
+    mensaje: tipo
       ? `Mostrando tipos que contienen: <strong>${tipo}</strong> (${tiposFiltrados.length} resultados)`
-      : `Mostrando todos los tipos de vehículos (${tiposFiltrados.length} resultados)`;
+      : `Mostrando todos los tipos de vehículos (${tiposFiltrados.length} resultados)`,
+    filtro: tipo || ''
+  });
+});
 
-    data = data.replace('{{MENSAJE}}', mensaje);
-    data = data.replace('{{LISTA_VEHICULOS}}', listaHTML);
+
+
+// --- RUTA: /vehiculos/:id ---
+router.get('/vehiculos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const tipoVehiculo = tiposVehiculos[id - 1]; // restamos 1 porque los arrays comienzan en 0
+
+  if (!tipoVehiculo) {
+    return res.status(404).send(`<h1>❌ Vehículo no encontrado</h1><p>No existe un vehículo con ID ${id}.</p>`);
+  }
+
+  // 📄 Leer una plantilla HTML (puedes convertirla a EJS si lo prefieres)
+  const filePath = path.join(__dirname, 'public', 'detalle_vehiculo.html');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error al cargar la página del vehículo');
+
+    data = data
+      .replace('{{ID}}', id)
+      .replace('{{TIPO}}', tipoVehiculo)
+      .replace('{{DESCRIPCION}}', `El vehículo <strong>${tipoVehiculo}</strong> es ideal para diferentes usos. ID asignado: ${id}.`);
 
     res.send(data);
   });
@@ -123,29 +140,13 @@ router.post('/procesar-reserva', (req, res) => {
   });
 });
 
-// --- RUTA: /lista_reservas ---
+
+// --- RUTA: /listareservas (usando EJS) ---
 router.get('/lista_reservas', (req, res) => {
-  const filePath = path.join(__dirname, 'public', 'lista_reservas.html');
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(500).send('Error interno del servidor');
 
-    let reservasHTML = reservas.length
-      ? reservas.map(r => `
-        <div class="reserva-item">
-          <strong>Reserva #${r.id}</strong><br>
-          Cliente: ${r.nombre}<br>
-          Email: ${r.email}<br>
-          Vehículo: ${r.tipo_vehiculo}<br>
-          Desde: ${r.fecha_inicio} ${r.hora_inicio}<br>
-          Hasta: ${r.fecha_fin} ${r.hora_fin}
-        </div>
-      `).join('')
-      : '<p style="text-align:center; color:#666;">No hay reservas registradas aún.</p>';
-
-    data = data.replace('{{RESERVAS}}', reservasHTML);
-    data = data.replace('{{TOTAL}}', reservas.length);
-
-    res.send(data);
+  res.render('lista_reservas', {
+    reservas,
+    total: reservas.length
   });
 });
 
