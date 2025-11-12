@@ -19,18 +19,28 @@
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Personas</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Vehiculo</th>
+            <th>Fecha de inicio</th>
+            <th>Hora de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Hora de fin</th>
+            <th>Fecha de la reserva</th>
           </tr>
         </thead>
         <tbody>
           <% reservas.forEach(reserva => { %>
             <tr>
               <td><%= reserva.nombre %></td>
-              <td><%= reserva.fecha %></td>
-              <td><%= reserva.hora %></td>
-              <td><%= reserva.personas %></td>
+              <td><%= reserva.email %></td>
+              <td><%= reserva.telefono %></td>
+              <td><%= reserva.tipo_vehiculo %></td>
+              <td><%= reserva.fecha_inicio %></td>
+              <td><%= reserva.hora_inicio %></td>
+              <td><%= reserva.fecha_fin %></td>
+              <td><%= reserva.hora_fin %></td>
+              <td><%= reserva.fecha_reserva %></td>
             </tr>
           <% }) %>
         </tbody>
