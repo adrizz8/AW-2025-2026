@@ -10,31 +10,15 @@ const usuarios = [];
 
 // --- RUTA: / (Inicio) ---
 router.get('/', (req, res) => {
-  const filePath = path.join(__dirname, '../public', 'index.html');
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) return res.status(500).send('Error al cargar la página de inicio');
-
-    // Mostrar login o saludo según sesión
-    if (req.session.usuario) {
-      const nombreUsuario = req.session.usuario.nombre;
-      const mensaje = `
-        <div class="user-info">
-          <p>👋 Hola, <strong>${nombreUsuario}</strong></p>
-          <a class="cta" href="/logout">Cerrar sesión</a>
-        </div>`;
-      data = data.replace('{{MENSAJE_USUARIO}}', mensaje);
-    } else {
-      const mensaje = `
-        <div class="user-info">
-          <a class="cta" href="/login">Iniciar sesión</a>
-          <a class="cta" href="/registro">Registrarse</a>
-        </div>`;
-      data = data.replace('{{MENSAJE_USUARIO}}', mensaje);
-    }
-
-    res.send(data);
+  const authWarning = res.locals.authWarning || null;
+  req.session.authWarning = null; // Limpiar el mensaje después de mostrarlo una vez
+  res.render('index', {
+    authWarning,
+    titulo: 'Inicio',
+    usuario: req.session.usuario || null
   });
 });
+
 
 // --- RUTAS DE USUARIO ---
 // Registro

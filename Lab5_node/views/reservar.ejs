@@ -1,14 +1,4 @@
-<!doctype html>
-<html lang="es">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservar Vehículo</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-
-<body>
   <h1>Reservar Vehículo</h1>
   <div class="formulario">
     <div class="nota"> Complete el formulario para realizar su reserva. Nos pondremos en contacto con usted para
@@ -47,6 +37,3 @@
     </form> <a href="/" class="volver">← Volver al inicio</a>
   </div>
   <script> // Establecer fecha mínima como hoy const hoy = new Date().toISOString().split('T')[0]; document.getElementById('fecha_inicio').setAttribute('min', hoy); document.getElementById('fecha_fin').setAttribute('min', hoy); // Validar que la fecha de fin sea posterior a la de inicio document.getElementById('fecha_fin').addEventListener('change', function() { const fechaInicio = document.getElementById('fecha_inicio').value; const fechaFin = this.value; if (fechaInicio && fechaFin && fechaFin < fechaInicio) { alert('La fecha de devolución debe ser posterior a la fecha de inicio'); this.value = ''; } }); </script>
-</body>
-
-</html>

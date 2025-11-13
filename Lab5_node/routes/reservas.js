@@ -2,15 +2,20 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const requireAuth = require('../middlewares/auth');
 
 const router = express.Router();
 
 const reservas = [];
 
 // --- /reservar ---
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'reservar.html'));
+router.get('/', requireAuth, (req, res) => {
+  res.render('reservar', {
+    titulo: 'Reservar vehículo',
+    usuario: req.session.usuario || null
+  });
 });
+
 
 // --- /procesar-reserva ---
 router.post('/procesar-reserva', (req, res) => {
@@ -33,18 +38,22 @@ router.post('/procesar-reserva', (req, res) => {
   console.log('✅ Nueva reserva registrada:', nuevaReserva);
 
   // Muestra todas las reservas usando EJS
-  res.render('lista_reservas', {
+   res.render('lista_reservas', {
+    titulo: 'Listado de reservas',
+    usuario: req.session.usuario || null,
     reservas,
     total: reservas.length
   });
 });
 
 // --- /lista_reservas ---
-router.get('/lista_reservas', (req, res) => {
+router.get('/lista_reservas',requireAuth, (req, res) => {
   res.render('lista_reservas', {
+    titulo: 'Listado de reservas',
     reservas,
     total: reservas.length
   });
 });
+
 
 module.exports = router;

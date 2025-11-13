@@ -1,57 +1,63 @@
-<!doctype html>
-<html lang="es">
+<main class="card">
+  <h1>📋 Lista de Reservas</h1>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lista de Reservas</title>
-  <link rel="stylesheet" href="/styles.css" />
-</head>
+  <p>Actualmente hay <strong>
+      <%= total %>
+    </strong> reservas registradas.</p>
 
-<body>
-  <main class="card">
-    <h1>📋 Lista de Reservas</h1>
-
-    <p>Actualmente hay <strong><%= total %></strong> reservas registradas.</p>
-
-    <section id="lista-reservas">
-      <table>
-        <thead>
+  <section id="lista-reservas">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th>Vehiculo</th>
+          <th>Fecha de inicio</th>
+          <th>Hora de inicio</th>
+          <th>Fecha de fin</th>
+          <th>Hora de fin</th>
+          <th>Fecha de la reserva</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reservas.forEach(reserva=> { %>
           <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Telefono</th>
-            <th>Vehiculo</th>
-            <th>Fecha de inicio</th>
-            <th>Hora de inicio</th>
-            <th>Fecha de fin</th>
-            <th>Hora de fin</th>
-            <th>Fecha de la reserva</th>
+            <td>
+              <%= reserva.nombre %>
+            </td>
+            <td>
+              <%= reserva.email %>
+            </td>
+            <td>
+              <%= reserva.telefono %>
+            </td>
+            <td>
+              <%= reserva.tipo_vehiculo %>
+            </td>
+            <td>
+              <%= reserva.fecha_inicio %>
+            </td>
+            <td>
+              <%= reserva.hora_inicio %>
+            </td>
+            <td>
+              <%= reserva.fecha_fin %>
+            </td>
+            <td>
+              <%= reserva.hora_fin %>
+            </td>
+            <td>
+              <%= reserva.fecha_reserva %>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <% reservas.forEach(reserva => { %>
-            <tr>
-              <td><%= reserva.nombre %></td>
-              <td><%= reserva.email %></td>
-              <td><%= reserva.telefono %></td>
-              <td><%= reserva.tipo_vehiculo %></td>
-              <td><%= reserva.fecha_inicio %></td>
-              <td><%= reserva.hora_inicio %></td>
-              <td><%= reserva.fecha_fin %></td>
-              <td><%= reserva.hora_fin %></td>
-              <td><%= reserva.fecha_reserva %></td>
-            </tr>
           <% }) %>
-        </tbody>
-      </table>
-    </section>
+      </tbody>
+    </table>
+  </section>
 
-    <a href="/" class="volver">← Volver al inicio</a>
-    <a href="/reservar" class="cta">+ Crear nueva reserva</a>
+  <a href="/" class="volver">← Volver al inicio</a>
+  <a href="/reservar" class="cta">+ Crear nueva reserva</a>
 
-    <div class="meta">Página generada dinámicamente desde el servidor ✨</div>
-  </main>
-</body>
-
-</html>
+  <div class="meta">Página generada dinámicamente desde el servidor ✨</div>
+</main>

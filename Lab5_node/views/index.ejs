@@ -1,0 +1,28 @@
+<main class="card" role="main">
+  <h1>Bienvenido al Sistema de Gestión de Reservas</h1>
+
+  <!-- 🧠 Mostrar mensaje según sesión -->
+  <% if (usuario) { %>
+    <div class="user-info">
+      👋 Hola, <strong>
+        <%= usuario.nombre %>
+      </strong>
+      <a href="/logout" class="cta">Cerrar sesión</a>
+    </div>
+    <% } else { %>
+      <div class="user-info">
+        <a href="/login" class="cta">Iniciar sesión</a>
+        <a href="/registro" class="cta">Registrarse</a>
+      </div>
+      <% } %>
+
+            <p>
+              Gestiona fácilmente tus reservas, consulta disponibilidad y administra clientes desde un solo lugar.
+            </p>
+
+            <a class="cta" href="/reservar">Reservar vehículo</a>
+            <a class="cta" href="/reservar/lista_reservas">Ver reservas</a>
+            <a class="cta" href="/vehiculos">Gestionar Vehículos</a>
+
+            <div class="meta">¿Nuevo? Empieza creando tu primera reserva ✨</div>
+</main>
