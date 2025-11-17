@@ -2,6 +2,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10;   
 
 const router = express.Router();
 
@@ -22,36 +24,82 @@ router.get('/', (req, res) => {
 
 // --- RUTAS DE USUARIO ---
 // Registro
+// --- RUTAS DE USUARIO ---
+
+// Registro (GET)
 router.get('/registro', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'registro.html'));
+  res.render('registro', {
+    titulo: 'Registro',
+    error: null
+  });
 });
 
-router.post('/registro', (req, res) => {
+// Registro (POST)
+// Registro (POST)
+router.post('/registro', async (req, res) => {
   const { nombre, email, contraseña } = req.body;
 
   const existe = usuarios.find(u => u.email === email);
+
   if (existe) {
-    return res.send('⚠️ El usuario ya está registrado. <a href="/login">Ir al login</a>');
+    return res.render('registro', {
+      titulo: 'Registro',
+      error: '⚠️ El usuario ya está registrado.'
+    });
   }
 
-  usuarios.push({ nombre, email, contraseña });
-  res.send('✅ Registro exitoso. <a href="/login">Iniciar sesión</a>');
+  // Hash contraseña
+  const hash = await bcrypt.hash(contraseña, SALT_ROUNDS);
+
+  usuarios.push({ 
+    nombre, 
+    email, 
+    contraseña: hash,
+    rol: "usuario"   // por defecto todos son usuarios normales
+  });
+
+  res.redirect('/login');
 });
 
-// Login
+
+
+// Login (GET)
 router.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'login.html'));
+  res.render('login', {
+    titulo: 'Iniciar sesión',
+    error: null
+  });
 });
 
-router.post('/login', (req, res) => {
+// Login (POST)
+// Login (POST)
+router.post('/login', async (req, res) => {
   const { email, contraseña } = req.body;
-  const usuario = usuarios.find(u => u.email === email && u.contraseña === contraseña);
 
-  if (!usuario) return res.send('❌ Credenciales incorrectas.');
+  const usuario = usuarios.find(u => u.email === email);
+
+  if (!usuario) {
+    return res.render('login', {
+      titulo: 'Iniciar sesión',
+      error: '❌ Usuario no encontrado.'
+    });
+  }
+
+  // Comprobar contraseña hasheada
+  const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
+
+  if (!esValida) {
+    return res.render('login', {
+      titulo: 'Iniciar sesión',
+      error: '❌ Contraseña incorrecta.'
+    });
+  }
 
   req.session.usuario = usuario;
   res.redirect('/');
 });
+
+
 
 // Logout
 router.get('/logout', (req, res) => {
