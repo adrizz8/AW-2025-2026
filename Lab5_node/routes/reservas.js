@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const requireAuth = require('../middlewares/auth');
+const requireAdmin = require('../middlewares/requireAdmin');
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router.post('/procesar-reserva', (req, res) => {
 });
 
 // --- /lista_reservas ---
-router.get('/lista_reservas',requireAuth, (req, res) => {
+router.get('/lista_reservas',requireAuth,requireAdmin, (req, res) => {
   res.render('lista_reservas', {
     titulo: 'Listado de reservas',
     reservas,

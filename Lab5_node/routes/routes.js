@@ -7,8 +7,23 @@ const SALT_ROUNDS = 10;
 
 const router = express.Router();
 
+const usuarios = require('../datos/usuarios');
+
 // --- Datos simulados (solo usuarios aquí) ---
-const usuarios = [];
+//const usuarios = [];
+
+(async () => {
+  const hashedPass = await bcrypt.hash("admin123", SALT_ROUNDS);
+
+  usuarios.push({
+    nombre: "Admin",
+    email: "admin@admin.com",
+    contraseña: hashedPass,
+    rol: "admin"
+  });
+
+  console.log("✔ Usuario admin creado por defecto");
+})();
 
 // --- RUTA: / (Inicio) ---
 router.get('/', (req, res) => {
@@ -74,7 +89,7 @@ router.get('/login', (req, res) => {
 // Login (POST)
 // Login (POST)
 router.post('/login', async (req, res) => {
-  const { email, contraseña } = req.body;
+  const { email, contraseña, recordar } = req.body;
 
   const usuario = usuarios.find(u => u.email === email);
 
@@ -96,8 +111,17 @@ router.post('/login', async (req, res) => {
   }
 
   req.session.usuario = usuario;
+
+    if (recordar) {
+    res.cookie("usuarioRecordado", usuario.email, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
+      httpOnly: true
+    });
+  }
+  
   res.redirect('/');
 });
+
 
 
 

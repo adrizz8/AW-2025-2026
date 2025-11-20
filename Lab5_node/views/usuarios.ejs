@@ -1,0 +1,23 @@
+<h1>Lista completa de usuarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Rol</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% usuarios.forEach(u => { %>
+      <tr>
+        <td><%= u.nombre %></td>
+        <td><%= u.email %></td>
+        <td><%= u.rol %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a class="cta" href="/">Volver al inicio</a>

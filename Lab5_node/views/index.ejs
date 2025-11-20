@@ -16,13 +16,18 @@
       </div>
       <% } %>
 
-            <p>
-              Gestiona fácilmente tus reservas, consulta disponibilidad y administra clientes desde un solo lugar.
-            </p>
+        <p>
+          Gestiona fácilmente tus reservas, consulta disponibilidad y administra clientes desde un solo lugar.
+        </p>
 
-            <a class="cta" href="/reservar">Reservar vehículo</a>
-            <a class="cta" href="/reservar/lista_reservas">Ver reservas</a>
-            <a class="cta" href="/vehiculos">Gestionar Vehículos</a>
+        <a class="cta" href="/reservar">Reservar vehículo</a>
+        <a class="cta" href="/reservar/lista_reservas">Ver reservas</a>
+        <a class="cta" href="/vehiculos">Gestionar Vehículos</a>
+
+
+        <% if (usuario && usuario.rol==="admin" ) { %>
+          <a class="cta" href="/usuario">Ver lista de usuarios</a>
+          <% } %>
 
             <div class="meta">¿Nuevo? Empieza creando tu primera reserva ✨</div>
 </main>
