@@ -1,61 +1,131 @@
-// routes/vehiculos.js
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
-
 const router = express.Router();
+const vehiculos = require('../datos/vehiculosmem');
+const requireAuth = require('../middlewares/auth');
 
-const tiposVehiculos = [
-  'Coche', 'Moto', 'Camión', 'Autobús',
-  'Bicicleta', 'Furgoneta', 'Camioneta', 'Scooter'
-];
-
-// --- RUTA: /vehiculos (listado + filtro + JSON opcional) ---
+// --- LISTA VEHÍCULOS ---
 router.get('/', (req, res) => {
-  const tipo = req.query.tipo;
-  let tiposFiltrados = tiposVehiculos;
+  res.render('vehiculos', { titulo: 'Vehículos', vehiculos });
+});
 
-  if (tipo) {
-    tiposFiltrados = tiposVehiculos.filter(t =>
-      t.toLowerCase().includes(tipo.toLowerCase())
-    );
+
+// --- NUEVO VEHÍCULO (GET) ---
+router.get('/nuevo',requireAuth, (req, res) => {
+  res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo' });
+});
+
+// --- NUEVO VEHÍCULO (POST) ---
+router.post('/nuevo', requireAuth, (req, res) => {
+  const { marca, modelo, tipo, precioHora, imagen } = req.body;
+
+if (!imagen) {
+  errores.push("La URL de la imagen es obligatoria.");
+} else if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
+  errores.push("La imagen debe ser una URL válida.");
+}
+
+  let errores = [];
+
+  if (!marca || !modelo || !tipo || !precioHora) {
+    errores.push("Todos los campos son obligatorios.");
   }
 
-  // Si se pide formato JSON directamente
-  if (req.query.format === 'json') {
-    return res.json({
-      total: tiposFiltrados.length,
-      filtro: tipo || 'ninguno',
-      tipos: tiposFiltrados
+  if (isNaN(precioHora)) {
+    errores.push("El precio por hora debe ser un número.");
+  }
+
+  if (errores.length > 0) {
+    return res.render('vehiculo_nuevo', {
+      errores,
+      datos: req.body
     });
   }
 
-  // Render con EJS
-  res.render('vehiculos', {
-    vehiculos: tiposFiltrados,
-    mensaje: tipo
-      ? `Mostrando tipos que contienen: <strong>${tipo}</strong> (${tiposFiltrados.length} resultados)`
-      : `Mostrando todos los tipos de vehículos (${tiposFiltrados.length} resultados)`,
-    filtro: tipo || ''
+  const id = vehiculos.length ? vehiculos[vehiculos.length - 1].id + 1 : 1;
+
+  vehiculos.push({
+    id,
+    marca,
+    modelo,
+    tipo,
+    precioHora: parseFloat(precioHora),
+    imagen
   });
+
+  res.redirect('/vehiculos');
 });
 
-// --- RUTA: /vehiculos/:id (detalle de vehículo) ---
+// --- DETALLE VEHÍCULO ---
 router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id);
-  const tipoVehiculo = tiposVehiculos[id - 1];
+  const vehiculo = vehiculos.find(v => v.id === id);
+  if (!vehiculo) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 
-  if (!tipoVehiculo) {
-    return res.status(404).render('404', { mensaje: `Vehículo con ID ${id} no encontrado.` });
-  }
-
-  res.render('detalle_vehiculo', {
-    id,
-    tipo: tipoVehiculo,
-    descripcion: `El vehículo ${tipoVehiculo} es ideal para diferentes usos.`
-  });
+  res.render('vehiculo_detalle', { titulo: 'Detalle Vehículo', vehiculo });
 });
 
 
+// --- EDITAR VEHÍCULO (GET) ---
+router.get('/:id/editar',requireAuth, (req, res) => {
+  const id = parseInt(req.params.id);
+  const vehiculo = vehiculos.find(v => v.id === id);
+  if (!vehiculo) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+
+  res.render('vehiculo_editar', { titulo: 'Editar Vehículo', vehiculo });
+});
+
+// --- EDITAR VEHÍCULO (POST) ---
+router.post('/:id/editar', requireAuth, (req, res) => {
+  const id = parseInt(req.params.id);
+  const vehiculo = vehiculos.find(v => v.id === id);
+
+  if (!vehiculo)
+    return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+
+  const { marca, modelo, tipo, precioHora, imagen } = req.body;
+
+if (!imagen) {
+  errores.push("La imagen es obligatoria.");
+} else if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
+  errores.push("La URL de la imagen no es válida.");
+}
+
+
+  let errores = [];
+
+  if (!marca || !modelo || !tipo || !precioHora) {
+    errores.push("Todos los campos son obligatorios.");
+  }
+
+  if (isNaN(precioHora)) {
+    errores.push("El precio por hora debe ser numérico.");
+  }
+
+  if (errores.length > 0) {
+    return res.render('vehiculo_editar', {
+      errores,
+      vehiculo,
+    });
+  }
+
+  vehiculo.marca = marca;
+  vehiculo.modelo = modelo;
+  vehiculo.tipo = tipo;
+  vehiculo.precioHora = parseFloat(precioHora);
+  vehiculo.imagen = imagen;
+
+  res.redirect('/vehiculos');
+});
+
+
+// --- ELIMINAR VEHÍCULO ---
+router.post('/:id/eliminar',requireAuth, (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = vehiculos.findIndex(v => v.id === id);
+  if (index === -1) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+
+  vehiculos.splice(index, 1);
+  res.redirect('/vehiculos');
+});
 
 module.exports = router;

@@ -3,10 +3,7 @@ function requireAuth(req, res, next) {
     return next();
   }
 
-  res.render("index", {
-    message: "Para acceder a esta zona debes iniciar sesión.",
-    usuario: null
-  });
+  return res.redirect('/login?error=Debes iniciar sesión para continuar');
 }
 
 module.exports = requireAuth;

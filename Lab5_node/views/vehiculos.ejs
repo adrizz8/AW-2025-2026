@@ -1,48 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tipos de Vehículos</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-
-<body>
-  <main class="card">
-    <h1>🚘 Tipos de Vehículos</h1>
-
-    <div class="filtros">
-      <strong>Filtros rápidos:</strong><br><br>
-      <a href="/vehiculos">Todos</a>
-      <a href="/vehiculos?tipo=coche">Coche</a>
-      <a href="/vehiculos?tipo=moto">Moto</a>
-      <a href="/vehiculos?tipo=camión">Camión</a>
-      <a href="/vehiculos?format=json">Ver JSON</a>
-    </div>
-
-    <div class="busqueda">
-      <strong>Buscar tipo:</strong><br><br>
-      <form action="/vehiculos" method="GET">
-        <input type="text" name="tipo" placeholder="Ej: moto, coche..." value="<%= filtro || '' %>">
-        <button type="submit">Buscar</button>
-      </form>
-    </div>
-
-    <p><%= mensaje %></p>
-
-    <ul>
-      <% if (vehiculos.length > 0) { %>
-        <% vehiculos.forEach((v, i) => { %>
-          <li><a href="/vehiculos/<%= i + 1 %>"><%= v %></a></li>
-        <% }) %>
-      <% } else { %>
-        <li style="color:red;">❌ No se encontraron vehículos.</li>
-      <% } %>
-    </ul>
-
-    <p><a href="/">← Volver al inicio</a></p>
-  </main>
-</body>
-
-</html>
+<h1>Lista de Vehículos</h1>
+<% if (usuario) { %>
+  <a href="/vehiculos/nuevo" class="btn btn-primary">Añadir Vehículo</a>
+  <% } %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Tipo</th>
+          <th>Precio/Hora</th>
+          <th>Acciones</th>
+          <th>Imagen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% vehiculos.forEach(v=> { %>
+          <tr>
+            <td>
+              <%= v.id %>
+            </td>
+            <td>
+              <%= v.marca %>
+            </td>
+            <td>
+              <%= v.modelo %>
+            </td>
+            <td>
+              <%= v.tipo %>
+            </td>
+            <td>
+              <%= v.precioHora %>€
+            </td>
+            <td>
+              <a href="/vehiculos/<%= v.id %>">Ver</a> |
+              <% if (usuario) { %>
+                <a href="/vehiculos/<%= v.id %>/editar" class="btn btn-warning">Editar</a>
+                <form action="/vehiculos/<%= v.id %>/eliminar" method="POST">
+                  <button class="btn btn-danger">Eliminar</button>
+                </form>
+                <% } %>
+            </td>
+            <td>
+              <img src="<%= v.imagen %>" alt="Imagen <%= v.marca %>" style="width: 120px; border-radius:8px;">
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>

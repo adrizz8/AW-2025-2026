@@ -1,0 +1,8 @@
+<h1>Editar Vehículo</h1>
+<form action="/vehiculos/<%= vehiculo.id %>/editar" method="POST">
+  <input type="text" name="marca" value="<%= vehiculo.marca %>" required><br>
+  <input type="text" name="modelo" value="<%= vehiculo.modelo %>" required><br>
+  <input type="text" name="tipo" value="<%= vehiculo.tipo %>" required><br>
+  <input type="number" name="precioHora" value="<%= vehiculo.precioHora %>" required step="0.01"><br>
+  <button type="submit">Actualizar</button>
+</form>

@@ -1,0 +1,12 @@
+<h1>Nuevo Vehículo</h1>
+<form action="/vehiculos/nuevo" method="POST">
+  <input type="text" name="marca" placeholder="Marca" required><br>
+  <input type="text" name="modelo" placeholder="Modelo" required><br>
+  <input type="text" name="tipo" placeholder="Tipo" required><br>
+  <input type="number" name="precioHora" placeholder="Precio/Hora" required step="0.01"><br>
+  <br>
+  <label>Imagen (URL):</label>
+<input type="text" name="imagen" value="<%= datos?.imagen || '' %>">
+<br>
+  <button type="submit">Guardar</button>
+</form>
