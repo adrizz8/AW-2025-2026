@@ -13,7 +13,7 @@ const reservas = [];
 router.get('/', requireAuth, (req, res) => {
   res.render('reservar', {
     titulo: 'Reservar vehículo',
-    usuario: req.session.usuario || null
+    // usuario: req.session.usuario || null
     
   });
 });
@@ -39,13 +39,12 @@ router.post('/procesar-reserva', (req, res) => {
   reservas.push(nuevaReserva);
   console.log('✅ Nueva reserva registrada:', nuevaReserva);
 
-  // Muestra todas las reservas usando EJS
-   res.render('lista_reservas', {
-    titulo: 'Listado de reservas',
-    usuario: req.session.usuario || null,
-    reservas,
-    total: reservas.length
-  });
+  // // Muestra todas las reservas usando EJS
+  //  res.render('lista_reservas', {
+  //   titulo: 'Listado de reservas',
+  //   reservas,
+  //   total: reservas.length
+  // });
 });
 
 // --- /lista_reservas ---

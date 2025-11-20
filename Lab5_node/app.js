@@ -4,6 +4,7 @@ const session = require('express-session');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
+const usuarios = require('./datos/usuarios');
 
 
 // Importar los módulos de rutas
@@ -30,10 +31,6 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.locals.usuario = req.session.usuario || null;
-  next();
-});
 
 // --- Configurar EJS como motor de plantillas ---
 app.set('view engine', 'ejs');
@@ -42,15 +39,21 @@ app.use(expressLayouts);
 app.set('layout', 'layout'); // usa views/layout.ejs como plantilla base
 
 // --- Middleware para recordar usuario ---
-// app.use((req, res, next) => {
-//   if (!req.session.usuario && req.cookies.usuarioRecordado) {
-//     const usuario = usuarios.find(u => u.email === req.cookies.usuarioRecordado);
-//     if (usuario) {
-//       req.session.usuario = usuario;
-//     }
-//   }
-//   next();
-// });
+app.use((req, res, next) => {
+  if (!req.session.usuario && req.cookies.usuarioRecordado) {
+    const usuario = usuarios.find(u => u.email === req.cookies.usuarioRecordado);
+    if (usuario) {
+      req.session.usuario = usuario;
+    }
+  }
+  next();
+});
+
+
+app.use((req, res, next) => {
+  res.locals.usuario = req.session.usuario || null;
+  next();
+});
 
 
 // --- Rutas principales ---
