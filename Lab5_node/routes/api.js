@@ -1,25 +1,20 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const router = express.Router();
+const vehiculos = require('../datos/vehiculosmem');
 
-//Hay que mirar como lo podemos importar desde vehiculos.js
-const tiposVehiculos = [
-  'Coche', 'Moto', 'Camión', 'Autobús',
-  'Bicicleta', 'Furgoneta', 'Camioneta', 'Scooter'
-];
-
-
-
-// --- RUTA API: /api/vehiculos ---
+// Ruta API: /api/vehiculos
 router.get('/vehiculos', (req, res) => {
-  res.json({
-    total: tiposVehiculos.length,
-    vehiculos: tiposVehiculos.map((v, i) => ({
-      id: i + 1,
-      tipo: v
-    }))
-  });
+  const q = (req.query.q || "").toLowerCase();
+
+  let filtrados = vehiculos;
+  if (q) {
+    filtrados = vehiculos.filter(v =>
+      v.marca.toLowerCase().includes(q) ||
+      v.modelo.toLowerCase().includes(q)
+    );
+  }
+
+  res.json(filtrados);
 });
 
 module.exports = router;
