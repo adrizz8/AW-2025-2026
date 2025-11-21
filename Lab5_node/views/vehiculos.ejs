@@ -1,5 +1,15 @@
 <h1>Lista de Vehículos</h1>
-<% if (usuario) { %>
+<form method="GET" action="/vehiculos" style="margin-bottom: 20px;">
+  <input
+    type="text"
+    name="q"
+    placeholder="Buscar por marca o modelo..."
+    value="<%= q %>"
+  >
+  <button type="submit">Buscar</button>
+</form>
+
+<% if (admin) { %>
   <a href="/vehiculos/nuevo" class="btn btn-primary">Añadir Vehículo</a>
   <% } %>
     <table border="1">
@@ -34,7 +44,7 @@
             </td>
             <td>
               <a href="/vehiculos/<%= v.id %>">Ver</a> |
-              <% if (usuario) { %>
+              <% if (admin) { %>
                 <a href="/vehiculos/<%= v.id %>/editar" class="btn btn-warning">Editar</a>
                 <form action="/vehiculos/<%= v.id %>/eliminar" method="POST">
                   <button class="btn btn-danger">Eliminar</button>
@@ -47,4 +57,12 @@
           </tr>
           <% }) %>
       </tbody>
+      <% if (vehiculos.length === 0) { %>
+  <tr>
+    <td colspan="7" style="text-align: center; font-weight: bold;">
+      No se encontraron vehículos con "<%= q %>"
+    </td>
+  </tr>
+<% } %>
+
     </table>

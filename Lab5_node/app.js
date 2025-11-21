@@ -50,10 +50,13 @@ app.use((req, res, next) => {
 });
 
 
+// --- Middleware para pasar usuario y admin a todas las vistas ---
 app.use((req, res, next) => {
   res.locals.usuario = req.session.usuario || null;
+  res.locals.admin = req.session.usuario?.rol === "admin";   // <<--- AQUÍ
   next();
 });
+
 
 
 // --- Rutas principales ---

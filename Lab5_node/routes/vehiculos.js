@@ -5,18 +5,36 @@ const requireAuth = require('../middlewares/auth');
 
 // --- LISTA VEHÍCULOS ---
 router.get('/', (req, res) => {
-  res.render('vehiculos', { titulo: 'Vehículos', vehiculos });
+  const q = (req.query.q || "").toLowerCase();
+
+  let filtrados = vehiculos;
+
+  // Si el usuario busca algo, filtramos
+  if (q) {
+    filtrados = vehiculos.filter(v =>
+      v.marca.toLowerCase().includes(q) ||
+      v.modelo.toLowerCase().includes(q)
+    );
+  }
+
+  res.render('vehiculos', {
+    titulo: 'Vehículos',
+    vehiculos: filtrados,
+    q
+  });
 });
 
 
 // --- NUEVO VEHÍCULO (GET) ---
 router.get('/nuevo',requireAuth, (req, res) => {
-  res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo' });
+  res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo' ,datos: {}, errores: []});
 });
 
 // --- NUEVO VEHÍCULO (POST) ---
 router.post('/nuevo', requireAuth, (req, res) => {
   const { marca, modelo, tipo, precioHora, imagen } = req.body;
+
+    let errores = [];
 
 if (!imagen) {
   errores.push("La URL de la imagen es obligatoria.");
@@ -24,7 +42,7 @@ if (!imagen) {
   errores.push("La imagen debe ser una URL válida.");
 }
 
-  let errores = [];
+
 
   if (!marca || !modelo || !tipo || !precioHora) {
     errores.push("Todos los campos son obligatorios.");
@@ -71,7 +89,7 @@ router.get('/:id/editar',requireAuth, (req, res) => {
   const vehiculo = vehiculos.find(v => v.id === id);
   if (!vehiculo) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 
-  res.render('vehiculo_editar', { titulo: 'Editar Vehículo', vehiculo });
+  res.render('vehiculo_editar', { titulo: 'Editar Vehículo', vehiculo, errores: [] });
 });
 
 // --- EDITAR VEHÍCULO (POST) ---
@@ -84,6 +102,8 @@ router.post('/:id/editar', requireAuth, (req, res) => {
 
   const { marca, modelo, tipo, precioHora, imagen } = req.body;
 
+    let errores = [];
+
 if (!imagen) {
   errores.push("La imagen es obligatoria.");
 } else if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
@@ -91,7 +111,7 @@ if (!imagen) {
 }
 
 
-  let errores = [];
+
 
   if (!marca || !modelo || !tipo || !precioHora) {
     errores.push("Todos los campos son obligatorios.");

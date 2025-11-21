@@ -1,10 +1,20 @@
 <h1>Nuevo Vehículo</h1>
+<% if (errores && errores.length > 0) { %>
+  <ul style="color: red; font-weight:bold;">
+    <% errores.forEach(e => { %>
+      <li><%= e %></li>
+    <% }) %>
+  </ul>
+<% } %>
 <form action="/vehiculos/nuevo" method="POST">
-  <input type="text" name="marca" placeholder="Marca" required><br>
-  <input type="text" name="modelo" placeholder="Modelo" required><br>
-  <input type="text" name="tipo" placeholder="Tipo" required><br>
-  <input type="number" name="precioHora" placeholder="Precio/Hora" required step="0.01"><br>
-  <br>
+  <input type="text" name="marca" placeholder="Marca" value="<%= datos?.marca || '' %>"><br>
+
+<input type="text" name="modelo" placeholder="Modelo" value="<%= datos?.modelo || '' %>"><br>
+
+<input type="text" name="tipo" placeholder="Tipo" value="<%= datos?.tipo || '' %>"><br>
+
+<input type="number" name="precioHora" placeholder="Precio/Hora" step="0.01" 
+  value="<%= datos?.precioHora || '' %>"><br>
   <label>Imagen (URL):</label>
 <input type="text" name="imagen" value="<%= datos?.imagen || '' %>">
 <br>

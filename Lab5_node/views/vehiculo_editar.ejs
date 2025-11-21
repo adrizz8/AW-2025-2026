@@ -1,8 +1,18 @@
 <h1>Editar Vehículo</h1>
+<% if (errores && errores.length > 0) { %>
+  <ul style="color: red; font-weight:bold;">
+    <% errores.forEach(e => { %>
+      <li><%= e %></li>
+    <% }) %>
+  </ul>
+<% } %>
 <form action="/vehiculos/<%= vehiculo.id %>/editar" method="POST">
   <input type="text" name="marca" value="<%= vehiculo.marca %>" required><br>
   <input type="text" name="modelo" value="<%= vehiculo.modelo %>" required><br>
   <input type="text" name="tipo" value="<%= vehiculo.tipo %>" required><br>
   <input type="number" name="precioHora" value="<%= vehiculo.precioHora %>" required step="0.01"><br>
+  <label>Imagen (URL):</label>
+<input type="text" name="imagen" value="<%= vehiculo.imagen || '' %>">
+<br>
   <button type="submit">Actualizar</button>
 </form>
