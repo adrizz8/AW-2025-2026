@@ -1,7 +1,28 @@
-
-  <h1>Registro de Usuario</h1>
-  <form action="/registro" method="POST"> <input type="text" name="nombre" placeholder="Nombre" required><br> <input
-      type="email" name="email" placeholder="Correo electrónico" required><br> <input type="password" name="contraseña" placeholder="Contraseña" 
-       required minlength="8" title="La contraseña debe tener al menos 8 caracteres">
-<br> <button type="submit">Registrarse</button> </form>
-  <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+<div class="registro-container">
+  <div class="registro-formulario">
+    <h1>Regístrate</h1>
+    <h2>Introduce los siguientes datos para crear tu cuenta</h2>
+    <form action="/registro" method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="email" name="email" placeholder="Correo corporativo" required>
+      <input type="password" name="contraseña" placeholder="Contraseña" required>
+      <input type="tel" name="telefono" placeholder="Número de teléfono" required>
+      <select aria-label="Concesionarios" id="concesionarios" name="concesionarios" required>
+        <option value="" disabled selected>Concesionario</option>
+        <optgroup label="Concesionarios">
+          <option value="1">El primero</option>
+          <option value="2">El segundo</option>
+          <option value="3">El tercero</option>
+        </optgroup>
+      </select>
+      <label>
+        <input type="checkbox" name="recordar"> Recordar sesión
+      </label>
+      <button type="submit">Entrar</button>
+    </form>
+    <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
+  </div>
+  <div class="imagen-sesion">
+    <img src="/images/login.png" alt="Imagen login">
+  </div>
+</div>

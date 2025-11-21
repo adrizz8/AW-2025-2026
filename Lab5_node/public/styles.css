@@ -5,7 +5,7 @@
   --color-verde: #28a745;
   --color-verde-hover: #218838;
   --color-texto: #0b2545;
-  --color-fondo: #f5f5f5;
+  --color-fondo: #e5ffdc; 
 }
 
 /* ===== ESTRUCTURA GENERAL ===== */
@@ -15,14 +15,14 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #f6f9ff 0%, #ffffff 40%, #eef7f1 100%);
   color: var(--color-texto);
   font-family: var(--font-family);
+  background-color: var(--color-fondo); 
+  min-height: 100vh;
 }
 
 /* ===== CONTENEDORES ===== */
-.card, .formulario {
+.formulario {
   max-width: 800px;
   width: 90%;
   background: #ffffff;
@@ -97,6 +97,56 @@ select:focus {
   outline: none;
   border-color: var(--color-primario);
 }
+/* ===== HEADER ===== */
+.header-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  margin: 0;
+  padding: 0 32px;
+  box-sizing: border-box;
+  background-color: #013220;  /* verde oscuro para header */
+  color: #fff;
+  min-height: 72px;
+  border-bottom: 3px solid #28a745; /* línea decorativa opcional */
+}
+
+.header-layout .cta-container a,
+.header-layout .logo-img {
+  color: #fff;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.logo-container {
+  margin-left: 0;
+  padding-left: 0;
+}
+.cta-container {
+  display: flex;
+  gap: 16px;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.cta-layout {
+  padding: 8px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #3a8328;
+  color: #fff;
+  margin-left: 10px;
+  transition: background 0.2s;
+}
+.cta-layout:hover {
+  background-color: #2e486b;
+}
+
 
 /* ===== BOTONES ===== */
 button, .cta {
@@ -114,9 +164,14 @@ button, .cta {
   transition: background-color 0.2s ease;
 }
 
-button:hover, .cta:hover {
-  background-color: #155cc0;
+button, .cta-layout {
+  margin-left: 10px;
+  padding: 8px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #3a8328;
 }
+
 
 /* ===== ENLACES ===== */
 .volver {
@@ -218,27 +273,6 @@ li:hover {
   color: #333;
 }
 
-/* === Sección de usuario (login / bienvenida) === */
-.user-info {
-  margin: 1.2rem 0;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.user-info p {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-.user-info strong {
-  color: #0074d9;
-}
-
 /* === Botones tipo .cta (ya usas esta clase) === */
 a.cta {
   display: inline-block;
@@ -264,14 +298,166 @@ a.cta:hover {
   text-align: center;
 }
 
-/* === Ajuste de <main> card === */
-main.card {
-  max-width: 700px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+/* === REGISTRO E INICIO DE SESIÓN === */
+.registro-container,.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 60px;
+  flex-wrap: wrap; 
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.registro-formulario,.login-formulario {
+  background: transparent;
+  padding: 50px 42px; 
+  border-radius: 24px 0 0 24px;
+  width: 380px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1 1 320px; 
+  box-sizing: border-box;
+}
+
+
+.registro-formulario h1,.login-formulario h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+}
+
+.registro-formulario h2,.login-formulario h2 {
+  font-size: 1rem;
+  font-weight: 550;
+  margin: 0 0 14px 0;
   text-align: center;
-  font-family: system-ui, sans-serif;
+}
+
+.registro-formulario form,.login-formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-formulario input[type="email"],
+.login-formulario input[type="password"],
+.registro-formulario input[type="email"],
+.registro-formulario input[type="password"],
+.registro-formulario input[type="text"] ,
+.registro-formulario input[type="tel"],
+.login-formulario input,
+.login-formulario select,
+.registro-formulario input,
+.registro-formulario select  {
+  padding: 12px 16px;
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+
+.registro-formulario label ,.login-formulario label {
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.registro-formulario button, .login-formulario button {
+  background: #3a8328;
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.registro-formulario button:hover , .login-formulario button:hover {
+  background: #25651c;
+}
+
+.registro-formulario p, .login-formulario p {
+  font-size: 1rem;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.registro-formulario a, .login-formulario a  {
+  color: #1f6feb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.imagen-sesion {
+  border-radius: 0 48px 48px 0;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  min-height: 220px;
+  flex: 1 1 320px;
+  box-sizing: border-box;
+
+}
+
+.imagen-sesion img {
+  width: 60vw;          
+  max-width: 500px;     
+  min-width: 140px;    
+  height: auto;
+  border-radius: 32px;
+  object-fit: contain;
+  transition: width 0.3s;
+}
+
+/* --- Responsivo para pantallas pequeñas --- */
+@media (max-width: 900px) {
+  .registro-container,.login-container {
+    gap: 30px;
+    padding: 10px;
+  }
+  .registro-formulario,.login-formulario,
+  .imagen-sesion {
+    border-radius: 24px; /* Redondeo uniforme en ambos */
+    padding: 26px 14px;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    margin: 0;
+  }
+  .imagen-sesion img {
+    width: 80vw;
+    max-width: 300px;
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 600px) {
+  .registro-container ,.login-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    min-height: unset;
+  }
+  .registro-formulario, .login-formulario, .imagen-sesion {
+    padding: 16px 4vw;
+  }
+  .imagen-sesion img {
+    width: 90vw;
+    max-width: 220px;
+    min-width: 56px;
+  }
 }
