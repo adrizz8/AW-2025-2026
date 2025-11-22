@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof titulo !== 'undefined' ? titulo : 'Sistema de Reservas' %></title>
+  <title>
+    <%= typeof titulo !=='undefined' ? titulo : 'Sistema de Reservas' %>
+  </title>
   <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body class="layout">
   <header class="header-layout">
     <div class="logo-container">
@@ -13,18 +17,43 @@
         <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
       </a>
     </div>
-    <div class="cta-container">
-      <a href="/login" class="cta-layout">Iniciar sesión</a>
-      <a href="/registro" class="cta-layout">Registrarse</a>
-    </div>
+    <% if (usuario) { %>
+      <div class="cta-container">
+        👋 Hola, <strong>
+          <%= usuario.nombre %>
+        </strong>
+        <a href="/logout" class="cta-layout">Cerrar sesión</a>
+      </div>
+      <% } else { %>
+        <div class="cta-container">
+          <a href="/login" class="cta-layout">Iniciar sesión</a>
+          <a href="/registro" class="cta-layout">Registrarse</a>
+        </div>
+        <% } %>
   </header>
 
   <main class="main-layout">
-    <%- body %> <!-- Aquí se insertará el contenido de cada vista -->
+    <%- body %>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Sistema de Reservas</p>
+  <footer class="footer-layout">
+    <div class="footer-item izquierda">
+      <label for="idioma-select" class="sr-only">Idioma</label>
+      <select id="idioma-select" aria-label="Cambiar idioma" onchange="cambiarIdioma()">
+        <option value="es">Español</option>
+        <option value="en">Inglés</option>
+      </select>
+    </div>
+    <div class="footer-item centro">
+      &copy; 2025 Sistema de Reservas
+    </div>
+    <div class="footer-item derecha">
+      <button id="modo-btn" aria-pressed="false" aria-label="Alternar claro/oscuro"
+        onclick="alternarModo()">
+        <span id="icono-modo">🌙</span> Modo Oscuro
+      </button>
+    </div>
   </footer>
 </body>
+
 </html>

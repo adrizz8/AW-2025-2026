@@ -46,7 +46,7 @@ router.get('/registro', (req, res) => {
 });
 
 router.post('/registro', async (req, res) => {
-  const { nombre, email, contraseña } = req.body;
+  const { nombre, email, contraseña, telefono, concesionario } = req.body;
   const existe = usuarios.find(u => u.email === email);
 
   if (existe) {
@@ -57,7 +57,7 @@ router.post('/registro', async (req, res) => {
   }
 
   const hash = await bcrypt.hash(contraseña, SALT_ROUNDS);
-  usuarios.push({ nombre, email, contraseña: hash, rol: "usuario" });
+  usuarios.push({ nombre, email, contraseña: hash, telefono, concesionario, rol: "usuario" });
   res.redirect('/login');
 });
 

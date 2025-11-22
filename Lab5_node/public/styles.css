@@ -1,11 +1,12 @@
 :root { 
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
-  --color-primario: #007bff;
-  --color-primario-hover: #0056b3;
+  --color-primario: #4e792f;
+  --color-primario-hover: #3A5b22;
   --color-verde: #28a745;
   --color-verde-hover: #218838;
   --color-texto: #0b2545;
   --color-fondo: #e5ffdc; 
+  --color-header: #013220;
 }
 
 /* ===== ESTRUCTURA GENERAL ===== */
@@ -106,14 +107,15 @@ select:focus {
   margin: 0;
   padding: 0 32px;
   box-sizing: border-box;
-  background-color: #013220;  /* verde oscuro para header */
+  background-color: var(--color-header);  /* verde oscuro para header */
   color: #fff;
   min-height: 72px;
-  border-bottom: 3px solid #28a745; /* línea decorativa opcional */
+  border-bottom: 3px solid var(--color-verde);
 }
-
 .header-layout .cta-container a,
 .header-layout .logo-img {
+  justify-content: center; 
+  align-items: center;
   color: #fff;
 }
 
@@ -132,6 +134,7 @@ select:focus {
   gap: 16px;
   margin-right: 0;
   padding-right: 0;
+  justify-content: center;
 }
 
 .cta-layout {
@@ -141,12 +144,8 @@ select:focus {
   background-color: #3a8328;
   color: #fff;
   margin-left: 10px;
-  transition: background 0.2s;
+  text-decoration: none;
 }
-.cta-layout:hover {
-  background-color: #2e486b;
-}
-
 
 /* ===== BOTONES ===== */
 button, .cta {
@@ -159,9 +158,8 @@ button, .cta {
   cursor: pointer;
   text-decoration: none;
   color: white;
-  background: #1f6feb;
+  background: var(--color-primario-hover);
   display: inline-block;
-  transition: background-color 0.2s ease;
 }
 
 button, .cta-layout {
@@ -170,6 +168,7 @@ button, .cta-layout {
   font-size: 14px;
   border-radius: 6px;
   background-color: #3a8328;
+  text-decoration: none;
 }
 
 
@@ -273,12 +272,12 @@ li:hover {
   color: #333;
 }
 
-/* === Botones tipo .cta (ya usas esta clase) === */
+/* === Botones tipo .cta === */
 a.cta {
   display: inline-block;
   margin: 0.4rem;
   padding: 0.6rem 1.2rem;
-  background-color: #0074d9;
+  background-color: var(--color-primario);
   color: #fff;
   text-decoration: none;
   border-radius: 6px;
@@ -286,7 +285,7 @@ a.cta {
 }
 
 a.cta:hover {
-  background-color: #005fa3;
+  background-color: var(--color-primario-hover);
   transform: translateY(-2px);
 }
 
@@ -460,4 +459,202 @@ a.cta:hover {
     max-width: 220px;
     min-width: 56px;
   }
+}
+
+/* ===== FOOTER  ===== */
+.footer-layout {
+  width: 100%;
+  min-height: 60px;
+  background: var(--color-header);
+  color: var(--color-texto);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  border-top: 2px solid var(--color-primario);
+  box-shadow: 0 -1px 8px #0001;
+  margin-top: 40px;
+}
+
+.footer-item {
+  flex: 1 1 0;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.footer-item.centro {
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-header);
+}
+.footer-item.izquierda { justify-content: flex-start; }
+.footer-item.derecha   { justify-content: flex-end; }
+
+#idioma-select {
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--color-primario);
+  font-size: 1rem;
+  background: #fff;
+  color: var(--color-texto);
+  transition: border .14s;
+}
+#idioma-select:focus {
+  outline: none;
+  border-color: var(--color-verde);
+}
+#modo-btn {
+  padding: 6px 18px;
+  background: var(--color-primario);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background .15s, color .15s;
+  font-size: 1rem;
+}
+#modo-btn[aria-pressed="true"] {
+  background: var(--color-header);
+  color: var(--color-verde);
+}
+#modo-btn:hover {
+  background: var(--color-primario-hover);
+}
+.sr-only {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+/* Modo oscuro */
+body.oscuro, .oscuro .footer-layout {
+  background: var(--color-header) !important;
+  color: #d6ffe0 !important;
+  border-top: 2px solid var(--color-verde);
+}
+body.oscuro .footer-item.centro {
+  color: var(--color-verde);
+}
+body.oscuro #modo-btn {
+  background: var(--color-verde);
+  color: var(--color-header);
+}
+body.oscuro #modo-btn[aria-pressed="true"] {
+  background: var(--color-primario-hover);
+  color: #fff;
+}
+body.oscuro #modo-btn:hover {
+  background: var(--color-verde-hover);
+}
+/* Responsive */
+@media (max-width:650px){
+  .footer-item { padding: 0 10px; }
+  .footer-layout { font-size: .98rem; }
+}
+
+/* ==== EXTRAS INDEX ==== */
+.titulo {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 3rem;
+  font-weight: 700;
+  color:  var(--color-primario);
+}
+
+.descripcion {
+  text-align: center;
+  margin: 10px auto 30px auto;
+  max-width: 600px;
+  font-size: 1.2rem;
+  color: #2e486b;
+}
+
+.about, .valores, .como-funciona, .faq, .testimonios, .contacto {
+  max-width: 700px;
+  margin: 30px auto 0 auto;
+  background: #fbfbfa;
+  border-radius: 18px;
+  padding: 30px 20px 18px 20px;
+  box-shadow: 0 2px 12px #6366f120;
+}
+
+.valores ul, .como-funciona ol {
+  text-align: left;
+  margin-left: 20px;
+}
+
+.faq summary {
+  font-weight: bold;
+  cursor: pointer;
+  color: #30884a;
+}
+
+.testimonios blockquote {
+  border-left: 4px solid #30884a;
+  margin: 10px 0 16px 0;
+  padding-left: 12px;
+  color: #222;
+  font-style: italic;
+}
+
+/* ===== CARRUSEL ===== */
+.slider::before,
+.slider::after {
+  content: "";
+  height: 100px;
+  position: absolute;
+  width: 200px;
+  z-index: 2;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+.slider {
+  background: white;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  height: 100px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 960px;
+}
+
+.slider .slide-track {
+  animation: scroll 40s linear infinite;
+  display: flex;
+  width: calc(250px * 14);
+}
+
+.slider .slide {
+  height: 100px;
+  width: 250px;
 }

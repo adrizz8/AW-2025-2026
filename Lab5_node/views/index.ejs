@@ -1,30 +1,115 @@
-<main class="vista-index" role="main">
-  <h1>Bienvenido al Sistema de Gestión de Reservas</h1>
-  
-  <!-- 🧠 Mostrar mensaje según sesión -->
-  <% if (usuario) { %>
-    <div class="user-info">
-      👋 Hola, <strong><%= usuario.nombre %></strong>
-      <a href="/logout" class="cta">Cerrar sesión</a>
+<main>
+  <section class="hero">
+    <h1 class="titulo"><span class="marca">Move It</span></h1>
+    <p class="descripcion">
+      ¡Bienvenido a la Gestión de Flota de Vehículos Eléctricos!
+    </p>
+    <nav class="nav-acciones">
+      <a class="cta anim-scale" href="/reservar">Reservar vehículo</a>
+      <a class="cta anim-scale" href="/reservar/lista_reservas">Ver reservas</a>
+      <a class="cta anim-scale" href="/vehiculos">Gestionar Vehículos</a>
+      <% if (usuario && usuario.rol==="admin" ) { %>
+        <a class="cta anim-scale" href="/usuario">Ver lista de usuarios</a>
+        <% } %>
+    </nav>
+  </section>
+
+  <div class="slider">
+    <div class="slide-track">
+      <div class="slide">
+        <img src="/images/citroen-c4.png" height="100" width="250" alt="" />
+      </div>
+      <div class="slide">
+        <img src="/images/ford-focus.png" height="100" width="250" alt="" />
+      </div>
+      <div class="slide">
+        <img src="/images/zoe-electric.png" height="100" width="250" alt=""   />
+      </div>
+      <div class="slide">
+        <img src="/images/seat-leon.png" height="100" width="250" alt=""  />
+      </div>
+      <div class="slide">
+        <img src="/images/mercedes-clase-c.png" height="100" width="250" alt=""   />
+      </div>
+      <div class="slide">
+        <img src="/images/coche-familiar.png" height="100" width="250" alt=""   />
+      </div>
+      <div class="slide">
+        <img src="/images/fiat-500.png" height="100" width="250" alt=""   />
+      </div>
+      <div class="slide">
+        <img src="/images/opel-insignia.png" height="100" width="250" alt=""   />
+      </div>
+    
     </div>
-  <% } else { %>
-    <div class="user-info">
-      <a href="/login" class="cta">Iniciar sesión</a>
-      <a href="/registro" class="cta">Registrarse</a>
-    </div>
-  <% } %>
+  </div>
 
-  <p>
-    Gestiona fácilmente tus reservas, consulta disponibilidad y administra clientes desde un solo lugar.
-  </p>
 
-  <a class="cta" href="/reservar">Reservar vehículo</a>
-  <a class="cta" href="/reservar/lista_reservas">Ver reservas</a>
-  <a class="cta" href="/vehiculos">Gestionar Vehículos</a>
+    <section class="about">
+      <h2>¿Quiénes somos?</h2>
+      <p>
+        <strong>Move It</strong> es líder en movilidad sostenible y flexible desde 2025. Nuestra misión es ofrecer
+        una experiencia de alquiler de vehículos eléctricos sencilla, transparente y accesible para todos sus usuarios.
+      </p>
+      <p>
+        Con una flota moderna y un compromiso real con la innovación, garantizamos desplazamientos eficientes respetando
+        el medio ambiente.
+      </p>
+    </section>
 
-  <% if (usuario && usuario.rol === "admin") { %>
-    <a class="cta" href="/usuario">Ver lista de usuarios</a>
-  <% } %>
+    <section class="valores">
+      <h2>Nuestros valores</h2>
+      <ul>
+        <li><strong>Sostenibilidad:</strong> Apostamos por una movilidad que cuida del planeta.</li>
+        <li><strong>Accesibilidad:</strong> Nuestros servicios y vehículos son inclusivos y pensados para todas las
+          personas.</li>
+        <li><strong>Innovación continua:</strong> Aplicamos tecnología de vanguardia para una mejor experiencia.</li>
+        <li><strong>Transparencia:</strong> Precios claros y atención cercana, sin sorpresas.</li>
+      </ul>
+    </section>
 
-  <div class="meta">¿Nuevo? Empieza creando tu primera reserva ✨</div>
+    <section class="como-funciona">
+      <h2>¿Cómo funciona Move It?</h2>
+      <ol>
+        <li>Regístrate en nuestra plataforma en menos de 2 minutos.</li>
+        <li>Reserva el vehículo que mejor se ajuste a tus necesidades.</li>
+        <li>Recoge tu coche en tu concesionario Move It, abiertos las 24 horas del día todos los días de la semana.</li>
+        <li>Disfruta del viaje, devuelve el vehículo cuando lo desees.</li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Qué necesito para alquilar?</summary>
+        <p>Solo necesitas DNI, carnet de conducir vigente y una tarjeta bancaria para el pago.</p>
+      </details>
+      <details>
+        <summary>¿Cómo recargo los vehículos?</summary>
+        <p>Todos nuestros coches tienen acceso a puntos de recarga Move It y a redes públicas compatibles.</p>
+      </details>
+      <details>
+        <summary>¿Hay asistencia en carretera?</summary>
+        <p>Sí, ofrecemos asistencia en carretera 24/7 en toda la península.</p>
+      </details>
+    </section>
+
+    <section class="testimonios">
+      <h2>Experiencias Move It</h2>
+      <blockquote>
+        <p>“Rápido, sencillo y ecológico. ¡Repetiré sin duda!”</p>
+        <footer>— Ana G., usuaria habitual</footer>
+      </blockquote>
+      <blockquote>
+        <p>“Por fin una empresa que piensa en la accesibilidad de verdad.”</p>
+        <footer>— Pablo M., educador especializado</footer>
+      </blockquote>
+    </section>
+
+    <section class="contacto">
+      <h2>Contacto y ubicaciones</h2>
+      <p><strong>Email:</strong> info@moveit.com</p>
+      <p><strong>Teléfono:</strong> 900 123 456</p>
+      <p><strong>Sedes principales:</strong> Madrid (HQ), Barcelona, Valencia, Sevilla</p>
+    </section>
 </main>
