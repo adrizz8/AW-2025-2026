@@ -2,34 +2,215 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Reservas</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  
   <style>
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
+    body {
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin-top: 20px;
+    }
+    th, td { 
+      border: 1px solid #ccc; 
+      padding: 8px; 
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .campo-grupo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .nota {
+      background-color: #e7f3ff;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border-left: 4px solid #0066cc;
+    }
+    .btn-eliminar {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    
+    /* Spinner de carga */
+    .spinner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .spinner-overlay.active {
+      display: flex;
+    }
+    .spinner-border-custom {
+      width: 4rem;
+      height: 4rem;
+      border-width: 0.4rem;
+    }
   </style>
 </head>
 <body>
 
-<h1>Reservas (cargadas con fetch)</h1>
+<!-- Overlay de carga -->
+<div class="spinner-overlay" id="spinner">
+  <div class="spinner-border spinner-border-custom text-light" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Vehículo</th>
-      <th>Fecha inicio</th>
-      <th>Hora inicio</th>
-      <th>Fecha fin</th>
-      <th>Hora fin</th>
-      <th>Fecha reserva</th>
-    </tr>
-  </thead>
-  <tbody id="tbody">
-    <tr><td colspan="9">Cargando...</td></tr>
-  </tbody>
-</table>
+<div class="container-fluid">
+  <div class="header-container">
+    <h1>Reservas</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaReserva">
+      ➕ Nueva Reserva
+    </button>
+  </div>
+
+  <!-- Filtro por tipo de vehículo -->
+  <div class="mb-3">
+    <label for="filtroTipo" class="form-label">Filtrar por tipo de vehículo:</label>
+    <select class="form-select" id="filtroTipo" style="max-width: 300px;">
+      <option value="">Todos los vehículos</option>
+      <option value="coche">Coche</option>
+      <option value="moto">Moto</option>
+      <option value="camion">Camión</option>
+      <option value="autobus">Autobús</option>
+      <option value="furgoneta">Furgoneta</option>
+      <option value="camioneta">Camioneta</option>
+      <option value="bicicleta">Bicicleta</option>
+      <option value="scooter">Scooter</option>
+    </select>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Vehículo</th>
+        <th>Fecha inicio</th>
+        <th>Hora inicio</th>
+        <th>Fecha fin</th>
+        <th>Hora fin</th>
+        <th>Fecha reserva</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr><td colspan="10">Cargando...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal para Nueva Reserva -->
+<div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNuevaReservaLabel">Reservar Vehículo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="nota">
+          Complete el formulario para realizar su reserva. Nos pondremos en contacto con usted para confirmar.
+        </div>
+
+        <form id="form-reserva">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre completo *</label>
+            <input type="text" class="form-control" id="nombre" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico *</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono *</label>
+            <input type="tel" class="form-control" id="telefono" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="tipo_vehiculo" class="form-label">Tipo de vehículo *</label>
+            <select class="form-select" id="tipo_vehiculo" required>
+              <option value="">Seleccione un tipo...</option>
+              <option value="coche">Coche</option>
+              <option value="moto">Moto</option>
+              <option value="camion">Camión</option>
+              <option value="autobus">Autobús</option>
+              <option value="furgoneta">Furgoneta</option>
+              <option value="camioneta">Camioneta</option>
+              <option value="bicicleta">Bicicleta</option>
+              <option value="scooter">Scooter</option>
+            </select>
+          </div>
+
+          <div class="campo-grupo mb-3">
+            <div>
+              <label for="fecha_inicio" class="form-label">Fecha de inicio *</label>
+              <input type="date" class="form-control" id="fecha_inicio" required>
+            </div>
+            <div>
+              <label for="hora_inicio" class="form-label">Hora de recogida *</label>
+              <input type="time" class="form-control" id="hora_inicio" required>
+            </div>
+          </div>
+
+          <div class="campo-grupo mb-3">
+            <div>
+              <label for="fecha_fin" class="form-label">Fecha de devolución *</label>
+              <input type="date" class="form-control" id="fecha_fin" required>
+            </div>
+            <div>
+              <label for="hora_fin" class="form-label">Hora de devolución *</label>
+              <input type="time" class="form-control" id="hora_fin" required>
+            </div>
+          </div>
+
+          <div id="mensaje"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-realizar-reserva">Realizar Reserva</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Scripts -->
 <script src="/js/cargar_reservas.js"></script>
+
+<script src="/js/procesar_reserva.js"></script>
+
 </body>
 </html>

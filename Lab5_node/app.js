@@ -59,6 +59,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/html/reservas.html', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/html/reservas.html'));
+});
+
 // --- Archivos estáticos (CSS, imágenes, JS, etc.) ---
 app.use(express.static(path.join(__dirname, 'public')));
 

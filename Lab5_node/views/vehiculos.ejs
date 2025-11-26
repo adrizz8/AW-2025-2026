@@ -1,9 +1,70 @@
+<style>
+  .spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .spinner-overlay.active {
+    display: flex;
+  }
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .filtros-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .filtros-container > div {
+    flex: 1;
+    min-width: 200px;
+  }
+</style>
+
+<!-- Overlay de carga -->
+<div class="spinner-overlay" id="spinner">
+  <div class="spinner"></div>
+</div>
+
 <h1>Lista de Vehículos</h1>
 
-<form id="buscador" style="margin-bottom: 20px;">
-  <input type="text" id="q" placeholder="Buscar por marca o modelo...">
-  <button type="submit">Buscar</button>
-</form>
+<div class="filtros-container">
+  <div>
+    <label for="q">Buscar por marca o modelo:</label>
+    <input type="text" id="q" placeholder="Buscar..." style="width: 100%; padding: 8px;">
+  </div>
+  <div>
+    <label for="filtroTipo">Filtrar por tipo:</label>
+    <select id="filtroTipo" style="width: 100%; padding: 8px;">
+      <option value="">Todos los tipos</option>
+      <option value="coche">Coche</option>
+      <option value="moto">Moto</option>
+      <option value="camion">Camión</option>
+      <option value="suv">SUV</option>
+      <option value="deportivo">Deportivo</option>
+    </select>
+  </div>
+  <div style="display: flex; align-items: flex-end;">
+    <button onclick="aplicarFiltros()" style="padding: 8px 20px;">Buscar</button>
+  </div>
+</div>
 
 <% if (admin) { %>
   <a href="/vehiculos/nuevo" class="btn btn-primary">Añadir Vehículo</a>
@@ -27,54 +88,9 @@
 </table>
 
 <script>
-  // Pasamos variable del servidor a JS
   const esAdmin = <%= admin ? 'true' : 'false' %>;
+</script>
 
-  async function cargarVehiculos(query = '') {
-    const tbody = document.getElementById('vehiculos-body');
-    tbody.innerHTML = '<tr><td colspan="7">Cargando...</td></tr>';
-
-    try {
-      const res = await fetch('/api/vehiculos?q=' + encodeURIComponent(query));
-      const vehiculos = await res.json();
-
-      if (!vehiculos.length) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron vehículos.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = '';
-      vehiculos.forEach(v => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${v.id}</td>
-          <td>${v.marca}</td>
-          <td>${v.modelo}</td>
-          <td>${v.tipo}</td>
-          <td>${v.precioHora}€</td>
-          <td>
-            <a href="/vehiculos/${v.id}">Ver</a>
-            ${esAdmin ? ` | <a href="/vehiculos/${v.id}/editar">Editar</a>` : ''}
-          </td>
-          <td>
-            <img src="${v.imagen}" alt="Imagen ${v.marca}" style="width:120px;border-radius:8px;">
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    } catch (err) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:red;">Error cargando vehículos</td></tr>';
-      console.error(err);
-    }
-  }
-
-  // Cargar al iniciar
-  cargarVehiculos();
-
-  // Buscador
-  document.getElementById('buscador').addEventListener('submit', e => {
-    e.preventDefault();
-    const q = document.getElementById('q').value;
-    cargarVehiculos(q);
-  });
+<script src ="js/gestionvehiculos.js">
+ 
 </script>
