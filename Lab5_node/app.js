@@ -8,6 +8,7 @@ const usuarios = require('./datos/usuarios');
 
 
 // Importar los módulos de rutas
+//const publicRoutes = require('./public'); // rutas públicas (inicio, login, registro)
 const mainRoutes = require('./routes/routes');        // rutas principales (inicio, login, registro, logout)
 const vehiculosRoutes = require('./routes/vehiculos'); // rutas relacionadas con vehículos
 const reservasRoutes = require('./routes/reservas');   // rutas relacionadas con reservas
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 // --- Middleware para leer datos de formularios ---
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // para parsear JSON en cuerpos de petición
 
 // --- Configuración de sesión ---
 app.use(
@@ -57,7 +59,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// --- Archivos estáticos (CSS, imágenes, JS, etc.) ---
+app.use(express.static(path.join(__dirname, 'public')));
 
+//app.use('/public', publicRoutes);
 
 // --- Rutas principales ---
 // 🟢 Aquí montamos cada grupo de rutas en su prefijo
@@ -67,8 +72,7 @@ app.use('/reservar', requireAuth, reservasRoutes);
 app.use('/api', apiRoutes);
 app.use('/usuario', usuarioRoutes);
 
-// --- Archivos estáticos (CSS, imágenes, JS, etc.) ---
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // --- Middleware 404 (Página no encontrada) ---
 app.use((req, res) => {

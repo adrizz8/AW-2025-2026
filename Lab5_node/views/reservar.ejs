@@ -1,39 +1,70 @@
-
-  <h1>Reservar Vehículo</h1>
-  <div class="formulario">
-    <div class="nota"> Complete el formulario para realizar su reserva. Nos pondremos en contacto con usted para
-      confirmar. </div>
-    <form action="reservar/procesar-reserva" method="POST">
-      <div class="campo"> <label for="nombre">Nombre completo *</label> <input type="text" id="nombre" name="nombre"
-          required> </div>
-      <div class="campo"> <label for="email">Correo electrónico *</label> <input type="email" id="email" name="email"
-          required> </div>
-      <div class="campo"> <label for="telefono">Teléfono *</label> <input type="tel" id="telefono" name="telefono"
-          required> </div>
-      <div class="campo"> <label for="tipo_vehiculo">Tipo de vehículo *</label> <select id="tipo_vehiculo"
-          name="tipo_vehiculo" required>
-          <option value="">Seleccione un tipo...</option>
-          <option value="coche">Coche</option>
-          <option value="moto">Moto</option>
-          <option value="camion">Camión</option>
-          <option value="autobus">Autobús</option>
-          <option value="furgoneta">Furgoneta</option>
-          <option value="camioneta">Camioneta</option>
-          <option value="bicicleta">Bicicleta</option>
-          <option value="scooter">Scooter</option>
-        </select> </div>
-      <div class="campo-grupo">
-        <div class="campo"> <label for="fecha_inicio">Fecha de inicio *</label> <input type="date" id="fecha_inicio"
-            name="fecha_inicio" required> </div>
-        <div class="campo"> <label for="hora_inicio">Hora de recogida *</label> <input type="time" id="hora_inicio"
-            name="hora_inicio" required> </div>
-      </div>
-      <div class="campo-grupo">
-        <div class="campo"> <label for="fecha_fin">Fecha de devolución *</label> <input type="date" id="fecha_fin"
-            name="fecha_fin" required> </div>
-        <div class="campo"> <label for="hora_fin">Hora de devolución *</label> <input type="time" id="hora_fin"
-            name="hora_fin" required> </div>
-      </div> <button type="submit">Realizar Reserva</button>
-    </form> <a href="/" class="volver">← Volver al inicio</a>
+<h1>Reservar Vehículo</h1>
+<div class="formulario">
+  <div class="nota">
+    Complete el formulario para realizar su reserva. Nos pondremos en contacto con usted para confirmar.
   </div>
-  <script> // Establecer fecha mínima como hoy const hoy = new Date().toISOString().split('T')[0]; document.getElementById('fecha_inicio').setAttribute('min', hoy); document.getElementById('fecha_fin').setAttribute('min', hoy); // Validar que la fecha de fin sea posterior a la de inicio document.getElementById('fecha_fin').addEventListener('change', function() { const fechaInicio = document.getElementById('fecha_inicio').value; const fechaFin = this.value; if (fechaInicio && fechaFin && fechaFin < fechaInicio) { alert('La fecha de devolución debe ser posterior a la fecha de inicio'); this.value = ''; } }); </script>
+
+  <form id="form-reserva">
+    <div class="campo">
+      <label for="nombre">Nombre completo *</label>
+      <input type="text" id="nombre" required>
+    </div>
+
+    <div class="campo">
+      <label for="email">Correo electrónico *</label>
+      <input type="email" id="email" required>
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono *</label>
+      <input type="tel" id="telefono" required>
+    </div>
+
+    <div class="campo">
+      <label for="tipo_vehiculo">Tipo de vehículo *</label>
+      <select id="tipo_vehiculo" required>
+        <option value="">Seleccione un tipo...</option>
+        <option value="coche">Coche</option>
+        <option value="moto">Moto</option>
+        <option value="camion">Camión</option>
+        <option value="autobus">Autobús</option>
+        <option value="furgoneta">Furgoneta</option>
+        <option value="camioneta">Camioneta</option>
+        <option value="bicicleta">Bicicleta</option>
+        <option value="scooter">Scooter</option>
+      </select>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo">
+        <label for="fecha_inicio">Fecha de inicio *</label>
+        <input type="date" id="fecha_inicio" required>
+      </div>
+      <div class="campo">
+        <label for="hora_inicio">Hora de recogida *</label>
+        <input type="time" id="hora_inicio" required>
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo">
+        <label for="fecha_fin">Fecha de devolución *</label>
+        <input type="date" id="fecha_fin" required>
+      </div>
+      <div class="campo">
+        <label for="hora_fin">Hora de devolución *</label>
+        <input type="time" id="hora_fin" required>
+      </div>
+    </div>
+
+    <button type="submit">Realizar Reserva</button>
+  </form>
+
+  <div id="mensaje"></div>
+
+  <a href="/" class="volver">← Volver al inicio</a>
+</div>
+
+<script src="/js/procesar_reserva.js"></script>
+
+

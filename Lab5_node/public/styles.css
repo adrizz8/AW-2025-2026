@@ -4,9 +4,11 @@
   --color-primario-hover: #3A5b22;
   --color-verde: #28a745;
   --color-verde-hover: #218838;
-  --color-texto: #0b2545;
+  --color-texto: #072d05;
   --color-fondo: #e5ffdc; 
+  --color-nota-bg: #e7f3ff;
   --color-header: #013220;
+  --color-box-shadow: rgba(11,37,69,0.08);
 }
 
 /* ===== ESTRUCTURA GENERAL ===== */
@@ -26,10 +28,10 @@ body {
 .formulario {
   max-width: 800px;
   width: 90%;
-  background: #ffffff;
+  background: var(--color-fondo);
   padding: 28px 30px;
   border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(11,37,69,0.08);
+  box-shadow: 0 8px 30px var(--color-box-shadow);
   text-align: center;
   margin-bottom: 30px;
 }
@@ -38,7 +40,7 @@ body {
 h1 { 
   margin: 0 0 15px; 
   font-size: 2rem; 
-  color: #333;
+  color: var(--color-texto);
   text-align: center;
 }
 
@@ -56,7 +58,7 @@ label {
 }
 
 .nota {
-  background-color: #e7f3ff;
+  background-color: var(--color-nota-bg);
   padding: 10px;
   border-left: 4px solid var(--color-primario);
   margin-bottom: 20px;
@@ -87,7 +89,7 @@ input[type="time"],
 select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-fondo);
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 14px;
@@ -108,7 +110,7 @@ select:focus {
   padding: 0 32px;
   box-sizing: border-box;
   background-color: var(--color-header);  /* verde oscuro para header */
-  color: #fff;
+  color: white;
   min-height: 72px;
   border-bottom: 3px solid var(--color-verde);
 }
@@ -116,7 +118,7 @@ select:focus {
 .header-layout .logo-img {
   justify-content: center; 
   align-items: center;
-  color: #fff;
+  color: white;
 }
 
 .logo-img {
@@ -142,7 +144,7 @@ select:focus {
   font-size: 14px;
   border-radius: 6px;
   background-color: #3a8328;
-  color: #fff;
+  color: white;
   margin-left: 10px;
   text-decoration: none;
 }
@@ -278,7 +280,7 @@ a.cta {
   margin: 0.4rem;
   padding: 0.6rem 1.2rem;
   background-color: var(--color-primario);
-  color: #fff;
+  color: white;
   text-decoration: none;
   border-radius: 6px;
   transition: background-color 0.2s ease, transform 0.1s ease;
@@ -311,7 +313,7 @@ a.cta:hover {
 }
 
 .registro-formulario,.login-formulario {
-  background: transparent;
+  background: var(--color-fondo);
   padding: 50px 42px; 
   border-radius: 24px 0 0 24px;
   width: 380px;
@@ -354,7 +356,7 @@ a.cta:hover {
 .registro-formulario input,
 .registro-formulario select  {
   padding: 12px 16px;
-  background: transparent;
+  background: white;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
@@ -372,7 +374,7 @@ a.cta:hover {
 
 .registro-formulario button, .login-formulario button {
   background: #3a8328;
-  color: #fff;
+  color: white;
   padding: 12px;
   border-radius: 10px;
   border: none;
@@ -499,7 +501,7 @@ a.cta:hover {
   border-radius: 12px;
   border: 1.5px solid var(--color-primario);
   font-size: 1rem;
-  background: #fff;
+  background: white;
   color: var(--color-texto);
   transition: border .14s;
 }
@@ -510,7 +512,7 @@ a.cta:hover {
 #modo-btn {
   padding: 6px 18px;
   background: var(--color-primario);
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -547,7 +549,7 @@ body.oscuro #modo-btn {
 }
 body.oscuro #modo-btn[aria-pressed="true"] {
   background: var(--color-primario-hover);
-  color: #fff;
+  color: white;
 }
 body.oscuro #modo-btn:hover {
   background: var(--color-verde-hover);
