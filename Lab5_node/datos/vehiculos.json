@@ -1,0 +1,8 @@
+[
+  { "id": 1, "marca": "Tesla Model Y", "matricula": "EV-1023-ABC", "autonomia": 505 },
+  { "id": 2, "marca": "Volkswagen ID.4", "matricula": "EV-2398-DFG", "autonomia": 520 },
+  { "id": 3, "marca": "Kia EV6", "matricula": "EV-7741-HJK", "autonomia": 510 },
+  { "id": 4, "marca": "Mercedes EQA", "matricula": "EV-4412-LMN", "autonomia": 420 },
+  { "id": 5, "marca": "Hyundai Ioniq 5", "matricula": "EV-8890-PQR", "autonomia": 480 }
+]
+

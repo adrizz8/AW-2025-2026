@@ -1,36 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../public/js/conexion'); // conexión normal de mysql2 sin promesas
+const db = require('../public/js/conexion');
+const vehiculos = require('../datos/vehiculos.json'); // conexión normal de mysql2 sin promesas
 
 // ===================== VEHÍCULOS =====================
 
-// GET /api/vehiculos -> listar vehículos con filtros
+// GET /api/vehiculos -> listar vehículos del json
 router.get('/vehiculos', (req, res) => {
-const q = (req.query.q || '').toLowerCase();
-const tipo = (req.query.tipo || '').toLowerCase();
+ const q = (req.query.q || "").toLowerCase();
 
-let query = 'SELECT * FROM vehiculos WHERE 1';
-let params = [];
+  let filtrados = vehiculos;
 
-if (q) {
-query += ' AND (LOWER(marca) LIKE ? OR LOWER(modelo) LIKE ?)';
-params.push(`%${q}%`, `%${q}%`);
-}
+  // Filtrar por búsqueda en marca o matrícula
+  if (q) {
+    filtrados = filtrados.filter(v =>
+      v.marca.toLowerCase().includes(q) ||
+      v.matricula.toLowerCase().includes(q)
+    );
+  }
 
-if (tipo) {
-query += ' AND LOWER(tipo) = ?';
-params.push(tipo);
-}
-
-db.query(query, params, (err, results) => {
-if (err) {
-console.error(err);
-return res.status(500).json({ error: 'Error al obtener vehículos desde la base de datos' });
-}
-res.json(results);
+  res.status(200).json(filtrados);
 });
-});
-
 // ===================== RESERVAS =====================
 
 // POST /api/reservas -> crear reserva

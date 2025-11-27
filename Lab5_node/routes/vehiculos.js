@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const vehiculos = require('../datos/vehiculosmem');
 const requireAuth = require('../middlewares/auth');
-const db = require('../public/js/conexion'); // conexión normal de mysql2 sin promesas
+const db = require('../public/js/conexion'); // conexión MySQL sin promesas
 
 // --- LISTA VEHÍCULOS ---
 router.get('/', (req, res) => {
@@ -25,136 +24,120 @@ params.push(tipo);
 db.query(query, params, (err, results) => {
 if (err) {
 console.error(err);
-return res.status(500).json({ error: 'Error al obtener vehículos desde la base de datos' });
+return res.status(500).render('500', { mensaje: 'Error al obtener vehículos' });
 }
 
-res.render('vehiculos', { titulo: 'Lista de Vehículos', vehiculos: results });
+res.render('vehiculos', { titulo: 'Lista de Vehículos', results });
+
 
 });
 });
-
 
 // --- NUEVO VEHÍCULO (GET) ---
-router.get('/nuevo',requireAuth, (req, res) => {
-  res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo' ,datos: {}, errores: []});
+router.get('/nuevo', requireAuth, (req, res) => {
+res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo', datos: {}, errores: [] });
 });
 
 // --- NUEVO VEHÍCULO (POST) ---
 router.post('/nuevo', requireAuth, (req, res) => {
-  const { marca, modelo, tipo, precioHora, imagen } = req.body;
+const { matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario} = req.body;
+let errores = [];
 
-    let errores = [];
+if (!imagen || (!imagen.startsWith('http://') && !imagen.startsWith('https://'))) {
+errores.push("La URL de la imagen debe ser válida.");
+}
+if (!matricula || !marca || !modelo || !anio_matriculacion || !numero_plazas || !autonomia_km || !color || !estado || !id_concesionario) errores.push("Todos los campos son obligatorios.");
+if (isNaN(autonomia_km)) errores.push("La autonomía del vehículo debe ser numérica.");
+if (isNaN(numero_plazas)) errores.push("El número de plazas debe ser numérico.");
+if (isNaN(anio_matriculacion)) errores.push("El año de matriculación debe ser numérico.");
+if (isNaN(id_concesionario)) errores.push("El ID del concesionario debe ser numérico.");
 
-if (!imagen) {
-  errores.push("La URL de la imagen es obligatoria.");
-} else if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
-  errores.push("La imagen debe ser una URL válida.");
+if (errores.length > 0) {
+return res.render('vehiculo_nuevo', { errores, datos: req.body });
 }
 
+const sql = 'INSERT INTO vehiculos (matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario) VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?)';
+const params = [matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario];
 
-
-  if (!marca || !modelo || !tipo || !precioHora) {
-    errores.push("Todos los campos son obligatorios.");
-  }
-
-  if (isNaN(precioHora)) {
-    errores.push("El precio por hora debe ser un número.");
-  }
-
-  if (errores.length > 0) {
-    return res.render('vehiculo_nuevo', {
-      errores,
-      datos: req.body
-    });
-  }
-
-  const id = vehiculos.length ? vehiculos[vehiculos.length - 1].id + 1 : 1;
-
-  vehiculos.push({
-    id,
-    marca,
-    modelo,
-    tipo,
-    precioHora: parseFloat(precioHora),
-    imagen
-  });
-
-  res.redirect('/vehiculos');
+db.query(sql, params, (err, result) => {
+if (err) {
+console.error(err);
+return res.status(500).render('500', { mensaje: 'Error al insertar vehículo' });
+}
+res.redirect('/vehiculos');
+});
 });
 
 // --- DETALLE VEHÍCULO ---
 router.get('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const vehiculo = vehiculos.find(v => v.id === id);
-  if (!vehiculo) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+const id = parseInt(req.params.id);
+db.query('SELECT * FROM vehiculos WHERE id_vehiculo = ?', [id], (err, results) => {
+if (err) return res.status(500).render('500', { mensaje: 'Error al obtener vehículo' });
+if (results.length === 0) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 
-  res.render('vehiculo_detalle', { titulo: 'Detalle Vehículo', vehiculo });
+
+res.render('vehiculo_detalle', { titulo: 'Detalle Vehículo', vehiculo: results[0] });
+
+
+});
 });
 
-
 // --- EDITAR VEHÍCULO (GET) ---
-router.get('/:id/editar',requireAuth, (req, res) => {
-  const id = parseInt(req.params.id);
-  const vehiculo = vehiculos.find(v => v.id === id);
-  if (!vehiculo) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+router.get('/:id/editar', requireAuth, (req, res) => {
+const id = parseInt(req.params.id);
+db.query('SELECT * FROM vehiculos WHERE id_vehiculo = ?', [id], (err, results) => {
+if (err) return res.status(500).render('500', { mensaje: 'Error al obtener vehículo' });
+if (results.length === 0) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 
-  res.render('vehiculo_editar', { titulo: 'Editar Vehículo', vehiculo, errores: [] });
+
+res.render('vehiculo_editar', { titulo: 'Editar Vehículo', vehiculo: results[0], errores: [] });
+
+
+});
 });
 
 // --- EDITAR VEHÍCULO (POST) ---
 router.post('/:id/editar', requireAuth, (req, res) => {
-  const id = parseInt(req.params.id);
-  const vehiculo = vehiculos.find(v => v.id === id);
+const id = parseInt(req.params.id);
+const { matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario } = req.body;
+let errores = [];
 
-  if (!vehiculo)
-    return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+if (!imagen || (!imagen.startsWith('http://') && !imagen.startsWith('https://'))) errores.push("La URL de la imagen no es válida.");
+if (!matricula || !marca || !modelo || !anio_matriculacion || !numero_plazas || !autonomia_km || !color || !estado || !id_concesionario) errores.push("Todos los campos son obligatorios.");
+if (isNaN(autonomia_km)) errores.push("La autonomía del vehículo debe ser numérica.");
+if (isNaN(numero_plazas)) errores.push("El número de plazas debe ser numérico.");
+if (isNaN(anio_matriculacion)) errores.push("El año de matriculación debe ser numérico.");
+if (isNaN(id_concesionario)) errores.push("El ID del concesionario debe ser numérico.");
 
-  const { marca, modelo, tipo, precioHora, imagen } = req.body;
-
-    let errores = [];
-
-if (!imagen) {
-  errores.push("La imagen es obligatoria.");
-} else if (!imagen.startsWith("http://") && !imagen.startsWith("https://")) {
-  errores.push("La URL de la imagen no es válida.");
+if (errores.length > 0) {
+return db.query('SELECT * FROM vehiculos WHERE id_vehiculo = ?', [id], (err, results) => {
+if (err) return res.status(500).render('500', { mensaje: 'Error al obtener vehículo' });
+if (results.length === 0) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+res.render('vehiculo_editar', { errores, vehiculo: results[0] });
+});
 }
 
+const sql = 'UPDATE vehiculos SET matricula = ?, marca = ?, modelo = ?,anio_matriculacion = ?,numero_plazas = ?,autonomia_km = ?, color = ?,imagen = ?,estado = ?,id_concesionario = ? WHERE id_vehiculo = ?';
+const params = [matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario];
 
-
-
-  if (!marca || !modelo || !tipo || !precioHora) {
-    errores.push("Todos los campos son obligatorios.");
-  }
-
-  if (isNaN(precioHora)) {
-    errores.push("El precio por hora debe ser numérico.");
-  }
-
-  if (errores.length > 0) {
-    return res.render('vehiculo_editar', {
-      errores,
-      vehiculo,
-    });
-  }
-
-  vehiculo.marca = marca;
-  vehiculo.modelo = modelo;
-  vehiculo.tipo = tipo;
-  vehiculo.precioHora = parseFloat(precioHora);
-  vehiculo.imagen = imagen;
-
-  res.redirect('/vehiculos');
+db.query(sql, params, (err, result) => {
+if (err) return res.status(500).render('500', { mensaje: 'Error al actualizar vehículo' });
+res.redirect('/vehiculos');
+});
 });
 
-
 // --- ELIMINAR VEHÍCULO ---
-router.post('/:id/eliminar',requireAuth, (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = vehiculos.findIndex(v => v.id === id);
-  if (index === -1) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
+router.post('/:id/eliminar', requireAuth, (req, res) => {
+const id = parseInt(req.params.id);
+db.query('DELETE FROM vehiculos WHERE id_vehiculo = ?', [id], (err, result) => {
+if (err) return res.status(500).render('500', { mensaje: 'Error al eliminar vehículo' });
+if (result.affectedRows === 0) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 
-  vehiculos.splice(index, 1);
-  res.redirect('/vehiculos');
+
+res.redirect('/vehiculos');
+
+
+});
 });
 
 module.exports = router;

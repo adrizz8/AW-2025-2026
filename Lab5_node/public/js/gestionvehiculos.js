@@ -16,7 +16,7 @@
     mostrarSpinner(true);
 
     try {
-      let url = '/api/vehiculos?';
+      let url = '/vehiculos/?';
       if (query) url += 'q=' + encodeURIComponent(query);
       if (tipo) url += '&tipo=' + encodeURIComponent(tipo);
 
