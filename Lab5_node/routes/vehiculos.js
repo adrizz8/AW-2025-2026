@@ -2,26 +2,35 @@ const express = require('express');
 const router = express.Router();
 const vehiculos = require('../datos/vehiculosmem');
 const requireAuth = require('../middlewares/auth');
+const db = require('../public/js/conexion'); // conexión normal de mysql2 sin promesas
 
 // --- LISTA VEHÍCULOS ---
 router.get('/', (req, res) => {
-  const q = (req.query.q || "").toLowerCase();
+const q = (req.query.q || '').toLowerCase();
+const tipo = (req.query.tipo || '').toLowerCase();
 
-  let filtrados = vehiculos;
+let query = 'SELECT * FROM vehiculos WHERE 1';
+let params = [];
 
-  // Si el usuario busca algo, filtramos
-  if (q) {
-    filtrados = vehiculos.filter(v =>
-      v.marca.toLowerCase().includes(q) ||
-      v.modelo.toLowerCase().includes(q)
-    );
-  }
+if (q) {
+query += ' AND (LOWER(marca) LIKE ? OR LOWER(modelo) LIKE ?)';
+params.push(`%${q}%`, `%${q}%`);
+}
 
-  res.render('vehiculos', {
-    titulo: 'Vehículos',
-    vehiculos: filtrados,
-    q
-  });
+if (tipo) {
+query += ' AND LOWER(tipo) = ?';
+params.push(tipo);
+}
+
+db.query(query, params, (err, results) => {
+if (err) {
+console.error(err);
+return res.status(500).json({ error: 'Error al obtener vehículos desde la base de datos' });
+}
+
+res.render('vehiculos', { titulo: 'Lista de Vehículos', vehiculos: results });
+
+});
 });
 
 

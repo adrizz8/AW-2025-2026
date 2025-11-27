@@ -47,17 +47,22 @@
       vehiculos.forEach(v => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${v.id}</td>
+          <td>${v.id_vehiculo}</td>
+          <td>${v.matricula}</td>
           <td>${v.marca}</td>
           <td>${v.modelo}</td>
-          <td>${v.tipo}</td>
-          <td>${v.precioHora}€</td>
+          <td>${v.anio_matriculacion}</td>
+          <td>${v.numero_plazas}</td>
+          <td>${v.autonomia_km}</td>
+          <td>${v.color}</td>
+           <td>
+            <img src="${v.imagen}" alt="Imagen ${v.marca}" style="width:120px;border-radius:8px;">
+          </td>
+          <td>${v.estado}</td>
+          <td>${v.id_concesionario}</td>
           <td>
             <a href="/vehiculos/${v.id}">Ver</a>
             ${esAdmin ? ` | <a href="/vehiculos/${v.id}/editar">Editar</a>` : ''}
-          </td>
-          <td>
-            <img src="${v.imagen}" alt="Imagen ${v.marca}" style="width:120px;border-radius:8px;">
           </td>
         `;
         tbody.appendChild(tr);
