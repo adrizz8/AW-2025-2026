@@ -14,7 +14,6 @@ router.get('/', requireAuth, (req, res) => {
   res.render('reservar', {
     titulo: 'Reservar vehículo',
     // usuario: req.session.usuario || null
-    
   });
 });
 

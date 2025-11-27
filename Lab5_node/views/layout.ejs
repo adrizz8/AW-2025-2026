@@ -11,49 +11,52 @@
 </head>
 
 <body class="layout">
-  <header class="header-layout">
-    <div class="logo-container">
-      <a href="/">
-        <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
-      </a>
-    </div>
-    <% if (usuario) { %>
-      <div class="cta-container">
-        👋 Hola, <strong>
-          <%= usuario.nombre %>
-        </strong>
-        <a href="/logout" class="cta-layout">Cerrar sesión</a>
+  <% if (typeof mostrarHeader !== 'undefined' ? mostrarHeader : true){ %>
+    <header class="header-layout">
+      <div class="logo-container">
+        <a href="/">
+          <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
+        </a>
       </div>
-      <% } else { %>
+      <% if (usuario) { %>
         <div class="cta-container">
-          <a href="/login" class="cta-layout">Iniciar sesión</a>
-          <a href="/registro" class="cta-layout">Registrarse</a>
+          👋 Hola, <strong>
+            <%= usuario.nombre %>
+          </strong>
+          <a href="/logout" class="cta-layout">Cerrar sesión</a>
         </div>
+        <% } else { %>
+          <div class="cta-container">
+            <a href="/login" class="cta-layout">Iniciar sesión</a>
+            <a href="/registro" class="cta-layout">Registrarse</a>
+          </div>
+          <% } %>
+    </header>
+    <% } %>
+
+      <main class="main-layout">
+        <%- body %>
+      </main>
+
+      <% if (typeof mostrarFooter !== 'undefined' ? mostrarFooter : true) { %>
+        <footer class="footer-layout">
+          <div class="footer-item izquierda">
+            <label for="idioma-select" class="sr-only">Idioma</label>
+            <select id="idioma-select" aria-label="Cambiar idioma" onchange="cambiarIdioma()">
+              <option value="es">Español</option>
+              <option value="en">Inglés</option>
+            </select>
+          </div>
+          <div class="footer-item centro">
+            &copy; 2025 Sistema de Reservas
+          </div>
+          <div class="footer-item derecha">
+            <button id="modo-btn" aria-pressed="false" aria-label="Alternar claro/oscuro" onclick="alternarModo()">
+              <span id="icono-modo">🌙</span> Modo Oscuro
+            </button>
+          </div>
+        </footer>
         <% } %>
-  </header>
-
-  <main class="main-layout">
-    <%- body %>
-  </main>
-
-  <footer class="footer-layout">
-    <div class="footer-item izquierda">
-      <label for="idioma-select" class="sr-only">Idioma</label>
-      <select id="idioma-select" aria-label="Cambiar idioma" onchange="cambiarIdioma()">
-        <option value="es">Español</option>
-        <option value="en">Inglés</option>
-      </select>
-    </div>
-    <div class="footer-item centro">
-      &copy; 2025 Sistema de Reservas
-    </div>
-    <div class="footer-item derecha">
-      <button id="modo-btn" aria-pressed="false" aria-label="Alternar claro/oscuro"
-        onclick="alternarModo()">
-        <span id="icono-modo">🌙</span> Modo Oscuro
-      </button>
-    </div>
-  </footer>
 </body>
 
 </html>
