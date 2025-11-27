@@ -16,19 +16,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   margin: 0;
   color: var(--color-texto);
   font-family: var(--font-family);
-  background-color: var(--color-fondo); 
-  min-height: 100vh;
+  background-color: var(--color-fondo);
+  max-width: 100%;
+  max-height:100%;
+  overflow-x: hidden;
 }
 
 /* ===== CONTENEDORES ===== */
 .formulario {
   max-width: 800px;
   width: 90%;
-  background: var(--color-fondo);
+  background: white;
   padding: 28px 30px;
   border-radius: 14px;
   box-shadow: 0 8px 30px var(--color-box-shadow);
@@ -300,6 +301,55 @@ a.cta:hover {
 }
 
 /* === REGISTRO E INICIO DE SESIÓN === */
+
+.md-back-button {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;          
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  color: var(--color-primario-hover);               
+  background-color: whitesmoke;   
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 100ms ease;
+}
+
+.md-back-icon {
+  font-size: 1.1rem;
+}
+
+.md-back-button:hover {
+  background-color: #f1f8e9;     
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.md-back-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+}
+
+/* Accesibilidad focus */
+.md-back-button:focus-visible {
+  outline: 2px solid var(--color-primario-hover);
+  outline-offset: 3px;
+}
+
 .registro-container,.login-container {
   display: flex;
   align-items: center;
@@ -382,7 +432,6 @@ a.cta:hover {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 8px;
-  transition: background 0.2s;
 }
 
 .registro-formulario button:hover , .login-formulario button:hover {

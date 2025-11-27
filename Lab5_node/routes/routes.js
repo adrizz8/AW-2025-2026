@@ -36,13 +36,20 @@ router.get('/', (req, res) => {
   res.render('index', {
     titulo: 'Inicio',
     // usuario: req.session.usuario || null,
-    authWarning
+    authWarning,
+    mostrarHeader: true,
+    mostrarFooter: true
   });
 });
 
 // --- Registro ---
 router.get('/registro', (req, res) => {
-  res.render('registro', { titulo: 'Registro', error: null });
+  res.render('registro', {
+    titulo: 'Registro',
+    error: null,
+    mostrarHeader: false,
+    mostrarFooter: false    
+  });
 });
 
 router.post('/registro', async (req, res) => {
@@ -52,7 +59,9 @@ router.post('/registro', async (req, res) => {
   if (existe) {
     return res.render('registro', {
       titulo: 'Registro',
-      error: '⚠️ El usuario ya está registrado.'
+      error: '⚠️ El usuario ya está registrado.',
+      mostrarHeader: false,
+      mostrarFooter: false     
     });
   }
 
@@ -61,9 +70,15 @@ router.post('/registro', async (req, res) => {
   res.redirect('/login');
 });
 
+
 // --- Login ---
 router.get('/login', (req, res) => {
-  res.render('login', { titulo: 'Iniciar sesión', error: null });
+  res.render('login', {
+    titulo: 'Iniciar sesión',
+    error: null,
+    mostrarHeader: false,
+    mostrarFooter: false
+  });
 });
 
 router.post('/login', async (req, res) => {
@@ -71,12 +86,22 @@ router.post('/login', async (req, res) => {
   const usuario = usuarios.find(u => u.email === email);
 
   if (!usuario) {
-    return res.render('login', { titulo: 'Iniciar sesión', error: '❌ Usuario no encontrado.' });
+    return res.render('login', {
+      titulo: 'Iniciar sesión',
+      error: '❌ Usuario no encontrado.',
+      mostrarHeader: false,
+      mostrarFooter: false
+    });
   }
 
   const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
   if (!esValida) {
-    return res.render('login', { titulo: 'Iniciar sesión', error: '❌ Contraseña incorrecta.' });
+    return res.render('login', {
+      titulo: 'Iniciar sesión',
+      error: '❌ Contraseña incorrecta.',
+      mostrarHeader: false,
+      mostrarFooter: false,
+    });
   }
 
   // Guardar usuario en sesión
