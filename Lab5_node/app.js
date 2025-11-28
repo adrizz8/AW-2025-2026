@@ -1,11 +1,10 @@
-// app.js
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
 const usuarios = require('./datos/usuarios');
-
 
 // Importar los módulos de rutas
 //const publicRoutes = require('./public'); // rutas públicas (inicio, login, registro)
@@ -14,6 +13,7 @@ const vehiculosRoutes = require('./routes/vehiculos'); // rutas relacionadas con
 const reservasRoutes = require('./routes/reservas');   // rutas relacionadas con reservas
 const apiRoutes = require('./routes/api');           // rutas de la API
 const usuarioRoutes = require('./routes/usuario'); // rutas de usuario
+const cargadoresRoutes = require('./routes/cargadores'); //ruta cargadores
 const requireAuth = require('./middlewares/auth'); // 
 
 const app = express();
@@ -75,6 +75,7 @@ app.use('/vehiculos', vehiculosRoutes);
 app.use('/reservar', requireAuth, reservasRoutes);
 app.use('/api', apiRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/api/chargers', cargadoresRoutes);
 
 
 
@@ -88,7 +89,6 @@ app.use((err, req, res, next) => {
   console.error('💥 Error interno:', err.stack);
   res.status(500).render('500', { mensaje: err.message });
 });
-
 
 // --- Iniciar el servidor ---
 const PORT = 3000;
