@@ -1,0 +1,97 @@
+.titulo {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-primario);
+}
+
+.descripcion {
+  text-align: center;
+  margin: 10px auto 30px auto;
+  max-width: 600px;
+  font-size: 1.2rem;
+  color: #2e486b;
+}
+
+.about, .valores, .como-funciona, .faq, .testimonios, .contacto {
+  max-width: 700px;
+  margin: 30px auto 0 auto;
+  background: #fbfbfa;
+  border-radius: 18px;
+  padding: 30px 20px 18px 20px;
+  box-shadow: 0 2px 12px #6366f120;
+}
+
+.valores ul, .como-funciona ol {
+  text-align: left;
+  margin-left: 20px;
+}
+
+.faq summary {
+  font-weight: bold;
+  cursor: pointer;
+  color: #30884a;
+}
+
+.testimonios blockquote {
+  border-left: 4px solid #30884a;
+  margin: 10px 0 16px 0;
+  padding-left: 12px;
+  color: #222;
+  font-style: italic;
+}
+
+/* Carrusel */
+.slider::before,
+.slider::after {
+  content: "";
+  height: 100px;
+  position: absolute;
+  width: 200px;
+  z-index: 2;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+.slider {
+  background: white;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  height: 100px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 960px;
+}
+.slider .slide-track {
+  animation: scroll 40s linear infinite;
+  display: flex;
+  width: calc(250px * 14);
+}
+.slider .slide {
+  height: 100px;
+  width: 250px;
+}

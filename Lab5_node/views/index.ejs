@@ -78,11 +78,27 @@
     </ol>
   </section>
 
-  <section>
+  <section class="info-movilidad">
     <h2>Puntos de recarga cercanos</h2>
-    <button id="btn-cargadores">Ver cargadores cerca de mí</button>
-    <div id="map" style="width: 100%; height: 400px;"></div>
+
+    <p class="info-movilidad-intro">
+      Consulta tu ubicación, los puntos de recarga y los concesionarios Move It más cercanos.
+    </p>
+
+    <div id="map" class="mapa-movilidad"></div>
+
+    <div id="nearest-info" class="nearest-panel">
+      <div class="nearest-item">
+        <h3>Cargador más cercano</h3>
+        <p id="nearest-charger">Calculando...</p>
+      </div>
+      <div class="nearest-item">
+        <h3>Concesionario más cercano</h3>
+        <p id="nearest-dealer">Calculando...</p>
+      </div>
+    </div>
   </section>
+
 
   <section class="faq">
     <h2>Preguntas frecuentes</h2>
@@ -120,3 +136,4 @@
   </section>
 </main>
 <script src="/js/mapa.js"></script>
+<script src="/js/clima.js"></script>

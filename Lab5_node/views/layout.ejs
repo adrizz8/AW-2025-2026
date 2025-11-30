@@ -7,11 +7,16 @@
   <title>
     <%= typeof titulo !=='undefined' ? titulo : 'Sistema de Reservas' %>
   </title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/mapa.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <body class="layout">
   <% if (typeof mostrarHeader !=='undefined' ? mostrarHeader : true){ %>
     <header class="header-layout">

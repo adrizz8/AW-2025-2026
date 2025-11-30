@@ -1,0 +1,209 @@
+.md-back-button {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;          
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  color: var(--color-primario-hover);               
+  background-color: whitesmoke;   
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 100ms ease;
+}
+
+.md-back-icon {
+  font-size: 1.1rem;
+}
+
+.md-back-button:hover {
+  background-color: #f1f8e9;     
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.md-back-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+}
+
+/* Accesibilidad focus */
+.md-back-button:focus-visible {
+  outline: 2px solid var(--color-primario-hover);
+  outline-offset: 3px;
+}
+
+.registro-container,.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 60px;
+  flex-wrap: wrap; 
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.registro-formulario,.login-formulario {
+  background: var(--color-fondo);
+  padding: 50px 42px; 
+  border-radius: 24px 0 0 24px;
+  width: 380px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1 1 320px; 
+  box-sizing: border-box;
+}
+
+
+.registro-formulario h1,.login-formulario h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+}
+
+.registro-formulario h2,.login-formulario h2 {
+  font-size: 1rem;
+  font-weight: 550;
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+
+.registro-formulario form,.login-formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-formulario input[type="email"],
+.login-formulario input[type="password"],
+.registro-formulario input[type="email"],
+.registro-formulario input[type="password"],
+.registro-formulario input[type="text"] ,
+.registro-formulario input[type="tel"],
+.login-formulario input,
+.login-formulario select,
+.registro-formulario input,
+.registro-formulario select  {
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+
+.registro-formulario label ,.login-formulario label {
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.registro-formulario button, .login-formulario button {
+  background: #3a8328;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.registro-formulario button:hover , .login-formulario button:hover {
+  background: #25651c;
+}
+
+.registro-formulario p, .login-formulario p {
+  font-size: 1rem;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.registro-formulario a, .login-formulario a  {
+  color: #1f6feb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.imagen-sesion {
+  border-radius: 0 48px 48px 0;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+  min-height: 220px;
+  flex: 1 1 320px;
+  box-sizing: border-box;
+
+}
+
+.imagen-sesion img {
+  width: 60vw;          
+  max-width: 500px;     
+  min-width: 140px;    
+  height: auto;
+  border-radius: 40px;
+  object-fit: contain;
+  transition: width 0.3s;
+}
+
+/* --- Responsivo para pantallas pequeñas --- */
+@media (max-width: 900px) {
+  .registro-container,.login-container {
+    gap: 30px;
+    padding: 10px;
+  }
+  .registro-formulario,.login-formulario,
+  .imagen-sesion {
+    border-radius: 26px; /* Redondeo uniforme en ambos */
+    padding: 26px 14px;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    margin: 0;
+  }
+  .imagen-sesion img {
+    width: 80vw;
+    max-width: 300px;
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 600px) {
+  .registro-container ,.login-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    min-height: unset;
+  }
+  .registro-formulario, .login-formulario, .imagen-sesion {
+    padding: 16px 4vw;
+  }
+  .imagen-sesion img {
+    width: 90vw;
+    max-width: 220px;
+    min-width: 56px;
+  }
+}
