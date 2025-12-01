@@ -96,14 +96,14 @@ function updateNearest(userLat, userLon, points) {
 
   if (nearestCharger) {
     chargerEl.textContent =
-      `Cargador más cercano: ${nearestCharger.station_name} (${nearestChargerDist.toFixed(2)} km)`;
+      `${nearestCharger.station_name} (${nearestChargerDist.toFixed(2)} km)`;
   } else {
     chargerEl.textContent = 'Cargador más cercano: no se han encontrado cargadores.';
   }
 
   if (nearestDealer) {
     dealerEl.textContent =
-      `Concesionario más cercano: ${nearestDealer.station_name} (${nearestDealerDist.toFixed(2)} km)`;
+      `${nearestDealer.station_name} (${nearestDealerDist.toFixed(2)} km)`;
   } else {
     dealerEl.textContent = 'Concesionario más cercano: no se han encontrado concesionarios.';
   }

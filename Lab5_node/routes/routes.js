@@ -42,6 +42,18 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/en', (req, res) => {
+  const authWarning = res.locals.authWarning || null;
+  res.locals.authWarning = null; // Limpiar mensaje
+  res.render('index_en', {
+    titulo: 'Home',
+    // usuario: req.session.usuario || null,
+    authWarning,
+    mostrarHeader: true,
+    mostrarFooter: true
+  });
+});
+
 // --- Registro ---
 router.get('/registro', (req, res) => {
   res.render('registro', {

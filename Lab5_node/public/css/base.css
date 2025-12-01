@@ -25,6 +25,25 @@ body {
   overflow-x: hidden;
 }
 
+body.dark-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  background-color: var(--color-header);
+  font-family: var(--font-family);
+  color: var(--color-verde-hover);
+  max-width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+}
+
+body.dark-mode .footer-layout,
+body.dark-mode .header-layout {
+  background-color: var(--color-verde);
+  color: var(--color-verde-hover);
+}
+
 /* Textos genéricos */
 h1 { 
   margin: 0 0 15px; 
