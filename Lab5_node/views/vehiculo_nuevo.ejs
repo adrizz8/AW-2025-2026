@@ -7,16 +7,32 @@
   </ul>
 <% } %>
 <form action="/vehiculos/nuevo" method="POST">
+
+  <input type="text" name="matricula" placeholder="Matrícula" value="<%= datos?.matricula || '' %>"><br>
   <input type="text" name="marca" placeholder="Marca" value="<%= datos?.marca || '' %>"><br>
 
 <input type="text" name="modelo" placeholder="Modelo" value="<%= datos?.modelo || '' %>"><br>
+<input type="number" name="anio_matriculacion" placeholder="Año de matriculación" 
+  value="<%= datos?.anio_matriculacion || '' %>"><br>
+<input type="number" name="numero_plazas" placeholder="Número de plazas" 
+  value="<%= datos?.numero_plazas || '' %>"><br>
+<input type="number" name="autonomia_km" placeholder="Autonomía (km)"
+  value="<%= datos?.autonomia_km || '' %>"><br>
+<input type="text" name="color" placeholder="Color" value="<%= datos?.color || '' %>"><br>
 
-<input type="text" name="tipo" placeholder="Tipo" value="<%= datos?.tipo || '' %>"><br>
-
-<input type="number" name="precioHora" placeholder="Precio/Hora" step="0.01" 
-  value="<%= datos?.precioHora || '' %>"><br>
   <label>Imagen (URL):</label>
 <input type="text" name="imagen" value="<%= datos?.imagen || '' %>">
 <br>
+
+<label>Estado:</label>
+<select name="estado">
+  <option value="disponible" <%= datos?.estado === 'disponible' ? 'selected' : '' %>>Disponible</option>
+  <option value="no disponible" <%= datos?.estado === 'no disponible' ? 'selected' : '' %>>No disponible</option>
+  <option value="mantenimiento" <%= datos?.estado === 'mantenimiento' ? 'selected' : '' %>>Mantenimiento</option>
+</select>
+<br>
+<label>Concesionario (ID):</label>
+<input type="number" name="id_concesionario" value="<%= datos?.id_concesionario || '' %>">
+<br><br>
   <button type="submit">Guardar</button>
 </form>
