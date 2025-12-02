@@ -13,8 +13,17 @@
     <h1>Detalle del Vehículo</h1>
 
     <% if (vehiculo) { %>
-      <p><strong>ID:</strong> <%= id %></p>
-      <p><strong>Tipo:</strong> <%= vehiculo %></p>
+      <p><strong>ID:</strong> <%= id_vehiculo %></p>
+      <p><strong>Matricula:</strong> <%= matricula %></p>
+      <p><strong>Marca:</strong> <%= marca %></p>
+      <p><strong>Modelo:</strong> <%= modelo %></p>
+      <p><strong>Año:</strong> <%= anio_matriculacion %></p>
+      <p><strong>Numero de plazas:</strong> <%= numero_plazas %></p>
+      <p><strong>Autonomia:</strong><%= autonomia_km %></p>
+      <p><strong>Color:</strong><%= color %></p>
+       <img src="<%= imagen %>" alt="Imagen del vehículo" width="300">
+      <p><strong>Estado:</strong><%= estado %></p>
+      <p><strong>ID del concesionario:</strong><%= id_concesionario></p>
       <p><%= descripcion %></p>
     <% } else { %>
       <p style="color:red;">❌ Vehículo no encontrado.</p>

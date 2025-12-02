@@ -6,13 +6,28 @@
     <% }) %>
   </ul>
 <% } %>
-<form action="/vehiculos/<%= vehiculo.id %>/editar" method="POST">
+<form action="/vehiculos/<%= vehiculo.id_vehiculo %>/editar" method="POST">
+  <label>Matrícula:</label>
+  <input type="text" name="matricula" value="<%= vehiculo.matricula %>" required><br>
+  <label>Marca:</label>
   <input type="text" name="marca" value="<%= vehiculo.marca %>" required><br>
+  <label>Modelo:</label>
   <input type="text" name="modelo" value="<%= vehiculo.modelo %>" required><br>
-  <input type="text" name="tipo" value="<%= vehiculo.tipo %>" required><br>
-  <input type="number" name="precioHora" value="<%= vehiculo.precioHora %>" required step="0.01"><br>
-  <label>Imagen (URL):</label>
-<input type="text" name="imagen" value="<%= vehiculo.imagen || '' %>">
+  <label>Año de Matriculación:</label>
+  <input type="number" name="anio_matriculacion" value="<%= vehiculo.anio_matriculacion %>" required><br>
+  <label>Número de Plazas:</label>
+  <input type="number" name="numero_plazas" value="<%= vehiculo.numero_plazas %>" required><br>
+  <label>Autonomía (km):</label>
+  <input type="number" name="autonomia_km" value="<%= vehiculo.autonomia_km %>" required><br>
+  <label>Color:</label>
+  <input type="text" name="color" value="<%= vehiculo.color %>" required><br>
+   <label>Imagen (URL):</label>
+<input type="text" name="imagen" value="<%= vehiculo.imagen || '' %>"><br>
+  <label>Estado:</label>
+  <input type="text" name="estado" value="<%= vehiculo.estado %>" required><br>
+  <label>ID del Concesionario:</label>
+  <input type="number" name="id_concesionario" value="<%= vehiculo.id_concesionario %>" required><
+ 
 <br>
   <button type="submit">Actualizar</button>
 </form>
