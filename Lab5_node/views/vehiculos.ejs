@@ -1,30 +1,31 @@
 <h1>Lista de Vehículos</h1>
 
-<!-- Formulario de filtros -->
-<form method="GET" action="/vehiculos" style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:20px;">
-  <div style="flex:1; min-width:200px;">
+<form method="GET" action="/vehiculos" class="filtros">
+  <div style="flex:1; min-width:250px;">
     <label for="q">Buscar por marca o modelo:</label>
-    <input type="text" id="q" name="q" placeholder="Buscar..." value="<%= typeof q !== 'undefined' ? q : '' %>" style="width:100%; padding:8px;">
+    <input type="text" id="q" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>"
+ placeholder="Buscar...">
   </div>
+
   <div style="display:flex; align-items:flex-end;">
-    <button type="submit" style="padding:8px 20px;">Buscar</button>
+    <button type="submit" class="btn-buscar">Buscar</button>
   </div>
 </form>
 
 <% if (admin) { %>
-  <a href="/vehiculos/nuevo" class="btn btn-primary" style="margin-bottom:15px; display:inline-block;">Añadir Vehículo</a>
+  <a href="/vehiculos/nuevo" class="btn-nuevo">Añadir Vehículo</a>
 <% } %>
 
-<table border="1" style="width:100%; border-collapse:collapse;">
+<table class="tabla-vehiculos">
   <thead>
     <tr>
       <th>ID</th>
-      <th>Matricula</th>
+      <th>Matrícula</th>
       <th>Marca</th>
       <th>Modelo</th>
-      <th>Año de matriculación</th>
-      <th>Número de plazas</th>
-      <th>Autonomía (km)</th>
+      <th>Año</th>
+      <th>Plazas</th>
+      <th>Autonomía</th>
       <th>Color</th>
       <th>Imagen</th>
       <th>Estado</th>
@@ -32,10 +33,11 @@
       <% if (admin) { %><th>Acciones</th><% } %>
     </tr>
   </thead>
+
   <tbody>
     <% if (results.length === 0) { %>
       <tr>
-        <td colspan="<%= admin ? 12 : 11 %>" style="text-align:center;">No se encontraron vehículos</td>
+        <td colspan="<%= admin ? 12 : 11 %>">No se encontraron vehículos</td>
       </tr>
     <% } else { %>
       <% results.forEach(v => { %>
@@ -48,17 +50,23 @@
           <td><%= v.numero_plazas %></td>
           <td><%= v.autonomia_km %></td>
           <td><%= v.color %></td>
-          <td><img src="<%= v.imagen %>" style="width:100px; border-radius:6px;"></td>
-          <td><%= v.estado %></td>
+
+          <td><img src="<%= v.imagen %>"></td>
+
+          <td class="<%= v.estado === 'Disponible' ? 'estado-disponible' : 'estado-no' %>">
+            <%= v.estado %>
+          </td>
+
           <td><%= v.id_concesionario %></td>
+
           <% if (admin) { %>
-            <td>
-              <a href="/vehiculos/<%= v.id_vehiculo %>">Ver</a> |
-              <a href="/vehiculos/<%= v.id_vehiculo %>/editar">Editar</a> |
-              <form action="/vehiculos/<%= v.id_vehiculo %>/eliminar" method="POST" style="display:inline;">
-                <button type="submit" onclick="return confirm('¿Eliminar vehículo?')">Eliminar</button>
-              </form>
-            </td>
+          <td class="acciones">
+            <a href="/vehiculos/<%= v.id_vehiculo %>" class="ver">Ver</a>
+            <a href="/vehiculos/<%= v.id_vehiculo %>/editar" class="editar">Editar</a>
+            <form action="/vehiculos/<%= v.id_vehiculo %>/eliminar" method="POST">
+              <button type="submit" class = "eliminar"  onclick="return confirm('¿Eliminar vehículo?')">Eliminar</button>
+            </form>
+          </td>
           <% } %>
         </tr>
       <% }) %>

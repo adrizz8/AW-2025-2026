@@ -1,0 +1,121 @@
+/* ----- Estilos generales ----- */
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+/* ----- Formulario de búsqueda ----- */
+.filtros {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.filtros label {
+  font-weight: bold;
+}
+
+.filtros input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-buscar {
+  padding: 10px 25px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-nuevo {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+/* ----- Tabla ----- */
+.tabla-vehiculos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-vehiculos thead tr {
+  background: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.tabla-vehiculos th,
+.tabla-vehiculos td {
+  padding: 12px;
+  text-align: center;
+}
+
+.tabla-vehiculos tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-vehiculos tbody tr:hover {
+  background: #fafafa;
+}
+
+/* Imagen */
+.tabla-vehiculos img {
+  width: 90px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Estados */
+.estado-disponible {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.estado-no {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+
+.ver {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.eliminar {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.editar {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}

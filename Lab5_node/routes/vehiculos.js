@@ -110,11 +110,13 @@ if (isNaN(anio_matriculacion)) errores.push("El año de matriculación debe ser 
 if (isNaN(id_concesionario)) errores.push("El ID del concesionario debe ser numérico.");
 
 if (errores.length > 0) {
-return db.query('SELECT * FROM vehiculos WHERE id_vehiculo = ?', [id], (err, results) => {
+	// No devolver el objeto db.query (evita que Express lo trate como promesa)
+	db.query('SELECT * FROM vehiculos WHERE id_vehiculo = ?', [id], (err, results) => {
 if (err) return res.status(500).render('500', { mensaje: 'Error al obtener vehículo' });
 if (results.length === 0) return res.status(404).render('404', { mensaje: 'Vehículo no encontrado' });
 res.render('vehiculo_editar', { errores, vehiculo: results[0] });
 });
+	return; 
 }
 
 db.query('UPDATE vehiculos SET matricula = ?, marca = ?, modelo = ?,anio_matriculacion = ?,numero_plazas = ?,autonomia_km = ?, color = ?,imagen = ?,estado = ?,id_concesionario = ? WHERE id_vehiculo = ?', [matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario,id], (err, result) => {

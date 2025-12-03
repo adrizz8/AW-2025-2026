@@ -11,7 +11,7 @@ const usuarios = require('../datos/usuarios');
   const hashedPass = await bcrypt.hash("admin123", SALT_ROUNDS);
   usuarios.push({
     nombre: "Admin",
-    email: "admin@admin.com",
+    email: "admin@moveit.es",
     contraseña: hashedPass,
     rol: "admin"
   });

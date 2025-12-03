@@ -11,8 +11,8 @@ const reservas = [];
 
 // --- /reservar ---
 router.get('/', requireAuth, (req, res) => {
-  res.render('reservar', {
-    titulo: 'Reservar vehículo',
+  res.render('reservas', {
+    titulo: 'Lista de reservas',
     // usuario: req.session.usuario || null
   });
 });

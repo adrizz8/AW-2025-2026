@@ -11,10 +11,12 @@ const usuarios = require('./datos/usuarios');
 const mainRoutes = require('./routes/routes');        // rutas principales (inicio, login, registro, logout)
 const vehiculosRoutes = require('./routes/vehiculos'); // rutas relacionadas con vehículos
 const reservasRoutes = require('./routes/reservas');   // rutas relacionadas con reservas
+const concesionariosRoutes = require('./routes/concesionarios'); // rutas relacionadas con concesionarios
 const apiRoutes = require('./routes/api');           // rutas de la API
 const usuarioRoutes = require('./routes/usuario'); // rutas de usuario
 const cargadoresRoutes = require('./routes/cargadores'); //ruta cargadores
 const requireAuth = require('./middlewares/auth'); // 
+const requireAdmin = require('./middlewares/requireAdmin');
 
 const app = express();
 
@@ -73,6 +75,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', mainRoutes);
 app.use('/vehiculos', vehiculosRoutes);
 app.use('/reservar', requireAuth, reservasRoutes);
+app.use('/concesionarios',requireAdmin, concesionariosRoutes);
 app.use('/api', apiRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/api/chargers', cargadoresRoutes);
