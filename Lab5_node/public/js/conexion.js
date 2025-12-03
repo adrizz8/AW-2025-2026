@@ -7,7 +7,6 @@ const conexion = mysql.createConnection({
   database: 'moveit'
 });
 
-const db = conexion.promise();
 
 conexion.connect(err => {
   if (err) {

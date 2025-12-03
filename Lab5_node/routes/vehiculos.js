@@ -117,10 +117,7 @@ res.render('vehiculo_editar', { errores, vehiculo: results[0] });
 });
 }
 
-const sql = 'UPDATE vehiculos SET matricula = ?, marca = ?, modelo = ?,anio_matriculacion = ?,numero_plazas = ?,autonomia_km = ?, color = ?,imagen = ?,estado = ?,id_concesionario = ? WHERE id_vehiculo = ?';
-const params = [matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario];
-
-db.query(sql, params, (err, result) => {
+db.query('UPDATE vehiculos SET matricula = ?, marca = ?, modelo = ?,anio_matriculacion = ?,numero_plazas = ?,autonomia_km = ?, color = ?,imagen = ?,estado = ?,id_concesionario = ? WHERE id_vehiculo = ?', [matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario,id], (err, result) => {
 if (err) return res.status(500).render('500', { mensaje: 'Error al actualizar vehículo' });
 res.redirect('/vehiculos');
 });
