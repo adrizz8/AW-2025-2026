@@ -5,11 +5,15 @@
 <div class="login-container">
   <div class="login-formulario">
     <h1>¡Bienvenido!</h1>
-    <form action="/login" method="POST">
-      <input type="email" name="email" placeholder="Correo electrónico" required>
-      <input type="password" name="contraseña" placeholder="Contraseña" required>
-      <label>
-        <input type="checkbox" name="recordar"> Recordar sesión
+    <form action="/login" method="POST" id="form-login">
+      <span id="email-error-login" class="mensaje-error <%= errorLogin ? 'activo' : '' %>">
+        <%= errorLogin || '' %>
+      </span>
+      <input type="email" id="email-login" name="email" placeholder="Correo corporativo" required>
+      <input type="password" id="password-login" name="contraseña" placeholder="Contraseña" required>
+      <label class="recordar-sesion">
+        <input type="checkbox" name="recordar">
+        <span>Recordar sesión</span>
       </label>
       <button type="submit">Entrar</button>
     </form>
@@ -19,3 +23,4 @@
     <img src="/images/login.png" alt="Imagen login">
   </div>
 </div>
+<script src="/js/comprobacion_forms.js"></script>

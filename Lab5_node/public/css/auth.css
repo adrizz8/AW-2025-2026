@@ -169,7 +169,23 @@
   transition: width 0.3s;
 }
 
-/* --- Responsivo para pantallas pequeñas --- */
+.campo-form input.error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.mensaje-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  display: none;
+}
+
+.mensaje-error.activo {
+  display: block;
+}
+
+/*Responsive para pantallas pequeñas*/
 @media (max-width: 900px) {
   .registro-container,.login-container {
     gap: 30px;

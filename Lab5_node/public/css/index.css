@@ -1,3 +1,37 @@
+/*Botones principales*/
+.nav-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 20px 0 30px;
+}
+
+.nav-acciones .cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;        
+  min-width: 160px;        
+  border-radius: 999px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/*Division en columnas del index*/
+.columnas-index {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+.info-movilidad {
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
 .titulo {
   text-align: center;
   margin-top: 30px;
@@ -94,4 +128,19 @@
 .slider .slide {
   height: 100px;
   width: 250px;
+}
+
+/* Responsive: en pantallas pequeñas, una sola columna */
+@media (max-width: 768px) {
+  .columnas-index {
+    grid-template-columns: 1fr;
+  }
+
+  .about, .valores, .como-funciona, .faq, .testimonios, .contacto {
+    margin: 20px auto 0 auto;   /* margen vertical más pequeño en móvil */
+  }
+
+  .slider {
+    width: 100%;
+  }
 }

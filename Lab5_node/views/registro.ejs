@@ -7,10 +7,13 @@
   <div class="registro-formulario">
     <h1>Regístrate</h1>
     <h2>Introduce los siguientes datos para crear tu cuenta</h2>
-    <form action="/registro" method="POST">
+    <form action="/registro" method="POST" id="form-registro">
       <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="email" name="email" placeholder="Correo corporativo" required>
-      <input type="password" name="contraseña" placeholder="Contraseña" required>
+      <span id="email-error-registro" class="mensaje-error"></span>
+      <input type="email" id="email-registro" name="email" placeholder="Correo corporativo (usuario@moveit.es)"
+        required>
+      <span id="password-error-registro" class="mensaje-error"></span>
+      <input type="password" id="password-registro" name="contraseña" placeholder="Contraseña" required>
       <input type="tel" name="telefono" placeholder="Número de teléfono" required>
       <select aria-label="Concesionarios" id="concesionarios" name="concesionarios" required>
         <option value="" disabled selected>Concesionario</option>
@@ -28,3 +31,5 @@
     <img src="/images/login.png" alt="Imagen login">
   </div>
 </div>
+
+<script src="/js/comprobacion_forms.js"></script>

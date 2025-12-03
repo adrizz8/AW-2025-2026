@@ -42,6 +42,7 @@ router.get('/', (req, res) => {
   });
 });
 
+// --- Ruta principal en inglés ---
 router.get('/en', (req, res) => {
   const authWarning = res.locals.authWarning || null;
   res.locals.authWarning = null; // Limpiar mensaje
@@ -87,7 +88,7 @@ router.post('/registro', async (req, res) => {
 router.get('/login', (req, res) => {
   res.render('login', {
     titulo: 'Iniciar sesión',
-    error: null,
+    errorLogin: null,
     mostrarHeader: false,
     mostrarFooter: false
   });
@@ -100,7 +101,7 @@ router.post('/login', async (req, res) => {
   if (!usuario) {
     return res.render('login', {
       titulo: 'Iniciar sesión',
-      error: '❌ Usuario no encontrado.',
+      errorLogin: 'Usuario no encontrado. Inténtelo de nuevo.',
       mostrarHeader: false,
       mostrarFooter: false
     });
@@ -110,9 +111,9 @@ router.post('/login', async (req, res) => {
   if (!esValida) {
     return res.render('login', {
       titulo: 'Iniciar sesión',
-      error: '❌ Contraseña incorrecta.',
+      errorLogin: 'Contraseña incorrecta. Inténtelo de nuevo.',
       mostrarHeader: false,
-      mostrarFooter: false,
+      mostrarFooter: false
     });
   }
 
