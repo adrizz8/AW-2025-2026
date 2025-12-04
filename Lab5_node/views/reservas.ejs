@@ -14,7 +14,7 @@
   </div>
 
   <!-- Filtro por tipo de vehículo -->
-  <div class="mb-3">
+  <!-- <div class="mb-3">
     <label for="filtroTipo" class="form-label">Filtrar por tipo de vehículo:</label>
     <select class="form-select" id="filtroTipo" style="max-width: 300px;">
       <option value="">Todos los vehículos</option>
@@ -27,21 +27,19 @@
       <option value="bicicleta">Bicicleta</option>
       <option value="scooter">Scooter</option>
     </select>
-  </div>
+  </div> -->
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Vehículo</th>
-        <th>Fecha inicio</th>
-        <th>Hora inicio</th>
-        <th>Fecha fin</th>
-        <th>Hora fin</th>
-        <th>Fecha reserva</th>
-        <th>Acciones</th>
+        <th>ID de la reserva</th>
+        <th>ID del usuario</th>
+        <th>ID del vehículo</th>
+        <th>Fecha de inicio</th>
+        <th>Fecha de fin</th>
+        <th>Estado</th>
+        <th>Kilometros recorridos</th>
+        <th>Incidencias reportadas</th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -51,82 +49,139 @@
 </div>
 
 <!-- Modal para Nueva Reserva -->
+<!-- Modal Nueva Reserva -->
 <div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalNuevaReservaLabel">Reservar Vehículo</h5>
+        <h5 class="modal-title" id="modalNuevaReservaLabel">Añadir Reserva</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="nota mb-3">
-          Complete el formulario para realizar su reserva. Nos pondremos en contacto con usted para confirmar.
-        </div>
-
-        <form id="form-reserva">
+        <form id="form-nueva-reserva" method="POST" action="/reservas/nueva">
+          
+          <!-- Selector de Vehículo -->
           <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre completo *</label>
-            <input type="text" class="form-control" id="nombre" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="email" class="form-label">Correo electrónico *</label>
-            <input type="email" class="form-control" id="email" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono *</label>
-            <input type="tel" class="form-control" id="telefono" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="tipo_vehiculo" class="form-label">Tipo de vehículo *</label>
-            <select class="form-select" id="tipo_vehiculo" required>
-              <option value="">Seleccione un tipo...</option>
-              <option value="coche">Coche</option>
-              <option value="moto">Moto</option>
-              <option value="camion">Camión</option>
-              <option value="autobus">Autobús</option>
-              <option value="furgoneta">Furgoneta</option>
-              <option value="camioneta">Camioneta</option>
-              <option value="bicicleta">Bicicleta</option>
-              <option value="scooter">Scooter</option>
+            <label for="vehiculo" class="form-label">Vehículo *</label>
+            <select class="form-select" id="vehiculo" name="vehiculo_id" required>
+              <option value="" selected disabled>Seleccione un vehículo...</option>
+              <!-- Opciones dinámicas desde la base de datos -->
+              <% if (typeof vehiculos !== 'undefined' && vehiculos.length > 0) { %>
+                <% vehiculos.forEach(vehiculo => { %>
+                  <option value="<%= vehiculo.id %>">
+                    <%= vehiculo.marca %> <%= vehiculo.modelo %> - <%= vehiculo.matricula %>
+                  </option>
+                <% }); %>
+              <% } %>
             </select>
           </div>
 
-          <div class="campo-grupo mb-3 d-flex gap-3">
-            <div class="flex-fill">
-              <label for="fecha_inicio" class="form-label">Fecha de inicio *</label>
-              <input type="date" class="form-control" id="fecha_inicio" required>
-            </div>
-            <div class="flex-fill">
-              <label for="hora_inicio" class="form-label">Hora de recogida *</label>
-              <input type="time" class="form-control" id="hora_inicio" required>
+          <div class="mb-3">
+            <label for="idCliente" class="form-label">ID del cliente *</label>
+            <input type="text" class="form-control" id="idCliente" name="idCliente" required>
+          </div>
+
+          <!-- Fecha de Inicio -->
+          <div class="mb-3">
+            <label for="fecha_inicio" class="form-label">Fecha y Hora de Inicio *</label>
+            <div class="input-group" id="datetimepicker-inicio" data-td-target-input="nearest" data-td-target-toggle="nearest">
+              <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio" 
+                     data-td-target="#datetimepicker-inicio" required />
+              <span class="input-group-text" data-td-target="#datetimepicker-inicio" data-td-toggle="datetimepicker">
+                <i class="bi bi-calendar-event"></i>
+              </span>
             </div>
           </div>
 
-          <div class="campo-grupo mb-3 d-flex gap-3">
-            <div class="flex-fill">
-              <label for="fecha_fin" class="form-label">Fecha de devolución *</label>
-              <input type="date" class="form-control" id="fecha_fin" required>
-            </div>
-            <div class="flex-fill">
-              <label for="hora_fin" class="form-label">Hora de devolución *</label>
-              <input type="time" class="form-control" id="hora_fin" required>
+          <!-- Fecha de Fin -->
+          <div class="mb-3">
+            <label for="fecha_fin" class="form-label">Fecha y Hora de Fin *</label>
+            <div class="input-group" id="datetimepicker-fin" data-td-target-input="nearest" data-td-target-toggle="nearest">
+              <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" 
+                     data-td-target="#datetimepicker-fin" required />
+              <span class="input-group-text" data-td-target="#datetimepicker-fin" data-td-toggle="datetimepicker">
+                <i class="bi bi-calendar-event"></i>
+              </span>
             </div>
           </div>
 
-          <div id="mensaje"></div>
+          <button type="submit" class="btn btn-primary w-100" id="btn-agregar-reserva">
+            <i class="bi bi-check-circle me-2"></i>Crear Reserva
+          </button>
         </form>
       </div>
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="btn-realizar-reserva">Realizar Reserva</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Scripts necesarios (agregar al final de tu layout principal) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Inicializar datepicker de inicio
+  const pickerInicio = new tempusDominus.TempusDominus(document.getElementById('datetimepicker-inicio'), {
+    display: {
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: false
+      }
+    },
+    localization: {
+      locale: 'es',
+      format: 'dd/MM/yyyy HH:mm',
+      hourCycle: 'h23'
+    },
+    restrictions: {
+      minDate: new Date()
+    }
+  });
+
+  // Inicializar datepicker de fin
+  const pickerFin = new tempusDominus.TempusDominus(document.getElementById('datetimepicker-fin'), {
+    display: {
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: false
+      }
+    },
+    localization: {
+      locale: 'es',
+      format: 'dd/MM/yyyy HH:mm',
+      hourCycle: 'h23'
+    },
+    restrictions: {
+      minDate: new Date()
+    }
+  });
+
+  // Sincronizar: la fecha fin debe ser posterior a la fecha inicio
+  pickerInicio.subscribe('change.td', (e) => {
+    if (e.date) {
+      pickerFin.updateOptions({
+        restrictions: {
+          minDate: e.date
+        }
+      });
+    }
+  });
+});
+</script>
 
 <!-- scripts -->
 <script src="/js/cargar_reservas.js"></script>
