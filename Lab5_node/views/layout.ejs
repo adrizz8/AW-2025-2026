@@ -7,6 +7,7 @@
   <title>
     <%= typeof titulo !=='undefined' ? titulo : 'Sistema de Reservas' %>
   </title>
+
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/auth.css">
@@ -18,29 +19,43 @@
   <link rel="stylesheet" href="/css/reservas.css">
 </head>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <body class="layout">
-  <% if (typeof mostrarHeader !=='undefined' ? mostrarHeader : true){ %>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <% if (typeof mostrarHeader !=='undefined' ? mostrarHeader : true) { %>
     <header class="header-layout">
+
       <div class="logo-container">
         <a href="/">
           <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
         </a>
       </div>
-      <% if (usuario) { %>
+
+      <% if (usuario && usuario.rol==="admin" ) { %>
         <div class="cta-container">
-          👋 Hola, <strong>
-            <%= usuario.nombre %>
-          </strong>
-          <a href="/logout" class="cta-layout">Cerrar sesión</a>
+          <a href="/vehiculos" class="cta-layout">Gestionar Vehículos</a>
+          <a href="/concesionarios" class="cta-layout">Gestionar Concesionarios</a>
         </div>
-        <% } else { %>
-          <div class="cta-container">
-            <a href="/login" class="cta-layout">Iniciar sesión</a>
-            <a href="/registro" class="cta-layout">Registrarse</a>
-          </div>
-          <% } %>
+        <% } %>
+
+          <% if (usuario) { %>
+            <div class="cta-container">
+              👋 Hola, <strong>
+                <%= usuario.nombre %>
+              </strong>
+              <a href="/logout" class="cta-layout">Cerrar sesión</a>
+
+              <% if (usuario.rol==="admin" ) { %>
+                <a href="/registro" class="cta-layout">Registrar</a>
+                <% } %>
+            </div>
+            <% } else { %>
+              <div class="cta-container">
+                <a href="/login" class="cta-layout">Iniciar sesión</a>
+              </div>
+              <% } %>
+
     </header>
     <% } %>
 
@@ -50,6 +65,7 @@
 
       <% if (typeof mostrarFooter !=='undefined' ? mostrarFooter : true) { %>
         <footer class="footer-layout">
+
           <div class="footer-item izquierda">
             <label for="idioma-select" class="sr-only">Idioma</label>
             <select id="idioma-select" aria-label="Cambiar idioma" onchange="cambiarIdioma()">
@@ -57,18 +73,24 @@
               <option value="en">Inglés</option>
             </select>
           </div>
+
           <div class="footer-item centro">
             &copy; 2025 Sistema de Reservas
           </div>
+
           <div class="footer-item derecha">
             <button id="modo-btn" aria-pressed="false" aria-label="Alternar claro/oscuro" onclick="alternarModo()">
               <span id="icono-modo">🌙</span> Modo Oscuro
             </button>
+          </div>
+
         </footer>
         <% } %>
+
+          <script src="/js/idioma.js"></script>
+          <script src="/js/modo.js"></script>
+          <script src="/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
-<script src="/js/idioma.js"></script>
-<script src="/js/modo.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>

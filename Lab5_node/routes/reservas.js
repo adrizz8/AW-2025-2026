@@ -13,7 +13,7 @@ const reservas = [];
 // --- GET /reservas - Renderiza la vista con reservas y vehículos disponibles ---
 router.get('/', requireAuth, (req, res) => {
   let queryReservas = 'SELECT * FROM reservas ORDER BY fecha_inicio DESC';
-  let queryVehiculos = 'SELECT * FROM vehiculos WHERE disponible = true OR disponible = 1';
+  let queryVehiculos = "SELECT * FROM vehiculos WHERE estado = 'disponible'";
   
   db.query(queryReservas, (err, reservas) => {
     if (err) {
@@ -100,11 +100,11 @@ router.post('/nueva', requireAuth, (req, res) => {
     // Insertar la reserva
     const queryInsertar = `
       INSERT INTO reservas 
-      (id_vehiculo, nombre_cliente, ciudad, direccion, telefono_contacto, fecha_inicio, fecha_fin) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, 'pendiente')
+      (id_usuario, id_vehiculo,  fecha_inicio, fecha_fin, estado, kilometros_recorridos, incidencias_reportadas) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const params = [vehiculo_id, nombre, ciudad, direccion, telefono_contacto, fechaInicioMySQL, fechaFinMySQL];
+    const params = [id_usuario, id_vehiculo, fechaInicioMySQL, fechaFinMySQL];
 
     db.query(queryInsertar, params, (err, result) => {
       if (err) {

@@ -15,6 +15,11 @@ html, body {
   height: 100%;
 }
 
+.admin-buttons {
+  display: flex;
+  gap: 12px;
+}
+
 .header-layout {
   display: flex;
   align-items: center;
@@ -45,6 +50,7 @@ html, body {
 .logo-container {
   margin-left: 0;
   padding-left: 0;
+  gap: 20px; 
 }
 
 .cta-container {
