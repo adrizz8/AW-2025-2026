@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/mapa.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="/css/vehiculos.css">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/vehiculosw.css">
+  <!---<link rel="stylesheet" href="/css/bootstrap.min.css">--->
   <link rel="stylesheet" href="/css/reservas.css">
 </head>
 
@@ -26,37 +26,42 @@
   <% if (typeof mostrarHeader !=='undefined' ? mostrarHeader : true) { %>
     <header class="header-layout">
 
-      <div class="logo-container">
-        <a href="/">
-          <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
-        </a>
+      <div class="header-left">
+        <div class="logo-container">
+          <a href="/">
+            <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
+          </a>
+        </div>
+
+        <% if (usuario && usuario.rol==="admin" ) { %>
+          <div class="cta-container gestionar">
+            <a href="/vehiculos" class="cta-layout">Gestionar Vehículos</a>
+            <a href="/concesionarios" class="cta-layout">Gestionar Concesionarios</a>
+          </div>
+          <% } %>
       </div>
 
-      <% if (usuario && usuario.rol==="admin" ) { %>
-        <div class="cta-container">
-          <a href="/vehiculos" class="cta-layout">Gestionar Vehículos</a>
-          <a href="/concesionarios" class="cta-layout">Gestionar Concesionarios</a>
-        </div>
-        <% } %>
+      <div class="header-right">
+        <% if (usuario) { %>
+          <div class="cta-container usuario">
+            👋 Hola, <strong>
+              <%= usuario.nombre %>
+            </strong>
+            <a href="/logout" class="cta-layout">Cerrar sesión</a>
 
-          <% if (usuario) { %>
-            <div class="cta-container">
-              👋 Hola, <strong>
-                <%= usuario.nombre %>
-              </strong>
-              <a href="/logout" class="cta-layout">Cerrar sesión</a>
-
-              <% if (usuario.rol==="admin" ) { %>
-                <a href="/registro" class="cta-layout">Registrar</a>
-                <% } %>
-            </div>
-            <% } else { %>
-              <div class="cta-container">
-                <a href="/login" class="cta-layout">Iniciar sesión</a>
-              </div>
+            <% if (usuario.rol==="admin" ) { %>
+              <a href="/registro" class="cta-layout">Registrar</a>
               <% } %>
+          </div>
+          <% } else { %>
+            <div class="cta-container usuario">
+              <a href="/login" class="cta-layout">Iniciar sesión</a>
+            </div>
+            <% } %>
+      </div>
 
     </header>
+
     <% } %>
 
       <main class="main-layout">
@@ -65,14 +70,6 @@
 
       <% if (typeof mostrarFooter !=='undefined' ? mostrarFooter : true) { %>
         <footer class="footer-layout">
-
-          <div class="footer-item izquierda">
-            <label for="idioma-select" class="sr-only">Idioma</label>
-            <select id="idioma-select" aria-label="Cambiar idioma" onchange="cambiarIdioma()">
-              <option value="es">Español</option>
-              <option value="en">Inglés</option>
-            </select>
-          </div>
 
           <div class="footer-item centro">
             &copy; 2025 Sistema de Reservas
@@ -87,10 +84,8 @@
         </footer>
         <% } %>
 
-          <script src="/js/idioma.js"></script>
           <script src="/js/modo.js"></script>
           <script src="/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

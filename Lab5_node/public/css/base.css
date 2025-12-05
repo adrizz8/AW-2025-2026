@@ -42,6 +42,12 @@ body.dark-mode .footer-layout,
 body.dark-mode .header-layout {
   background-color: var(--color-verde);
   color: var(--color-verde-hover);
+  width: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 10px 20px;
+  box-sizing: border-box;
 }
 
 /* Textos genéricos */

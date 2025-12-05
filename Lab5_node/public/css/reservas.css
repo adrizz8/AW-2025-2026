@@ -13,12 +13,7 @@
       background-color: #f8f9fa;
       font-weight: bold;
     }
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+
     .campo-grupo {
       display: grid;
       grid-template-columns: 1fr 1fr;

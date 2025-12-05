@@ -1,4 +1,3 @@
-// routes/index.js
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -35,19 +34,6 @@ router.get('/', (req, res) => {
   res.locals.authWarning = null; // Limpiar mensaje
   res.render('index', {
     titulo: 'Inicio',
-    // usuario: req.session.usuario || null,
-    authWarning,
-    mostrarHeader: true,
-    mostrarFooter: true
-  });
-});
-
-// --- Ruta principal en inglés ---
-router.get('/en', (req, res) => {
-  const authWarning = res.locals.authWarning || null;
-  res.locals.authWarning = null; // Limpiar mensaje
-  res.render('index_en', {
-    titulo: 'Home',
     // usuario: req.session.usuario || null,
     authWarning,
     mostrarHeader: true,

@@ -18,6 +18,12 @@
   font-size: 1rem;
 }
 
+.nav-gestion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;                /* espacio entre botones gestionar */
+}
+
 /*Division en columnas del index*/
 .columnas-index {
   display: grid;
