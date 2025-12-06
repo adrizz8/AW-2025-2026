@@ -7,26 +7,41 @@
   <div class="registro-formulario">
     <h1>Registra un nuevo empleado</h1>
     <h2>Introduce los siguientes datos para crear una nueva cuenta de empleado:</h2>
+    
+    <% if (error) { %>
+      <div class="mensaje-error-general"><%= error %></div>
+    <% } %>
+    
     <form action="/registro" method="POST" id="form-registro">
       <input type="text" name="nombre" placeholder="Nombre completo" required>
+      
       <span id="email-error-registro" class="mensaje-error"></span>
-      <input type="email" id="email-registro" name="email" placeholder="Correo corporativo (usuario@moveit.es)"
-        required>
+      <input type="email" id="email-registro" name="email" placeholder="Correo corporativo (usuario@moveit.es)" required>
+      
       <span id="password-error-registro" class="mensaje-error"></span>
       <input type="password" id="password-registro" name="contraseña" placeholder="Contraseña" required>
+      
       <input type="tel" name="telefono" placeholder="Número de teléfono" required>
+      
       <select aria-label="Concesionarios" id="concesionarios" name="concesionarios" required>
-        <option value="" disabled selected>Concesionario</option>
-        <optgroup label="Concesionarios">
-          <option value="1">El primero</option>
-          <option value="2">El segundo</option>
-          <option value="3">El tercero</option>
-        </optgroup>
+        <option value="" disabled selected>Selecciona un concesionario</option>
+        <% if (concesionarios && concesionarios.length > 0) { %>
+          <optgroup label="Concesionarios disponibles">
+            <% concesionarios.forEach(function(concesionario) { %>
+              <option value="<%= concesionario.id_concesionario %>"><%= concesionario.nombre %></option>
+            <% }); %>
+          </optgroup>
+        <% } else { %>
+          <option value="" disabled>No hay concesionarios disponibles</option>
+        <% } %>
       </select>
-      <button type="submit">Entrar</button>
+      
+      <button type="submit">Registrar</button>
     </form>
+    
     <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
   </div>
+  
   <div class="imagen-sesion">
     <img src="/images/login.png" alt="Imagen login">
   </div>

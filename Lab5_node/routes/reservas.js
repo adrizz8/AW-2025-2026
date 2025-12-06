@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const requireAuth = require('../middlewares/auth');
 const requireAdmin = require('../middlewares/requireAdmin');
-const db = require('../public/js/conexion'); 
+const db = require('../public/js/conexion');
 
 const router = express.Router();
 
@@ -12,41 +12,47 @@ const reservas = [];
 
 // --- GET /reservas - Renderiza la vista con reservas y vehículos disponibles ---
 router.get('/', requireAuth, (req, res) => {
-  let queryReservas = 'SELECT * FROM reservas ORDER BY fecha_inicio DESC';
-  let queryVehiculos = "SELECT * FROM vehiculos WHERE estado = 'disponible'";
-  
-  db.query(queryReservas, (err, reservas) => {
+  const id_usuario = req.session.usuario.id_usuario;
+  const id_concesionario = req.session.usuario.id_concesionario;
+
+  let queryReservas = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
+  let queryVehiculos = "SELECT * FROM vehiculos WHERE estado = 'disponible' AND id_concesionario = ?";
+
+  db.query(queryReservas, [id_usuario], (err, reservas) => {
     if (err) {
       console.error('Error al obtener reservas:', err);
       return res.status(500).render('500', { mensaje: 'Error al obtener reservas' });
     }
 
-    db.query(queryVehiculos, (err2, vehiculos) => {
+    db.query(queryVehiculos,[id_concesionario], (err2, vehiculos) => {
       if (err2) {
         console.error('Error al obtener vehículos:', err2);
         return res.status(500).render('500', { mensaje: 'Error al obtener vehículos para reservar' });
       }
 
-      res.render('reservas', { 
-        titulo: 'Lista de Reservas', 
+      res.render('reservas', {
+        titulo: 'Mis reservas',
         results: reservas,
-        vehiculos: vehiculos  // Importante: se llama "vehiculos" para que coincida con el modal
+        vehiculos: vehiculos
       });
     });
   });
 });
 
+
 // --- POST /reservas/nueva - Crear nueva reserva ---
 router.post('/nueva', requireAuth, (req, res) => {
-  const { id_vehiculo, fecha_inicio, fecha_fin } = req.body;
+  const { id_vehiculo, dni_cliente, nombre, fecha_inicio, fecha_fin } = req.body;
 
   // Validación de campos obligatorios
-  if (!id_vehiculo|| !fecha_inicio || !fecha_fin) {
+  if (!id_vehiculo || !fecha_inicio || !fecha_fin || !dni_cliente || !nombre) {
     return res.status(400).json({
       ok: false,
       error: 'Todos los campos son obligatorios'
     });
   }
+
+  const id_usuario = req.session.usuario.id_usuario;
 
   // Convertir las fechas del formato dd/MM/yyyy HH:mm a formato MySQL
   const parseFecha = (fechaStr) => {
@@ -78,9 +84,17 @@ router.post('/nueva', requireAuth, (req, res) => {
     });
   }
 
+  const dniRegex = /^[0-9]{8}[A-Za-z]$/;
+  if (!dniRegex.test(dni_cliente)) {
+    return res.status(400).json({
+      ok: false,
+      error: 'El DNI debe tener 8 números y una letra (ej: 12345678A)'
+    });
+  }
+
   // Verificar que el vehículo existe y está disponible
   const queryVerificar = 'SELECT * FROM vehiculos WHERE id_vehiculo = ? AND (estado = "disponible")';
-  
+
   db.query(queryVerificar, [id_vehiculo], (err, vehiculos) => {
     if (err) {
       console.error('Error al verificar vehículo:', err);
@@ -99,12 +113,19 @@ router.post('/nueva', requireAuth, (req, res) => {
 
     // Insertar la reserva
     const queryInsertar = `
-      INSERT INTO reservas 
-      (id_usuario, id_vehiculo,  fecha_inicio, fecha_fin, estado, kilometros_recorridos, incidencias_reportadas) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
+  INSERT INTO reservas 
+  (id_usuario, id_vehiculo, dni_cliente, nombre, fecha_inicio, fecha_fin, estado, kilometros_recorridos, incidencias_reportadas) 
+  VALUES (?, ?, ?, ?, ?, ?, 'activa', 0, '')
+`;
 
-    const params = [id_usuario, id_vehiculo, fechaInicioMySQL, fechaFinMySQL];
+    const params = [
+      id_usuario,
+      id_vehiculo,
+      dni_cliente,
+      nombre,
+      fechaInicioMySQL,
+      fechaFinMySQL
+    ];
 
     db.query(queryInsertar, params, (err, result) => {
       if (err) {
@@ -117,14 +138,31 @@ router.post('/nueva', requireAuth, (req, res) => {
 
       console.log('✅ Reserva creada exitosamente:', result.insertId);
 
-      // Opcionalmente, actualizar disponibilidad del vehículo
-      db.query('UPDATE vehiculos SET estado = "reservado" WHERE id_vehiculo = ?', [vehiculo_id]);
+
+      db.query('UPDATE vehiculos SET estado = "reservado" WHERE id_vehiculo = ?', [id_vehiculo]);
 
       return res.json({
         ok: true,
         mensaje: 'Reserva creada correctamente',
         reserva_id: result.insertId
       });
+    });
+  });
+});
+
+router.get('/lista', requireAuth, (req, res) => {
+ const query = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
+
+
+  db.query(query, [req.session.usuario.id_usuario], (err, resultado) => {
+    if (err) {
+      console.error("Error al cargar reservas:", err);
+      return res.status(500).json({ ok: false, error: "Error al obtener reservas" });
+    }
+
+    res.json({
+      ok: true,
+      reservas: resultado
     });
   });
 });

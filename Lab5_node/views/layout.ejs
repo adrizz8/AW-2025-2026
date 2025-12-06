@@ -15,8 +15,11 @@
   <link rel="stylesheet" href="/css/mapa.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="/css/vehiculosw.css">
-  <!---<link rel="stylesheet" href="/css/bootstrap.min.css">--->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/reservas.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 
 <body class="layout">
@@ -48,6 +51,11 @@
               <%= usuario.nombre %>
             </strong>
             <a href="/logout" class="cta-layout">Cerrar sesión</a>
+
+              <% if (usuario.rol==="empleado" ) { %>
+              <a href="/reservas" class="cta-layout">Mis Reservas</a>
+              <% } %>
+            
 
             <% if (usuario.rol==="admin" ) { %>
               <a href="/registro" class="cta-layout">Registrar</a>
