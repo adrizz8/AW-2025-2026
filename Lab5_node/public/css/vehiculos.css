@@ -27,9 +27,10 @@ h1 {
   border-radius: 6px;
 }
 
-.btn-buscar {
+.btn-buscar,
+.btn-agregar-concesionario {
   padding: 10px 25px;
-  background: #007bff;
+  background: #28a745;
   color: white;
   border: none;
   border-radius: 6px;
@@ -44,6 +45,7 @@ h1 {
   text-decoration: none;
   display: inline-block;
   margin-bottom: 20px;
+  width: auto;  
 }
 
 /* ----- Tabla ----- */
@@ -118,4 +120,137 @@ h1 {
   text-decoration: none;
   display: inline-block;
   margin-bottom: 20px;
+}
+
+/* ===== Modo texto grande: listados de vehículos ===== */
+
+/* Títulos y textos generales */
+body.texto-grande h1 {
+  font-size: 1.4em;
+}
+
+/* Filtros y formulario de búsqueda */
+body.texto-grande .filtros {
+  font-size: 1.05rem;
+}
+
+body.texto-grande .filtros label {
+  font-size: 1.05rem;
+}
+
+body.texto-grande .filtros input {
+  font-size: 1rem;
+}
+
+/* Botones de búsqueda / nuevo / acciones */
+body.texto-grande .btn-buscar,
+body.texto-grande .btn-nuevo,
+body.texto-grande .ver,
+body.texto-grande .eliminar,
+body.texto-grande .editar {
+  font-size: 1.05rem;
+}
+
+/* Tabla de vehículos */
+body.texto-grande .tabla-vehiculos {
+  font-size: 1.05rem;
+}
+
+body.texto-grande .tabla-vehiculos th,
+body.texto-grande .tabla-vehiculos td {
+  font-size: 1.05rem;
+}
+
+/* Estados */
+body.texto-grande .estado-disponible,
+body.texto-grande .estado-no {
+  font-size: 1.05rem;
+}
+
+/*Modo oscuro*/
+body.dark-mode .tabla-vehiculos thead tr {
+  border-bottom: 2px solid #0b2413;
+}
+
+body.dark-mode .tabla-vehiculos th {
+  background-color: #6ee7a0; 
+  color: #0b2413;            
+}
+body.dark-mode .tabla-vehiculos tbody tr:hover {
+  background-color: #0a321c;            
+}
+
+body.dark-mode .estado-disponible {
+  color: #28a745;
+}
+
+body.dark-mode .estado-no {
+  color: #dc3545;
+}
+
+body.dark-mode .acciones .ver,
+body.dark-mode .acciones .editar,
+body.dark-mode .acciones .eliminar,
+body.dark-mode .acciones .eliminar button,
+body.dark-mode .btn-nuevo {
+  color: whitesmoke;
+  background-color: #1f7a3a;
+}
+
+body.dark-mode .btn-nuevo {
+   border: 2px solid #000000;
+   display: inline-block; 
+}
+
+/* ===== Modal Añadir Concesionario en modo oscuro ===== */
+
+body.dark-mode .modal-content {
+  background-color: #062614;   /* fondo verde muy oscuro */
+  color: #e8ffe9;              /* texto claro */
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #0f3c20;       /* bordes verdosos */
+}
+
+body.dark-mode .modal-title {
+  color: #e8ffe9;
+}
+
+body.dark-mode .modal-body label {
+  color: #e8ffe9;
+}
+
+/* Inputs dentro del modal */
+body.dark-mode .modal-body .form-control {
+  background-color: #041b0f;
+  color: #e8ffe9;
+  border-color: #0c6030;
+}
+
+body.dark-mode .modal-body .form-control::placeholder {
+  color: #9cd4ae;
+}
+
+/* Botones del modal */
+body.dark-mode .modal-footer .btn-secondary {
+  background-color: #1f7a3b;
+  color: #ffffff;
+  border-color: #14542a;
+}
+
+body.dark-mode .modal-footer .btn-secondary:hover {
+  background-color: #176031;
+}
+
+/* Botón principal dentro del modal */
+body.dark-mode #btn-agregar-concesionario {
+  background-color: #28a745;
+  color: #ffffff;
+  border: 2px solid #000000;
+}
+
+body.dark-mode #btn-agregar-concesionario:hover {
+  background-color: #218838;
 }

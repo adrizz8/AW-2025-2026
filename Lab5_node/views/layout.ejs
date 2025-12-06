@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/mapa.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="/css/vehiculosw.css">
-  <!---<link rel="stylesheet" href="/css/bootstrap.min.css">--->
+  <link rel="stylesheet" href="/css/vehiculos.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/reservas.css">
 </head>
 
@@ -58,8 +58,25 @@
               <a href="/login" class="cta-layout">Iniciar sesión</a>
             </div>
             <% } %>
+              <div class="dropdown accesibilidad-menu">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="menuAccesibilidad"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Accesibilidad
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuAccesibilidad">
+                  <li>
+                    <button class="dropdown-item" type="button" id="btn-contraste">
+                      Cambiar contraste
+                    </button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item" type="button" id="btn-texto-grande" aria-pressed="false">
+                      Cambiar tamaño
+                    </button>
+                  </li>
+                </ul>
+              </div>
       </div>
-
     </header>
 
     <% } %>
@@ -74,16 +91,8 @@
           <div class="footer-item centro">
             &copy; 2025 Sistema de Reservas
           </div>
-
-          <div class="footer-item derecha">
-            <button id="modo-btn" aria-pressed="false" aria-label="Alternar claro/oscuro" onclick="alternarModo()">
-              <span id="icono-modo">🌙</span> Modo Oscuro
-            </button>
-          </div>
-
         </footer>
         <% } %>
-
           <script src="/js/modo.js"></script>
           <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

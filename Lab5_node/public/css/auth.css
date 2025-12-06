@@ -7,7 +7,7 @@
   gap: 0.4rem;
 
   padding: 0.35rem 0.9rem;
-  border-radius: 999px;          
+  border-radius: 999px;
   border: none;
   text-decoration: none;
   cursor: pointer;
@@ -16,9 +16,9 @@
   font-weight: 500;
   letter-spacing: 0.02em;
 
-  color: var(--color-primario-hover);               
-  background-color: whitesmoke;   
-  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  color: var(--color-primario-hover);
+  background-color: whitesmoke;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
 
   transition:
     background-color 150ms ease,
@@ -31,13 +31,13 @@
 }
 
 .md-back-button:hover {
-  background-color: #f1f8e9;     
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  background-color: #f1f8e9;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 .md-back-button:active {
   transform: scale(0.97);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
 }
 
 /* Accesibilidad focus */
@@ -46,46 +46,51 @@
   outline-offset: 3px;
 }
 
-.registro-container,.login-container {
+.registro-container,
+.login-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   gap: 60px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
 }
 
-.registro-formulario,.login-formulario {
+.registro-formulario,
+.login-formulario {
   background: var(--color-fondo);
-  padding: 50px 42px; 
+  padding: 50px 42px;
   border-radius: 24px 0 0 24px;
   width: 380px;
   min-width: 260px;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  flex: 1 1 320px; 
+  flex: 1 1 320px;
   box-sizing: border-box;
 }
 
 
-.registro-formulario h1,.login-formulario h1 {
+.registro-formulario h1,
+.login-formulario h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 14px 0;
 }
 
-.registro-formulario h2,.login-formulario h2 {
+.registro-formulario h2,
+.login-formulario h2 {
   font-size: 1rem;
   font-weight: 550;
   margin: 0 0 14px 0;
   text-align: center;
 }
 
-.registro-formulario form,.login-formulario form {
+.registro-formulario form,
+.login-formulario form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -95,12 +100,12 @@
 .login-formulario input[type="password"],
 .registro-formulario input[type="email"],
 .registro-formulario input[type="password"],
-.registro-formulario input[type="text"] ,
+.registro-formulario input[type="text"],
 .registro-formulario input[type="tel"],
 .login-formulario input,
 .login-formulario select,
 .registro-formulario input,
-.registro-formulario select  {
+.registro-formulario select {
   padding: 12px 16px;
   background: white;
   border: 1px solid #ccc;
@@ -109,7 +114,8 @@
 }
 
 
-.registro-formulario label ,.login-formulario label {
+.registro-formulario label,
+.login-formulario label {
   font-size: 1rem;
   color: #222;
   margin-bottom: 8px;
@@ -118,7 +124,8 @@
   gap: 8px;
 }
 
-.registro-formulario button, .login-formulario button {
+.registro-formulario button,
+.login-formulario button {
   background: #3a8328;
   color: white;
   padding: 12px;
@@ -130,17 +137,20 @@
   margin-top: 8px;
 }
 
-.registro-formulario button:hover , .login-formulario button:hover {
+.registro-formulario button:hover,
+.login-formulario button:hover {
   background: #25651c;
 }
 
-.registro-formulario p, .login-formulario p {
+.registro-formulario p,
+.login-formulario p {
   font-size: 1rem;
   margin-top: 18px;
   text-align: center;
 }
 
-.registro-formulario a, .login-formulario a  {
+.registro-formulario a,
+.login-formulario a {
   color: #1f6feb;
   text-decoration: none;
   font-weight: 500;
@@ -160,9 +170,9 @@
 }
 
 .imagen-sesion img {
-  width: 60vw;          
-  max-width: 500px;     
-  min-width: 140px;    
+  width: 60vw;
+  max-width: 500px;
+  min-width: 140px;
   height: auto;
   border-radius: 40px;
   object-fit: contain;
@@ -187,19 +197,25 @@
 
 /*Responsive para pantallas pequeñas*/
 @media (max-width: 900px) {
-  .registro-container,.login-container {
+
+  .registro-container,
+  .login-container {
     gap: 30px;
     padding: 10px;
   }
-  .registro-formulario,.login-formulario,
+
+  .registro-formulario,
+  .login-formulario,
   .imagen-sesion {
-    border-radius: 26px; /* Redondeo uniforme en ambos */
+    border-radius: 26px;
+    /* Redondeo uniforme en ambos */
     padding: 26px 14px;
     width: 100%;
     min-width: 0;
     flex: 1 1 100%;
     margin: 0;
   }
+
   .imagen-sesion img {
     width: 80vw;
     max-width: 300px;
@@ -208,18 +224,118 @@
 }
 
 @media (max-width: 600px) {
-  .registro-container ,.login-container {
+
+  .registro-container,
+  .login-container {
     flex-direction: column;
     align-items: stretch;
     gap: 14px;
     min-height: unset;
   }
-  .registro-formulario, .login-formulario, .imagen-sesion {
+
+  .registro-formulario,
+  .login-formulario,
+  .imagen-sesion {
     padding: 16px 4vw;
   }
+
   .imagen-sesion img {
     width: 90vw;
     max-width: 220px;
     min-width: 56px;
   }
+}
+
+
+/* ===== Modo texto grande: login / registro ===== */
+
+/* Botón volver más legible */
+body.texto-grande .md-back-button {
+  font-size: 1.1rem;
+}
+
+/* Formularios más grandes */
+body.texto-grande .registro-formulario,
+body.texto-grande .login-formulario {
+  font-size: 1.15rem;
+}
+
+/* Títulos de los formularios */
+body.texto-grande .registro-formulario h1,
+body.texto-grande .login-formulario h1 {
+  font-size: 2.3rem;
+}
+
+body.texto-grande .registro-formulario h2,
+body.texto-grande .login-formulario h2 {
+  font-size: 1.2rem;
+}
+
+/* Inputs y labels */
+body.texto-grande .registro-formulario label,
+body.texto-grande .login-formulario label {
+  font-size: 1.1rem;
+}
+
+body.texto-grande .login-formulario input[type="email"],
+body.texto-grande .login-formulario input[type="password"],
+body.texto-grande .registro-formulario input[type="email"],
+body.texto-grande .registro-formulario input[type="password"],
+body.texto-grande .registro-formulario input[type="text"],
+body.texto-grande .registro-formulario input[type="tel"],
+body.texto-grande .login-formulario input,
+body.texto-grande .login-formulario select,
+body.texto-grande .registro-formulario input,
+body.texto-grande .registro-formulario select {
+  font-size: 1.1rem;
+}
+
+/* Botones enviar */
+body.texto-grande .registro-formulario button,
+body.texto-grande .login-formulario button {
+  font-size: 1.1rem;
+}
+
+/* Textos auxiliares y errores */
+body.texto-grande .registro-formulario p,
+body.texto-grande .login-formulario p {
+  font-size: 1.1rem;
+}
+
+body.texto-grande .mensaje-error {
+  font-size: 1rem;
+}
+
+/*Modo oscuro*/
+/* Caja de login/registro en modo oscuro */
+body.dark-mode .registro-formulario,
+body.dark-mode .login-formulario {
+  background: #044a29;
+}
+
+/* Títulos y textos login/registro */
+body.dark-mode .registro-formulario h1,
+body.dark-mode .login-formulario h1,
+body.dark-mode .registro-formulario h2,
+body.dark-mode .login-formulario h2,
+body.dark-mode .registro-formulario p,
+body.dark-mode .login-formulario p,
+body.dark-mode .registro-formulario label,
+body.dark-mode .login-formulario label {
+  color: #e8ffe9;
+}
+
+body.dark-mode .registro-formulario a:hover,
+body.dark-mode .login-formulario a:hover {
+  color: #a9f3c4;
+}
+
+/* Panel de imagen */
+body.dark-mode .imagen-sesion {
+  background: #044a29;
+}
+
+body.dark-mode .md-back-label,
+body.dark-mode .md-back-icon{
+  color: #468e4a;
 }

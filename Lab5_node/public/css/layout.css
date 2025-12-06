@@ -11,7 +11,8 @@
 }
 
 /* Header */
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -32,25 +33,30 @@ html, body {
   color: white;
   min-height: 72px;
   border-bottom: 3px solid var(--color-verde);
-  flex-shrink: 0; /* que no se encoja */
+  flex-shrink: 0;
+  /* que no se encoja */
 }
+
 .header-layout .cta-container a,
 .header-layout .logo-img {
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   color: white;
 }
+
 .header-left {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
- .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
+
 .header-right {
   display: flex;
   align-items: center;
@@ -67,7 +73,7 @@ html, body {
   align-items: center;
   margin-left: 0;
   padding-left: 0;
-  gap: 20px; 
+  gap: 20px;
 }
 
 .cta-container {
@@ -83,8 +89,10 @@ html, body {
   align-items: center;
   gap: 0.5rem;
 }
+
 /* Botones y CTAs */
-button, .cta {
+button,
+.cta {
   width: 100%;
   padding: 12px;
   border: none;
@@ -98,7 +106,8 @@ button, .cta {
   display: inline-block;
 }
 
-button, .cta-layout {
+button,
+.cta-layout {
   margin-left: 10px;
   padding: 8px 15px;
   font-size: 14px;
@@ -151,12 +160,13 @@ li:hover {
   transform: translateX(5px);
 }
 
-.filtros, .busqueda {
+.filtros,
+.busqueda {
   margin: 20px 0;
   padding: 15px;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .filtros a {
@@ -194,6 +204,53 @@ li:hover {
   background-color: var(--color-verde-hover);
 }
 
+/*Menú contextual de accesibilidad*/
+
+.dropdown {
+  position: relative;
+}
+
+/* Menú flotante */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0;
+  background-color: #fff;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
+  list-style: none;
+  z-index: 1000;
+}
+
+/* Ítems del menú */
+.dropdown-item {
+  width: 100%;
+  padding: 0.25rem 1rem;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.accesibilidad-menu {
+  margin-left: 1rem;
+}
+
+.accesibilidad-menu .btn {
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+.accesibilidad-menu .btn:hover {
+  background-color: var(--color-primario-hover);
+  border-color: var(--color-primario-hover);
+}
+
 /* Items de reserva */
 .reserva-item {
   background: white;
@@ -207,6 +264,7 @@ li:hover {
 .reserva-item strong {
   color: #333;
 }
+
 /*body*/
 .main-layout {
   flex: 1 0 auto;
@@ -241,14 +299,21 @@ li:hover {
   align-items: center;
   height: 100%;
 }
+
 .footer-item.centro {
   justify-content: center;
   text-align: center;
   font-weight: 600;
-  color: var(--color-header);
+  color: whitesmoke;
 }
-.footer-item.izquierda { justify-content: flex-start; }
-.footer-item.derecha   { justify-content: flex-end; }
+
+.footer-item.izquierda {
+  justify-content: flex-start;
+}
+
+.footer-item.derecha {
+  justify-content: flex-end;
+}
 
 /* Idioma / modo */
 #idioma-select {
@@ -260,10 +325,12 @@ li:hover {
   color: var(--color-texto);
   transition: border .14s;
 }
+
 #idioma-select:focus {
   outline: none;
   border-color: var(--color-verde);
 }
+
 #modo-btn {
   padding: 6px 18px;
   background: var(--color-primario);
@@ -275,13 +342,16 @@ li:hover {
   transition: background .15s, color .15s;
   font-size: 1rem;
 }
+
 #modo-btn[aria-pressed="true"] {
   background: var(--color-header);
   color: var(--color-verde);
 }
+
 #modo-btn:hover {
   background: var(--color-primario-hover);
 }
+
 .sr-only {
   position: absolute;
   left: -9999px;
@@ -291,28 +361,121 @@ li:hover {
 }
 
 /* Modo oscuro */
-body.oscuro, .oscuro .footer-layout {
-  background: var(--color-header) !important;
-  color: #d6ffe0 !important;
-  border-top: 2px solid var(--color-verde);
-}
-body.oscuro .footer-item.centro {
-  color: var(--color-verde);
-}
-body.oscuro #modo-btn {
-  background: var(--color-verde);
-  color: var(--color-header);
-}
-body.oscuro #modo-btn[aria-pressed="true"] {
-  background: var(--color-primario-hover);
-  color: white;
-}
-body.oscuro #modo-btn:hover {
-  background: var(--color-verde-hover);
+/* Header en modo oscuro */
+body.dark-mode .header-layout {
+  background-color: #05361c;
+  color: #e8ffe9;
 }
 
+/* Saludo y enlaces del usuario siempre claros */
+body.dark-mode .cta-container.usuario,
+body.dark-mode .cta-container.usuario a,
+body.dark-mode .cta-container.usuario strong {
+  color: #ffffff;
+}
+
+/* Botones y CTAs en verde */
+body.dark-mode .cta-layout,
+body.dark-mode .cta-container a,
+body.dark-mode a.cta,
+body.dark-mode button {
+  background-color: #1f7a3b;
+  color: #ffffff;
+}
+
+body.dark-mode .cta-layout:hover,
+body.dark-mode .cta-container a:hover,
+body.dark-mode a.cta:hover,
+body.dark-mode button:hover {
+  background-color: #176031;
+}
+
+/* Dropdown accesibilidad en oscuro */
+body.dark-mode .dropdown-menu {
+  background-color: #062614;
+  color: #e8ffe9;
+}
+
+body.dark-mode .dropdown-item {
+  color: #e8ffe9;
+}
+
+body.dark-mode .dropdown-item:hover {
+  background-color: #0a3a20;
+}
+
+
 /* Responsive footer */
-@media (max-width:650px){
-  .footer-item { padding: 0 10px; }
-  .footer-layout { font-size: .98rem; }
+@media (max-width:650px) {
+  .footer-item {
+    padding: 0 10px;
+  }
+
+  .footer-layout {
+    font-size: .98rem;
+  }
+}
+
+/* ===== Modo texto grande: layout general ===== */
+
+/* Formularios genéricos */
+body.texto-grande .formulario {
+  font-size: 1.15rem;
+}
+
+/* Header: textos y botones */
+body.texto-grande .header-layout {
+  font-size: 1.1rem;
+}
+
+body.texto-grande .cta-container a,
+body.texto-grande .cta-layout,
+body.texto-grande .nav-acciones .cta {
+  font-size: 1.05rem;
+}
+
+/* Botones y CTAs genéricos */
+body.texto-grande button,
+body.texto-grande .cta {
+  font-size: 1.1rem;
+}
+
+/* Enlaces tipo volver */
+body.texto-grande .volver {
+  font-size: 1.1rem;
+}
+
+/* Listados y filtros */
+body.texto-grande li {
+  font-size: 20px;
+}
+
+body.texto-grande .filtros,
+body.texto-grande .busqueda {
+  font-size: 1.05rem;
+}
+
+body.texto-grande .filtros a,
+body.texto-grande .busqueda button {
+  font-size: 1.05rem;
+}
+
+/* Menú accesibilidad */
+body.texto-grande .dropdown-item {
+  font-size: 1rem;
+}
+
+/* Footer */
+body.texto-grande .footer-layout {
+  font-size: 1.05rem;
+}
+
+body.texto-grande .footer-item.centro {
+  font-size: 1.1rem;
+}
+
+/* Selector idioma y botón modo */
+body.texto-grande #idioma-select,
+body.texto-grande #modo-btn {
+  font-size: 1.05rem;
 }

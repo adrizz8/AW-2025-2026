@@ -32,7 +32,7 @@ function crearManejadorFormulario(formId, emailId, passwordId, emailErrorId, pas
       hayErrores = true;
       if (email) email.classList.add('error');
       if (emailError) {
-        emailError.textContent = 'El correo debe tener el formato usuario@moveit.es';
+        emailError.textContent = 'El correo debe tener el siguiente formato: nombre_usuario@moveit.es';
         emailError.classList.add('activo');
       }
     }

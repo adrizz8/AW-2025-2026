@@ -1,14 +1,14 @@
-:root { 
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
+:root {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   --color-primario: #4e792f;
   --color-primario-hover: #3A5b22;
   --color-verde: #28a745;
   --color-verde-hover: #218838;
   --color-texto: #072d05;
-  --color-fondo: #e5ffdc; 
+  --color-fondo: #e5ffdc;
   --color-nota-bg: #e7f3ff;
   --color-header: #013220;
-  --color-box-shadow: rgba(11,37,69,0.08);
+  --color-box-shadow: rgba(11, 37, 69, 0.08);
 }
 
 /* Estructura general */
@@ -25,42 +25,50 @@ body {
   overflow-x: hidden;
 }
 
-body.dark-mode {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  background-color: var(--color-header);
-  font-family: var(--font-family);
-  color: var(--color-verde-hover);
-  max-width: 100%;
-  max-height: 100%;
-  overflow-x: hidden;
+
+/* Modo texto grande */
+body.texto-grande {
+  font-size: 140%;
 }
 
-body.dark-mode .footer-layout,
-body.dark-mode .header-layout {
-  background-color: var(--color-verde);
-  color: var(--color-verde-hover);
-  width: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 10px 20px;
-  box-sizing: border-box;
+body.texto-grande .registro-formulario,
+body.texto-grande .login-formulario,
+body.texto-grande .about,
+body.texto-grande .valores,
+body.texto-grande .como-funciona,
+body.texto-grande .faq,
+body.texto-grande .testimonios,
+body.texto-grande .contacto,
+body.texto-grande .info-movilidad,
+body.texto-grande .tabla-vehiculos,
+body.texto-grande .filtros,
+body.texto-grande .busqueda {
+  font-size: 1.25em;
+}
+
+body.texto-grande .titulo {
+  font-size: 3.8rem;
+}
+
+body.texto-grande .descripcion {
+  font-size: 1.6rem;
+}
+
+body.texto-grande li {
+  font-size: 22px;
 }
 
 /* Textos genéricos */
-h1 { 
-  margin: 0 0 15px; 
-  font-size: 2rem; 
+h1 {
+  margin: 0 0 15px;
+  font-size: 2rem;
   color: var(--color-texto);
   text-align: center;
 }
 
-p { 
-  margin: 0 0 18px; 
-  color: #2e486b; 
+p {
+  margin: 0 0 18px;
+  color: #2e486b;
 }
 
 label {
@@ -77,10 +85,10 @@ ul {
   margin: 0;
 }
 
-.meta { 
-  margin-top: 14px; 
-  font-size: 0.9rem; 
-  color: #6b7b93; 
+.meta {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: #6b7b93;
 }
 
 /* Campos base */
@@ -103,4 +111,101 @@ input:focus,
 select:focus {
   outline: none;
   border-color: var(--color-primario);
+}
+
+
+/*Modo oscuro*/
+body.dark-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  background-color: #044a29;
+  font-family: var(--font-family);
+  color: #e8ffe9;
+  /* texto claro verdoso */
+  max-width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+}
+
+/* Header y footer en modo oscuro */
+body.dark-mode .header-layout,
+body.dark-mode .footer-layout {
+  background-color: #000000;
+  /* verde oscuro */
+  color: #e8ffe9;
+}
+
+/* Textos genéricos en dark mode */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p,
+body.dark-mode label,
+body.dark-mode li {
+  color: #e8ffe9;
+}
+
+/* Bloques de contenido */
+body.dark-mode .formulario,
+body.dark-mode .about,
+body.dark-mode .valores,
+body.dark-mode .como-funciona,
+body.dark-mode .faq,
+body.dark-mode .testimonios,
+body.dark-mode .contacto,
+body.dark-mode .info-movilidad,
+body.dark-mode .reserva-item,
+body.dark-mode .filtros,
+body.dark-mode .busqueda,
+body.dark-mode .tabla-vehiculos,
+body.dark-mode .nearest-item {
+  background: #062614;
+  /* verde muy oscuro */
+  color: #e8ffe9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* Inputs y selects en oscuro */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="tel"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="time"],
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #041b0f;
+  color: #e8ffe9;
+  border-color: #0c6030;
+}
+
+/* Placeholder */
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #9cd4ae;
+}
+
+/* Links en verde */
+body.dark-mode a {
+  color: #6ee7a0;
+}
+
+body.dark-mode a:hover {
+  color: #a9f3c4;
+}
+
+/* Mensajes de error en oscuro (ligeramente rojizo pero con toque verde) */
+body.dark-mode .mensaje-error {
+  color: #ffb3c0;
+}
+
+/* Leyenda del mapa y nota */
+body.dark-mode .info.legend,
+body.dark-mode .nota {
+  background: #062614;
+  color: #e8ffe9;
+  border-left-color: #26a269;
+  /* verde acento */
 }

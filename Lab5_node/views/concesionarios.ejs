@@ -1,10 +1,9 @@
-<h1>Lista de Vehículos</h1>
+<h1>Lista de Concesionarios</h1>
 
 <form method="GET" action="/concesionarios" class="filtros">
   <div style="flex:1; min-width:250px;">
     <label for="q">Buscar por nombre o ciudad:</label>
-    <input type="text" id="q" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>"
- placeholder="Buscar...">
+    <input type="text" id="q" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>" placeholder="Buscar...">
   </div>
 
   <div style="display:flex; align-items:flex-end;">
@@ -13,74 +12,85 @@
 </form>
 
 <% if (admin) { %>
-  <button type="button" class="btn btn-primary btn-nuevo" data-bs-toggle="modal" data-bs-target="#modalNuevoConcesionario">Añadir Concesionarios</button>
-<% } %>
+  <button type="button" class="btn-nuevo" data-bs-toggle="modal"
+    data-bs-target="#modalNuevoConcesionario">Añadir Concesionarios</button>
+  <% } %>
 
-<table class="tabla-concesionarios">
-  <thead>
-    <tr>
-      <th>ID</th>
-        <th>Nombre</th>
-        <th>Ciudad</th>
-        <th>Dirección</th>
-        <th>Teléfono de Contacto</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% if (results.length === 0) { %>
-      <tr>
-        <td colspan="<%= admin ? 12 : 11 %>">No se encontraron concesionarios</td>
-      </tr>
-    <% } else { %>
-      <% results.forEach(c => { %>
+    <table class="tabla-concesionarios">
+      <thead>
         <tr>
-          <td><%= c.id_concesionario %></td>
-            <td><%= c.nombre %></td>
-            <td><%= c.ciudad %></td>
-            <td><%= c.direccion %></td>
-            <td><%= c.telefono_contacto %></td>
-
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Ciudad</th>
+          <th>Dirección</th>
+          <th>Teléfono de Contacto</th>
         </tr>
-      <% }) %>
-    <% } %>
-  </tbody>
-</table>
+      </thead>
 
-<div class="modal fade" id="modalNuevoConcesionario" tabindex="-1" aria-labelledby="modalNuevoConcesionarioLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNuevoConcesionarioLabel">Añadir Concesionario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="form-nuevo-concesionario" method="POST" action="/concesionarios/nuevo">
-          <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre *</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
+      <tbody>
+        <% if (results.length===0) { %>
+          <tr>
+            <td colspan="<%= admin ? 12 : 11 %>">No se encontraron concesionarios</td>
+          </tr>
+          <% } else { %>
+            <% results.forEach(c=> { %>
+              <tr>
+                <td>
+                  <%= c.id_concesionario %>
+                </td>
+                <td>
+                  <%= c.nombre %>
+                </td>
+                <td>
+                  <%= c.ciudad %>
+                </td>
+                <td>
+                  <%= c.direccion %>
+                </td>
+                <td>
+                  <%= c.telefono_contacto %>
+                </td>
+
+              </tr>
+              <% }) %>
+                <% } %>
+      </tbody>
+    </table>
+
+    <div class="modal fade" id="modalNuevoConcesionario" tabindex="-1" aria-labelledby="modalNuevoConcesionarioLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalNuevoConcesionarioLabel">Añadir Concesionario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="mb-3">
-            <label for="ciudad" class="form-label">Ciudad *</label>
-            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+          <div class="modal-body">
+            <form id="form-nuevo-concesionario" method="POST" action="/concesionarios/nuevo">
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre *</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+              </div>
+              <div class="mb-3">
+                <label for="ciudad" class="form-label">Ciudad *</label>
+                <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+              </div>
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección *</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" required>
+              </div>
+              <div class="mb-3">
+                <label for="telefono_contacto" class="form-label">Teléfono de Contacto *</label>
+                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-agregar-concesionario">Añadir Concesionario</button>
+            </form>
           </div>
-          <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección *</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" required>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
-          <div class="mb-3">
-            <label for="telefono_contacto" class="form-label">Teléfono de Contacto *</label>
-            <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
-          </div>
-            <button type="button" class="btn btn-primary" id="btn-agregar-concesionario" >Añadir Concesionario</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<script src="/js/nuevo_concesionario.js"></script>
-
+    <script src="/js/nuevo_concesionario.js"></script>

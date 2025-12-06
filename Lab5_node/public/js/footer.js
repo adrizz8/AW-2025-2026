@@ -1,7 +1,3 @@
-function cambiarIdioma() {
-  const idioma = document.getElementById('idioma-select').value;
-  alert('[translate:Funcionalidad no implementada: debería cambiar el idioma a ]' + idioma);
-}
 function alternarModo() {
   const body = document.body;
   const boton = document.getElementById('modo-btn');

@@ -66,7 +66,7 @@ router.post('/registro', async (req, res) => {
 
   const hash = await bcrypt.hash(contraseña, SALT_ROUNDS);
   usuarios.push({ nombre, email, contraseña: hash, telefono, concesionario, rol: "usuario" });
-  res.redirect('/login');
+  res.redirect('/');
 });
 
 

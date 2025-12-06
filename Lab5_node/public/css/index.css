@@ -11,8 +11,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 18px;        
-  min-width: 160px;        
+  padding: 10px 18px;
+  min-width: 160px;
   border-radius: 999px;
   text-align: center;
   font-size: 1rem;
@@ -21,7 +21,8 @@
 .nav-gestion {
   display: flex;
   align-items: center;
-  gap: 0.5rem;                /* espacio entre botones gestionar */
+  gap: 0.5rem;
+  /* espacio entre botones gestionar */
 }
 
 /*Division en columnas del index*/
@@ -54,7 +55,12 @@
   color: #2e486b;
 }
 
-.about, .valores, .como-funciona, .faq, .testimonios, .contacto {
+.about,
+.valores,
+.como-funciona,
+.faq,
+.testimonios,
+.contacto {
   max-width: 700px;
   margin: 30px auto 0 auto;
   background: #fbfbfa;
@@ -63,7 +69,8 @@
   box-shadow: 0 2px 12px #6366f120;
 }
 
-.valores ul, .como-funciona ol {
+.valores ul,
+.como-funciona ol {
   text-align: left;
   margin-left: 20px;
 }
@@ -90,11 +97,9 @@
   position: absolute;
   width: 200px;
   z-index: 2;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%);
 }
 
 .slider::after {
@@ -102,6 +107,7 @@
   top: 0;
   transform: rotateZ(180deg);
 }
+
 .slider::before {
   left: 0;
   top: 0;
@@ -112,6 +118,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(calc(-250px * 7));
   }
@@ -126,11 +133,13 @@
   position: relative;
   width: 960px;
 }
+
 .slider .slide-track {
   animation: scroll 40s linear infinite;
   display: flex;
   width: calc(250px * 14);
 }
+
 .slider .slide {
   height: 100px;
   width: 250px;
@@ -142,11 +151,80 @@
     grid-template-columns: 1fr;
   }
 
-  .about, .valores, .como-funciona, .faq, .testimonios, .contacto {
-    margin: 20px auto 0 auto;   /* margen vertical más pequeño en móvil */
+  .about,
+  .valores,
+  .como-funciona,
+  .faq,
+  .testimonios,
+  .contacto {
+    margin: 20px auto 0 auto;
+    /* margen vertical más pequeño en móvil */
   }
 
   .slider {
     width: 100%;
   }
+}
+
+/* ===== Modo texto grande: página de inicio ===== */
+
+/* Botones principales */
+body.texto-grande .nav-acciones .cta {
+  font-size: 1.15rem;
+}
+
+/* Título principal y descripción */
+body.texto-grande .titulo {
+  font-size: 3.6rem;
+}
+
+body.texto-grande .descripcion {
+  font-size: 1.5rem;
+}
+
+/* Secciones de contenido */
+body.texto-grande .about,
+body.texto-grande .valores,
+body.texto-grande .como-funciona,
+body.texto-grande .faq,
+body.texto-grande .testimonios,
+body.texto-grande .contacto,
+body.texto-grande .info-movilidad {
+  font-size: 1.1rem;
+}
+
+/* Listas dentro de valores / como-funciona */
+body.texto-grande .valores ul,
+body.texto-grande .como-funciona ol {
+  font-size: 1.1rem;
+}
+
+/* Preguntas frecuentes y testimonios */
+body.texto-grande .faq summary {
+  font-size: 1.1rem;
+}
+
+body.texto-grande .testimonios blockquote {
+  font-size: 1.1rem;
+}
+
+/*Modo oscuro*/
+/* Fondo de la tarjeta */
+body.dark-mode .valores,
+body.dark-mode .como-funciona{
+  background-color: #062614;      
+}
+
+/* Texto de la lista: */
+body.dark-mode .valores ul li,
+body.dark-mode .como-funciona ol li {
+  background-color: #e2f5e8;     
+  color: #0b2413;          
+  list-style-position: inside; 
+}
+
+/* Negritas dentro de la lista también oscuras */
+body.dark-mode .valores ul li strong,
+body.dark-mode .como-funciona ol li strong {
+  color: #0b2413;
 }
