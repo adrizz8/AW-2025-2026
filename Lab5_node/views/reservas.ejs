@@ -13,33 +13,16 @@
     </button>
   </div>
 
-  <!-- Filtro por tipo de vehículo -->
-  <!-- <div class="mb-3">
-    <label for="filtroTipo" class="form-label">Filtrar por tipo de vehículo:</label>
-    <select class="form-select" id="filtroTipo" style="max-width: 300px;">
-      <option value="">Todos los vehículos</option>
-      <option value="coche">Coche</option>
-      <option value="moto">Moto</option>
-      <option value="camion">Camión</option>
-      <option value="autobus">Autobús</option>
-      <option value="furgoneta">Furgoneta</option>
-      <option value="camioneta">Camioneta</option>
-      <option value="bicicleta">Bicicleta</option>
-      <option value="scooter">Scooter</option>
-    </select>
-  </div> -->
-
   <table class="table table-striped">
     <thead>
       <tr>
         <th>ID de la reserva</th>
-        <th>ID del usuario</th>
         <th>ID del vehículo</th>
+        <th>DNI del cliente</th>
+        <th>Nombre del cliente</th>
         <th>Fecha de inicio</th>
         <th>Fecha de fin</th>
         <th>Estado</th>
-        <th>Kilometros recorridos</th>
-        <th>Incidencias reportadas</th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -48,7 +31,6 @@
   </table>
 </div>
 
-<!-- Modal para Nueva Reserva -->
 <!-- Modal Nueva Reserva -->
 <div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -58,58 +40,53 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        
         <form id="form-nueva-reserva" method="POST" action="/reservas/nueva">
-          
+
           <!-- Selector de Vehículo -->
           <div class="mb-3">
             <label for="vehiculo" class="form-label">Vehículo *</label>
-            <select class="form-select" id="vehiculo" name="vehiculo_id" required>
-              <option value="" selected disabled>Seleccione un vehículo...</option>
-              <!-- Opciones dinámicas desde la base de datos -->
+            <select class="form-select" id="id_vehiculo" name="id_vehiculo" required>
+              <option value="" disabled selected>Seleccione un vehículo...</option>
               <% if (typeof vehiculos !== 'undefined' && vehiculos.length > 0) { %>
-                <% vehiculos.forEach(vehiculo => { %>
-                  <option value="<%= vehiculo.id %>">
-                    <%= vehiculo.marca %> <%= vehiculo.modelo %> - <%= vehiculo.matricula %>
-                  </option>
+                <% vehiculos.forEach(v => { %>
+                  <option value="<%= v.id_vehiculo %>"><%= v.marca %> <%= v.modelo %> - <%= v.matricula %></option>
                 <% }); %>
               <% } %>
             </select>
           </div>
 
+          <!-- DNI del cliente -->
           <div class="mb-3">
-            <label for="idCliente" class="form-label">ID del cliente *</label>
-            <input type="text" class="form-control" id="idCliente" name="idCliente" required>
+            <label for="DNICliente" class="form-label">DNI del cliente *</label>
+            <input type="text" class="form-control" id="dni_cliente" name="dni_cliente" required>
           </div>
 
-          <!-- Fecha de Inicio -->
+          <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre *</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          </div>
+
+          <!-- Fecha y Hora Inicio -->
           <div class="mb-3">
             <label for="fecha_inicio" class="form-label">Fecha y Hora de Inicio *</label>
-            <div class="input-group" id="datetimepicker-inicio" data-td-target-input="nearest" data-td-target-toggle="nearest">
-              <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio" 
-                     data-td-target="#datetimepicker-inicio" required />
-              <span class="input-group-text" data-td-target="#datetimepicker-inicio" data-td-toggle="datetimepicker">
-                <i class="bi bi-calendar-event"></i>
-              </span>
-            </div>
+            <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
           </div>
 
-          <!-- Fecha de Fin -->
+          <!-- Fecha y Hora Fin -->
           <div class="mb-3">
             <label for="fecha_fin" class="form-label">Fecha y Hora de Fin *</label>
-            <div class="input-group" id="datetimepicker-fin" data-td-target-input="nearest" data-td-target-toggle="nearest">
-              <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" 
-                     data-td-target="#datetimepicker-fin" required />
-              <span class="input-group-text" data-td-target="#datetimepicker-fin" data-td-toggle="datetimepicker">
-                <i class="bi bi-calendar-event"></i>
-              </span>
-            </div>
+            <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" required>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100" id="btn-agregar-reserva">
-            <i class="bi bi-check-circle me-2"></i>Crear Reserva
+          <button type="submit" class="btn btn-primary w-100">
+            Crear Reserva
           </button>
+
         </form>
+
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
@@ -117,72 +94,33 @@
   </div>
 </div>
 
+
 <!-- Scripts necesarios (agregar al final de tu layout principal) -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Inicializar datepicker de inicio
-  const pickerInicio = new tempusDominus.TempusDominus(document.getElementById('datetimepicker-inicio'), {
-    display: {
-      components: {
-        calendar: true,
-        date: true,
-        month: true,
-        year: true,
-        decades: true,
-        clock: true,
-        hours: true,
-        minutes: true,
-        seconds: false
-      }
-    },
-    localization: {
-      locale: 'es',
-      format: 'dd/MM/yyyy HH:mm',
-      hourCycle: 'h23'
-    },
-    restrictions: {
-      minDate: new Date()
-    }
+document.addEventListener("DOMContentLoaded", function () {
+
+  const pickerInicio = flatpickr("#fecha_inicio", {
+    enableTime: true,
+    time_24hr: true,
+    minDate: "today",
+    dateFormat: "d/m/Y H:i"
   });
 
-  // Inicializar datepicker de fin
-  const pickerFin = new tempusDominus.TempusDominus(document.getElementById('datetimepicker-fin'), {
-    display: {
-      components: {
-        calendar: true,
-        date: true,
-        month: true,
-        year: true,
-        decades: true,
-        clock: true,
-        hours: true,
-        minutes: true,
-        seconds: false
-      }
-    },
-    localization: {
-      locale: 'es',
-      format: 'dd/MM/yyyy HH:mm',
-      hourCycle: 'h23'
-    },
-    restrictions: {
-      minDate: new Date()
-    }
+  const pickerFin = flatpickr("#fecha_fin", {
+    enableTime: true,
+    time_24hr: true,
+    minDate: "today",
+    dateFormat: "d/m/Y H:i"
   });
 
-  // Sincronizar: la fecha fin debe ser posterior a la fecha inicio
-  pickerInicio.subscribe('change.td', (e) => {
-    if (e.date) {
-      pickerFin.updateOptions({
-        restrictions: {
-          minDate: e.date
-        }
-      });
-    }
+  // Evitar que la fecha fin sea anterior a la de inicio
+  document.getElementById("fecha_inicio").addEventListener("change", function () {
+    pickerFin.set("minDate", this.value);
   });
+
 });
 </script>
 
 <!-- scripts -->
-<script src="/js/cargar_reservas.js"></script>
 <script src="/js/procesar_reserva.js"></script>
+<script src="/js/cargar_reservas.js"></script>

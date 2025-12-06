@@ -74,7 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 🟢 Aquí montamos cada grupo de rutas en su prefijo
 app.use('/', mainRoutes);
 app.use('/vehiculos', vehiculosRoutes);
-app.use('/reservar', requireAuth, reservasRoutes);
+app.use('/reservas', requireAuth, reservasRoutes);
 app.use('/concesionarios',requireAdmin, concesionariosRoutes);
 app.use('/api', apiRoutes);
 app.use('/usuario', usuarioRoutes);

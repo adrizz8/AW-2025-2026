@@ -1,76 +1,188 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
+const db = require('../public/js/conexion'); // Conexión MySQL sin promesas
 
 const SALT_ROUNDS = 10;
-const usuarios = require('../datos/usuarios');
 
 // --- Crear usuario admin por defecto ---
 (async () => {
-  const hashedPass = await bcrypt.hash("admin123", SALT_ROUNDS);
-  usuarios.push({
-    nombre: "Admin",
-    email: "admin@moveit.es",
-    contraseña: hashedPass,
-    rol: "admin"
-  });
-  console.log("✔ Usuario admin creado por defecto");
+  try {
+    // Verificar si ya existe el admin
+    db.query('SELECT * FROM usuarios WHERE correo = ?', ['admin@moveit.es'], async (err, adminExistente) => {
+      if (err) {
+        console.error("Error al verificar usuario admin:", err);
+        return;
+      }
+
+      if (adminExistente.length === 0) {
+        const hashedPass = await bcrypt.hash("admin123", SALT_ROUNDS);
+        db.query(
+          'INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES (?, ?, ?, ?)',
+          ['Admin', 'admin@moveit.es', hashedPass, 'admin'],
+          (err, result) => {
+            if (err) {
+              console.error("Error al crear usuario admin:", err);
+            } else {
+              console.log("✔ Usuario admin creado por defecto");
+            }
+          }
+        );
+      } else {
+        console.log("✔ Usuario admin ya existe");
+      }
+    });
+  } catch (error) {
+    console.error("Error al crear usuario admin:", error);
+  }
 })();
 
-// // --- Middleware para recordar sesión ---
-// router.use((req, res, next) => {
-//   if (!req.session.usuario && req.cookies.usuarioRecordado) {
-//     const usuario = usuarios.find(u => u.email === req.cookies.usuarioRecordado);
-//     if (usuario) {
-//       req.session.usuario = usuario;
-//     }
-//   }
-//   next();
-// });
+// --- Middleware para recordar sesión ---
+router.use((req, res, next) => {
+  if (!req.session.usuario && req.cookies.usuarioRecordado) {
+    db.query(
+      'SELECT * FROM usuarios WHERE correo = ?',
+      [req.cookies.usuarioRecordado],
+      (err, usuarios) => {
+        if (err) {
+          console.error("Error al recuperar usuario recordado:", err);
+          return next();
+        }
+        
+        if (usuarios.length > 0) {
+          req.session.usuario = usuarios[0];
+        }
+        next();
+      }
+    );
+  } else {
+    next();
+  }
+});
 
 // --- Ruta principal ---
 router.get('/', (req, res) => {
   const authWarning = res.locals.authWarning || null;
-  res.locals.authWarning = null; // Limpiar mensaje
+  res.locals.authWarning = null;
   res.render('index', {
     titulo: 'Inicio',
-    // usuario: req.session.usuario || null,
+    usuario: req.session.usuario || null,
     authWarning,
     mostrarHeader: true,
     mostrarFooter: true
   });
 });
 
-// --- Registro ---
+// --- Registro (GET) ---
 router.get('/registro', (req, res) => {
-  res.render('registro', {
-    titulo: 'Registro',
-    error: null,
-    mostrarHeader: false,
-    mostrarFooter: false    
+  // Obtener concesionarios de la base de datos
+  db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err, concesionarios) => {
+    if (err) {
+      console.error("Error al cargar concesionarios:", err);
+      return res.render('registro', {
+        titulo: 'Registro',
+        error: '⚠️ Error al cargar el formulario.',
+        concesionarios: [],
+        mostrarHeader: false,
+        mostrarFooter: false
+      });
+    }
+    
+    res.render('registro', {
+      titulo: 'Registro',
+      error: null,
+      concesionarios: concesionarios,
+      mostrarHeader: false,
+      mostrarFooter: false
+    });
   });
 });
 
-router.post('/registro', async (req, res) => {
-  const { nombre, email, contraseña, telefono, concesionario } = req.body;
-  const existe = usuarios.find(u => u.email === email);
+// --- Registro (POST) ---
+router.post('/registro', (req, res) => {
+  const { nombre, email, contraseña, telefono, concesionarios, preferencias_accesibilidad } = req.body;
+  
+  // Verificar si el usuario ya existe
+  db.query('SELECT * FROM usuarios WHERE correo = ?', [email], (err, usuarioExistente) => {
+    if (err) {
+      console.error("Error en el registro:", err);
+      // Recargar concesionarios en caso de error
+      db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
+        res.render('registro', {
+          titulo: 'Registro',
+          error: '⚠️ Error al registrar el usuario. Inténtelo de nuevo.',
+          concesionarios: err2 ? [] : concesionariosLista,
+          mostrarHeader: false,
+          mostrarFooter: false
+        });
+      });
+      return;
+    }
 
-  if (existe) {
-    return res.render('registro', {
-      titulo: 'Registro',
-      error: '⚠️ El usuario ya está registrado.',
-      mostrarHeader: false,
-      mostrarFooter: false     
+    if (usuarioExistente.length > 0) {
+      // Recargar concesionarios en caso de error
+      db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err, concesionariosLista) => {
+        res.render('registro', {
+          titulo: 'Registro',
+          error: '⚠️ El usuario ya está registrado.',
+          concesionarios: err ? [] : concesionariosLista,
+          mostrarHeader: false,
+          mostrarFooter: false
+        });
+      });
+      return;
+    }
+
+    // Hashear la contraseña
+    bcrypt.hash(contraseña, SALT_ROUNDS, (err, hash) => {
+      if (err) {
+        console.error("Error al hashear contraseña:", err);
+        db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
+          res.render('registro', {
+            titulo: 'Registro',
+            error: '⚠️ Error al procesar la contraseña.',
+            concesionarios: err2 ? [] : concesionariosLista,
+            mostrarHeader: false,
+            mostrarFooter: false
+          });
+        });
+        return;
+      }
+
+      // Insertar nuevo usuario en la base de datos
+      const sql = `INSERT INTO usuarios (nombre, correo, contraseña, telefono, id_concesionario, preferencias_accesibilidad, rol) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const params = [
+        nombre,
+        email,
+        hash,
+        telefono,
+        concesionarios,
+        preferencias_accesibilidad || null,
+        'empleado'
+      ];
+
+      db.query(sql, params, (err, result) => {
+        if (err) {
+          console.error("Error al insertar usuario:", err);
+          db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
+            res.render('registro', {
+              titulo: 'Registro',
+              error: '⚠️ Error al registrar el usuario. Inténtelo de nuevo.',
+              concesionarios: err2 ? [] : concesionariosLista,
+              mostrarHeader: false,
+              mostrarFooter: false
+            });
+          });
+          return;
+        }
+        res.redirect('/login');
+      });
     });
-  }
-
-  const hash = await bcrypt.hash(contraseña, SALT_ROUNDS);
-  usuarios.push({ nombre, email, contraseña: hash, telefono, concesionario, rol: "usuario" });
-  res.redirect('/');
+  });
 });
 
-
-// --- Login ---
+// --- Login (GET) ---
 router.get('/login', (req, res) => {
   res.render('login', {
     titulo: 'Iniciar sesión',
@@ -80,47 +192,75 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.post('/login', async (req, res) => {
+// --- Login (POST) ---
+router.post('/login', (req, res) => {
   const { email, contraseña, recordar } = req.body;
-  const usuario = usuarios.find(u => u.email === email);
+  
+  // Buscar usuario en la base de datos
+  db.query('SELECT * FROM usuarios WHERE correo = ?', [email], (err, usuarios) => {
+    if (err) {
+      console.error("Error en el login:", err);
+      return res.render('login', {
+        titulo: 'Iniciar sesión',
+        errorLogin: '⚠️ Error al iniciar sesión. Inténtelo de nuevo.',
+        mostrarHeader: false,
+        mostrarFooter: false
+      });
+    }
 
-  if (!usuario) {
-    return res.render('login', {
-      titulo: 'Iniciar sesión',
-      errorLogin: 'Usuario no encontrado. Inténtelo de nuevo.',
-      mostrarHeader: false,
-      mostrarFooter: false
+    if (usuarios.length === 0) {
+      return res.render('login', {
+        titulo: 'Iniciar sesión',
+        errorLogin: 'Usuario no encontrado. Inténtelo de nuevo.',
+        mostrarHeader: false,
+        mostrarFooter: false
+      });
+    }
+
+    const usuario = usuarios[0];
+
+    // Verificar contraseña
+    bcrypt.compare(contraseña, usuario.contraseña, (err, esValida) => {
+      if (err) {
+        console.error("Error al comparar contraseñas:", err);
+        return res.render('login', {
+          titulo: 'Iniciar sesión',
+          errorLogin: '⚠️ Error al verificar la contraseña.',
+          mostrarHeader: false,
+          mostrarFooter: false
+        });
+      }
+
+      if (!esValida) {
+        return res.render('login', {
+          titulo: 'Iniciar sesión',
+          errorLogin: 'Contraseña incorrecta. Inténtelo de nuevo.',
+          mostrarHeader: false,
+          mostrarFooter: false
+        });
+      }
+
+      // Guardar usuario en sesión (sin la contraseña)
+      const { contraseña: _, ...usuarioSinPassword } = usuario;
+      req.session.usuario = usuarioSinPassword;
+
+      // Guardar cookie si el usuario quiere "recordar sesión"
+      if (recordar) {
+        res.cookie("usuarioRecordado", usuario.correo, {
+          maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
+          httpOnly: true
+        });
+      }
+
+      res.redirect('/');
     });
-  }
-
-  const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
-  if (!esValida) {
-    return res.render('login', {
-      titulo: 'Iniciar sesión',
-      errorLogin: 'Contraseña incorrecta. Inténtelo de nuevo.',
-      mostrarHeader: false,
-      mostrarFooter: false
-    });
-  }
-
-  // Guardar usuario en sesión
-  req.session.usuario = usuario;
-
-  // Guardar cookie si el usuario quiere "recordar sesión"
-  if (recordar) {
-    res.cookie("usuarioRecordado", usuario.email, {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días
-      httpOnly: true
-    });
-  }
-
-  res.redirect('/');
+  });
 });
 
 // --- Logout ---
 router.get('/logout', (req, res) => {
   req.session.destroy(() => {
-    res.clearCookie('usuarioRecordado'); // Limpiar cookie al salir
+    res.clearCookie('usuarioRecordado');
     res.redirect('/');
   });
 });
