@@ -27,7 +27,7 @@ th {
   padding: 12px;
   border-radius: 5px;
   margin-bottom: 20px;
-  border-left: 4px solid #0066cc;
+  border-left: 4px solid #1f7a3a;
 }
 
 .btn-eliminar {
@@ -57,6 +57,14 @@ th {
   width: 4rem;
   height: 4rem;
   border-width: 0.4rem;
+}
+
+#btn-nueva-reserva {
+  display: inline-block; 
+  width: auto;            
+  white-space: nowrap;    
+  padding: 8px 16px; 
+  background-color: #1f7a3a ;     
 }
 
 /* ===== Modo texto grande: formularios/tablas auxiliares ===== */

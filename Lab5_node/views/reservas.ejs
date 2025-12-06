@@ -8,8 +8,9 @@
 <div class="container-fluid">
   <div class="header-container d-flex justify-content-between align-items-center my-3">
     <h1>Reservas</h1>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaReserva">
-      ➕ Nueva Reserva
+    <button type="button" class="btn btn-primary" id="btn-nueva-reserva" data-bs-toggle="modal"
+      data-bs-target="#modalNuevaReserva">
+      Nueva Reserva
     </button>
   </div>
 
@@ -26,13 +27,16 @@
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="10">Cargando...</td></tr>
+      <tr>
+        <td colspan="10">Cargando...</td>
+      </tr>
     </tbody>
   </table>
 </div>
 
 <!-- Modal Nueva Reserva -->
-<div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel" aria-hidden="true">
+<div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -40,7 +44,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        
+
         <form id="form-nueva-reserva" method="POST" action="/reservas/nueva">
 
           <!-- Selector de Vehículo -->
@@ -48,11 +52,14 @@
             <label for="vehiculo" class="form-label">Vehículo *</label>
             <select class="form-select" id="id_vehiculo" name="id_vehiculo" required>
               <option value="" disabled selected>Seleccione un vehículo...</option>
-              <% if (typeof vehiculos !== 'undefined' && vehiculos.length > 0) { %>
-                <% vehiculos.forEach(v => { %>
-                  <option value="<%= v.id_vehiculo %>"><%= v.marca %> <%= v.modelo %> - <%= v.matricula %></option>
-                <% }); %>
-              <% } %>
+              <% if (typeof vehiculos !=='undefined' && vehiculos.length> 0) { %>
+                <% vehiculos.forEach(v=> { %>
+                  <option value="<%= v.id_vehiculo %>">
+                    <%= v.marca %>
+                      <%= v.modelo %> - <%= v.matricula %>
+                  </option>
+                  <% }); %>
+                    <% } %>
             </select>
           </div>
 
@@ -97,28 +104,28 @@
 
 <!-- Scripts necesarios (agregar al final de tu layout principal) -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
-  const pickerInicio = flatpickr("#fecha_inicio", {
-    enableTime: true,
-    time_24hr: true,
-    minDate: "today",
-    dateFormat: "d/m/Y H:i"
+    const pickerInicio = flatpickr("#fecha_inicio", {
+      enableTime: true,
+      time_24hr: true,
+      minDate: "today",
+      dateFormat: "d/m/Y H:i"
+    });
+
+    const pickerFin = flatpickr("#fecha_fin", {
+      enableTime: true,
+      time_24hr: true,
+      minDate: "today",
+      dateFormat: "d/m/Y H:i"
+    });
+
+    // Evitar que la fecha fin sea anterior a la de inicio
+    document.getElementById("fecha_inicio").addEventListener("change", function () {
+      pickerFin.set("minDate", this.value);
+    });
+
   });
-
-  const pickerFin = flatpickr("#fecha_fin", {
-    enableTime: true,
-    time_24hr: true,
-    minDate: "today",
-    dateFormat: "d/m/Y H:i"
-  });
-
-  // Evitar que la fecha fin sea anterior a la de inicio
-  document.getElementById("fecha_inicio").addEventListener("change", function () {
-    pickerFin.set("minDate", this.value);
-  });
-
-});
 </script>
 
 <!-- scripts -->

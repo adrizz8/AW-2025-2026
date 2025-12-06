@@ -176,7 +176,7 @@ router.post('/registro', (req, res) => {
           });
           return;
         }
-        res.redirect('/login');
+        res.redirect('/');
       });
     });
   });

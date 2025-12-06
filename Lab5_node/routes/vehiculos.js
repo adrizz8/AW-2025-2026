@@ -35,9 +35,20 @@ res.render('vehiculos', { titulo: 'Lista de Vehículos', results });
 
 // --- NUEVO VEHÍCULO (GET) ---
 router.get('/nuevo', requireAuth, (req, res) => {
-res.render('vehiculo_nuevo', { titulo: 'Nuevo Vehículo', datos: {}, errores: [] });
-});
+  db.query('SELECT id_concesionario, nombre FROM concesionarios', (err, concesionarios) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).render('500', { mensaje: 'Error al obtener concesionarios' });
+    }
 
+    res.render('vehiculo_nuevo', {
+      titulo: 'Nuevo Vehículo',
+      datos: {},
+      errores: [],
+      concesionarios
+    });
+  });
+});	
 // --- NUEVO VEHÍCULO (POST) ---
 router.post('/nuevo', requireAuth, (req, res) => {
 const { matricula,marca, modelo,anio_matriculacion,numero_plazas,autonomia_km,color,imagen,estado,id_concesionario} = req.body;

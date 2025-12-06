@@ -98,6 +98,7 @@ input[type="tel"],
 input[type="password"],
 input[type="date"],
 input[type="time"],
+input[type="number"],
 select {
   width: 100%;
   padding: 10px;
@@ -174,6 +175,7 @@ body.dark-mode input[type="tel"],
 body.dark-mode input[type="password"],
 body.dark-mode input[type="date"],
 body.dark-mode input[type="time"],
+body.dark-mode input[type="number"],
 body.dark-mode select,
 body.dark-mode textarea {
   background-color: #041b0f;
