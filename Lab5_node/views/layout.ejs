@@ -26,7 +26,7 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  <% if (typeof mostrarHeader !=='undefined' ? mostrarHeader : true) { %>
+  <% if (typeof mostrarHeader !== 'undefined' && mostrarHeader === true) { %>
     <header class="header-layout">
 
       <div class="header-left">
@@ -93,7 +93,7 @@
         <%- body %>
       </main>
 
-      <% if (typeof mostrarFooter !=='undefined' ? mostrarFooter : true) { %>
+      <% if (typeof mostrarFooter !== 'undefined' && mostrarFooter === true) { %>
         <footer class="footer-layout">
 
           <div class="footer-item centro">

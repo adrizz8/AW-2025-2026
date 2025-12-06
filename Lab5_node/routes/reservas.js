@@ -150,22 +150,22 @@ router.post('/nueva', requireAuth, (req, res) => {
   });
 });
 
-router.get('/lista', requireAuth, (req, res) => {
- const query = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
+// router.get('/lista', requireAuth, (req, res) => {
+//  const query = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
 
 
-  db.query(query, [req.session.usuario.id_usuario], (err, resultado) => {
-    if (err) {
-      console.error("Error al cargar reservas:", err);
-      return res.status(500).json({ ok: false, error: "Error al obtener reservas" });
-    }
+//   db.query(query, [req.session.usuario.id_usuario], (err, resultado) => {
+//     if (err) {
+//       console.error("Error al cargar reservas:", err);
+//       return res.status(500).json({ ok: false, error: "Error al obtener reservas" });
+//     }
 
-    res.json({
-      ok: true,
-      reservas: resultado
-    });
-  });
-});
+//     res.json({
+//       ok: true,
+//       reservas: resultado
+//     });
+//   });
+// });
 
 
 module.exports = router;

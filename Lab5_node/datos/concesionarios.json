@@ -1,0 +1,37 @@
+[
+    {
+        "id_concesionario": 1,
+        "nombre": "MoveIt Valencia",
+        "ciudad": "Valencia",
+        "direccion": "Calle de la rosa",
+        "telefono_contacto": 123456789
+    },
+    {
+        "id_concesionario": 2,
+        "nombre": "MoveIt Madrid",
+        "ciudad": "Madrid",
+        "direccion": "Calle del pilar",
+        "telefono_contacto": 123456789
+    },
+    {
+        "id_concesionario": 3,
+        "nombre": "MoveIt Cadiz",
+        "ciudad": "Cadiz",
+        "direccion": "Calle grande",
+        "telefono_contacto": 123456789
+    },
+    {
+        "id_concesionario": 4,
+        "nombre": "MoveIt Avila",
+        "ciudad": "Avila",
+        "direccion": "Avenida avion",
+        "telefono_contacto": 123456789
+    },
+    {
+        "id_concesionario": 5,
+        "nombre": "MoveIt Asturias",
+        "ciudad": "Asturias",
+        "direccion": "Calle garlan",
+        "telefono_contacto": 123456789
+    }
+]
