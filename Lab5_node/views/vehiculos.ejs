@@ -14,22 +14,22 @@
 <% if (admin) { %>
   <a href="/vehiculos/nuevo" class="btn-nuevo">Añadir Vehículo</a>
   <% } %>
-    <table class="tabla-vehiculos">
+    <table class="tabla-vehiculos" summary="Listado de vehículos. Se muestran en orden el ID, matrícula, marca, modelo, año de matriculación, número de plazas, autonomía, color, imagen, estado, concesionario y acciones disponibles.">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Matrícula</th>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>Año</th>
-          <th>Plazas</th>
-          <th>Autonomía</th>
-          <th>Color</th>
-          <th>Imagen</th>
-          <th>Estado</th>
-          <th>Concesionario</th>
+          <th scope="col">ID</th>
+          <th scope="col">Matrícula</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Año</th>
+          <th scope="col">Plazas</th>
+          <th scope="col">Autonomía</th>
+          <th scope="col">Color</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Concesionario</th>
           <% if (admin) { %>
-            <th>Acciones</th>
+            <th scope="col">Acciones</th>
             <% } %>
         </tr>
       </thead>

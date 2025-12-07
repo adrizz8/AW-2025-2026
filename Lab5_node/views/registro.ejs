@@ -5,7 +5,7 @@
 
 <div class="registro-container">
   <div class="registro-formulario">
-    <h1>Registra un nuevo empleado</h1>
+    <h1 aria-label="Registro de nuevo empleado">Registra un nuevo empleado</h1>
     <h2>Introduce los siguientes datos para crear una nueva cuenta de empleado:</h2>
     
     <% if (error) { %>
@@ -22,13 +22,14 @@
       <input type="password" id="password-registro" name="contraseña" placeholder="Contraseña" required>
       
       <input type="tel" name="telefono" placeholder="Número de teléfono" required>
-
+        <label for="rol">Rol *</label>
         <select name="rol" id="rol" required>
         <option value="" disabled selected>Selecciona un rol</option>
         <option value="empleado">Empleado</option>
         <option value="admin">Administrador</option>
       </select>
       
+      <label for="concesionarios">Concesionario *</label>
       <select aria-label="Concesionarios" id="concesionarios" name="concesionarios" required>
         <option value="" disabled selected>Selecciona un concesionario</option>
         <% if (concesionarios && concesionarios.length > 0) { %>

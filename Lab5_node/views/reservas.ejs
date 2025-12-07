@@ -8,41 +8,41 @@
 <section class="formulario">
   <div class="header-formulario">
     <h1 class="titulo-seccion">Reservas</h1>
-    <button type="button" class="cta" id="btn-nueva-reserva"
-            data-bs-toggle="modal" data-bs-target="#modalNuevaReserva">
+    <button type="button" class="cta" id="btn-nueva-reserva" data-bs-toggle="modal" data-bs-target="#modalNuevaReserva">
       Nueva reserva
     </button>
   </div>
 
   <div class="tabla-container">
-  <table class="tabla-vehiculos">
-    <thead>
-      <tr>
-        <th>ID de la reserva</th>
-        <th>ID del vehículo</th>
-        <th>DNI del cliente</th>
-        <th>Nombre del cliente</th>
-        <th>Fecha de inicio</th>
-        <th>Fecha de fin</th>
-        <th>Kilometros recorridos</th>
-        <th>Incidencias reportadas</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody id="tbody">
-      <tr>
-        <td colspan="10">Cargando...</td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="tabla-vehiculos"
+      summary="Listado de reservas. Se muestran en orden el ID de la reserva, ID del vehículo, DNI del cliente, nombre del cliente, fecha de inicio, fecha de fin, kilómetros recorridos, incidencias reportadas, estado y acciones disponibles.">
+      <thead>
+        <tr>
+          <th scope="col">ID de la reserva</th>
+          <th scope="col">ID del vehículo</th>
+          <th scope="col">DNI del cliente</th>
+          <th scope="col">Nombre del cliente</th>
+          <th scope="col">Fecha de inicio</th>
+          <th scope="col">Fecha de fin</th>
+          <th scope="col">Kilometros recorridos</th>
+          <th scope="col">Incidencias reportadas</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td colspan="10">Cargando...</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   </table>
 </section>
 
 <!-- Modal Nueva Reserva -->
 <div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel"
-     aria-hidden="true">
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content formulario">
       <div class="modal-header" style="border-bottom:none; padding-bottom:0;">
@@ -57,13 +57,14 @@
             <label for="id_vehiculo">Vehículo *</label>
             <select id="id_vehiculo" name="id_vehiculo" required>
               <option value="" disabled selected>Seleccione un vehículo...</option>
-              <% if (typeof vehiculos !== 'undefined' && vehiculos.length > 0) { %>
-                <% vehiculos.forEach(v => { %>
+              <% if (typeof vehiculos !=='undefined' && vehiculos.length> 0) { %>
+                <% vehiculos.forEach(v=> { %>
                   <option value="<%= v.id_vehiculo %>">
-                    <%= v.marca %> <%= v.modelo %> - <%= v.matricula %>
+                    <%= v.marca %>
+                      <%= v.modelo %> - <%= v.matricula %>
                   </option>
-                <% }) %>
-              <% } %>
+                  <% }) %>
+                    <% } %>
             </select>
           </div>
 
@@ -106,7 +107,7 @@
 
 <!-- Modal Editar Reserva -->
 <div class="modal fade" id="modalEditarReserva" tabindex="-1" aria-labelledby="modalEditarReservaLabel"
-     aria-hidden="true">
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content formulario">
       <div class="modal-header" style="border-bottom:none; padding-bottom:0;">
@@ -117,7 +118,8 @@
       <div class="modal-body" style="padding-top:10px;">
         <!-- Mensajes de error -->
         <div id="errores-editar" style="display:none; margin-bottom:15px;">
-          <div style="background-color:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:12px; border-radius:4px;">
+          <div
+            style="background-color:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:12px; border-radius:4px;">
             <ul id="lista-errores-editar" style="margin:0; padding-left:20px;"></ul>
           </div>
         </div>
@@ -142,8 +144,8 @@
 
           <div class="campo-form">
             <label for="edit_incidencias">Incidencias reportadas</label>
-            <textarea id="edit_incidencias" name="incidencias_reportadas" rows="4" 
-                      style="resize:vertical; width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"></textarea>
+            <textarea id="edit_incidencias" name="incidencias_reportadas" rows="4"
+              style="resize:vertical; width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"></textarea>
           </div>
 
           <button type="submit" class="cta" style="width:100%; margin-top:14px;">

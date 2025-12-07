@@ -3,21 +3,21 @@
       <h1>Detalle del Concesionario</h1>
       <p class="meta">ID: <strong><%= concesionario.id_concesionario %></strong></p>
 
-      <table class="tabla-vehiculos">
+      <table class="tabla-vehiculos" summary ="Detalle del concesionario. Se muestran en orden el nombre, ciudad, dirección y teléfono de contacto.">
         <tbody>
-          <tr>
+          <tr scope="col">
             <th>Nombre</th>
             <td><%= concesionario.nombre %></td>
           </tr>
-          <tr>
+          <tr scope="col">
             <th>Ciudad</th>
             <td><%= concesionario.ciudad %></td>
           </tr>
-          <tr>
+          <tr scope="col">
             <th>Dirección</th>
             <td><%= concesionario.direccion %></td>
           </tr>
-          <tr>
+          <tr scope="col">
             <th>Teléfono de contacto</th>
             <td><%= concesionario.telefono_contacto %></td>
           </tr>

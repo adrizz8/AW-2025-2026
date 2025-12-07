@@ -6,58 +6,58 @@
 <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
      <!-- Tabla de datos -->
      <div style="flex:1 1 260px; min-width:260px;">
-          <table class="tabla-vehiculos">
+          <table class="tabla-vehiculos" summary="Detalle del vehículo. Se muestran en orden la matrícula, marca, modelo, año de matriculación, número de plazas, autonomía en km, color, estado e ID del concesionario.">
                <tbody>
                     <tr>
-                         <th>Matrícula</th>
+                         <th scope="col">Matrícula</th>
                          <td>
                               <%= vehiculo.matricula %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Marca</th>
+                         <th scope="col">Marca</th>
                          <td>
                               <%= vehiculo.marca %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Modelo</th>
+                         <th scope="col">Modelo</th>
                          <td>
                               <%= vehiculo.modelo %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Año matriculación</th>
+                         <th scope="col">Año matriculación</th>
                          <td>
                               <%= vehiculo.anio_matriculacion %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Nº plazas</th>
+                         <th scope="col">Nº plazas</th>
                          <td>
                               <%= vehiculo.numero_plazas %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Autonomía (km)</th>
+                         <th scope="col">Autonomía (km)</th>
                          <td>
                               <%= vehiculo.autonomia_km %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Color</th>
+                         <th scope="col">Color</th>
                          <td>
                               <%= vehiculo.color %>
                          </td>
                     </tr>
                     <tr>
-                         <th>Estado</th>
+                         <th scope="col">Estado</th>
                          <td>
                               <%= vehiculo.estado %>
                          </td>
                     </tr>
                     <tr>
-                         <th>ID concesionario</th>
+                         <th scope="col">ID concesionario</th>
                          <td>
                               <%= vehiculo.id_concesionario %>
                          </td>
