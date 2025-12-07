@@ -5,33 +5,44 @@ const requireAdmin = require('../middlewares/requireAdmin');
 const db = require('../public/js/conexion'); // conexión MySQL sin promesas
 
 // --- LISTA DE CONCESIONARIOS ---
-router.get('/',requireAdmin, (req, res) => {
-const q = (req.query.q || '').toLowerCase();
-const tipo = (req.query.tipo || '').toLowerCase();
+router.get('/', requireAdmin, (req, res) => {
+  const q = (req.query.q || '').toLowerCase();
 
-let query = 'SELECT * FROM concesionarios WHERE 1';
-let params = [];
+  let query = 'SELECT * FROM concesionarios WHERE activo = 1';
+  let params = [];
 
-if (q) {
-query += ' AND (LOWER(nombre) LIKE ? OR LOWER(ciudad) LIKE ?)';
-params.push(`%${q}%`, `%${q}%`);
-}
+  if (q) {
+    query += ' AND (LOWER(nombre) LIKE ? OR LOWER(ciudad) LIKE ?)';
+    params.push(`%${q}%`, `%${q}%`);
+  }
 
-db.query(query, params, (err, results) => {
-if (err) {
-console.error(err);
-return res.status(500).render('500', { mensaje: 'Error al obtener los concesionarios' });
-}
+  db.query(query, params, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).render('500', { mensaje: 'Error al obtener los concesionarios' });
+    }
 
-res.render('concesionarios', { titulo: 'Lista de Concesionarios', results });
-
-
+    res.render('concesionarios', {
+      titulo: 'Lista de Concesionarios',
+      results,
+      mostrarHeader: true,
+      mostrarFooter: true,
+      admin: true
+    });
+  });
 });
-});
+
 
 router.get('/nuevo', requireAdmin, (req, res) => {
-res.render('concesionarios_nuevo', { titulo: 'Nuevo Concesionario', datos: {}, errores: [] });
+  res.render('concesionarios_nuevo', {
+    titulo: 'Nuevo Concesionario',
+    datos: {},
+    errores: [],
+    mostrarHeader: true,
+    mostrarFooter: true
+  });
 });
+
 
 // --- NUEVO CONCESIONARIO (POST) ---
 router.post('/nuevo', requireAdmin, (req, res) => {
@@ -39,23 +50,135 @@ router.post('/nuevo', requireAdmin, (req, res) => {
 
   if (!nombre || !ciudad || !direccion || !telefono_contacto) {
     return res.status(400).send('Todos los campos son obligatorios');
-    }
+  }
 
-    if (isNaN(telefono_contacto)) {
-    return  res.status(400).send('El teléfono de contacto debe ser numérico');
-    }
+  if (isNaN(telefono_contacto)) {
+    return res.status(400).send('El teléfono de contacto debe ser numérico');
+  }
 
-    if (telefono_contacto.length !=9) {
+  if (telefono_contacto.length != 9) {
     return res.status(400).send('El teléfono de contacto debe tener 9 dígitos');
-    }
-  
-  
+  }
+
+
   const sql = 'INSERT INTO concesionarios (nombre,ciudad,direccion,telefono_contacto) VALUES (?, ?, ?, ?)';
   db.query(sql, [nombre, ciudad, direccion, telefono_contacto], (err, result) => {
     if (err) return res.status(500).send('Error al insertar concesionario');
-    res.status(200).send('OK'); 
+    res.status(200).send('OK');
   });
 });
 
+// --- ELIMINAR CONCESIONARIO ---
+router.post('/:id/eliminar', requireAdmin, (req, res) => {
+  const id = req.params.id;
+
+  const sql = 'UPDATE concesionarios SET activo = 0 WHERE id_concesionario = ?';
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).render('500', { mensaje: 'Error al eliminar concesionario' });
+    }
+    return res.redirect('/concesionarios');
+  });
+});
 
 module.exports = router;
+
+router.get('/:id/editar', requireAdmin, (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT * FROM concesionarios WHERE id_concesionario = ? AND activo = 1',
+    [id],
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).render('500', {
+          mensaje: 'Error al cargar concesionario',
+          mostrarHeader: true,
+          mostrarFooter: true
+        });
+      }
+      if (rows.length === 0) {
+        return res.status(404).render('404', {
+          mensaje: 'Concesionario no encontrado',
+          mostrarHeader: true,
+          mostrarFooter: true
+        });
+      }
+      res.render('concesionario_editar', {
+        titulo: 'Editar Concesionario',
+        concesionario: rows[0],
+        errores: [],
+        mostrarHeader: true,
+        mostrarFooter: true
+      });
+    });
+});
+
+
+router.post('/:id/editar', requireAdmin, (req, res) => {
+  const id = req.params.id;
+  const { nombre, ciudad, direccion, telefono_contacto } = req.body;
+
+  const errores = [];
+  if (!nombre || !ciudad || !direccion || !telefono_contacto) {
+    errores.push('Todos los campos son obligatorios');
+  }
+  if (isNaN(telefono_contacto)) {
+    errores.push('El teléfono de contacto debe ser numérico');
+  }
+  if (telefono_contacto.length !== 9) {
+    errores.push('El teléfono de contacto debe tener 9 dígitos');
+  }
+
+  if (errores.length > 0) {
+    return res.render('concesionario_editar', {
+      titulo: 'Editar Concesionario',
+      concesionario: { id_concesionario: id, nombre, ciudad, direccion, telefono_contacto },
+      errores,
+      mostrarHeader: true,
+      mostrarFooter: true
+    });
+  }
+
+  const sql = `
+    UPDATE concesionarios
+    SET nombre = ?, ciudad = ?, direccion = ?, telefono_contacto = ?
+    WHERE id_concesionario = ? AND activo = 1
+  `;
+  db.query(sql, [nombre, ciudad, direccion, telefono_contacto, id], (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).render('500', {
+        mensaje: 'Error al actualizar concesionario',
+        mostrarHeader: true,
+        mostrarFooter: true
+      });
+    }
+
+    res.redirect('/concesionarios');
+  });
+});
+
+// --- DETALLES CONCESIONARIO ---
+router.get('/:id', requireAdmin, (req, res) => {
+  const id = req.params.id;
+  db.query(
+    'SELECT * FROM concesionarios WHERE id_concesionario = ? AND activo = 1',
+    [id],
+    (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).render('500', { mensaje: 'Error al cargar concesionario', mostrarHeader: true, mostrarFooter: true });
+      }
+      if (rows.length === 0) {
+        return res.status(404).render('404', { mensaje: 'Concesionario no encontrado', mostrarHeader: true, mostrarFooter: true });
+      }
+      res.render('concesionario_detalle', {
+        titulo: 'Detalle Concesionario',
+        concesionario: rows[0],
+        mostrarHeader: true,
+        mostrarFooter: true
+      });
+    }
+  );
+});

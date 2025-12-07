@@ -1,0 +1,46 @@
+  <main class="main-layout">
+    <section class="formulario">
+      <h1>Detalle del Concesionario</h1>
+      <p class="meta">ID: <strong><%= concesionario.id_concesionario %></strong></p>
+
+      <table class="tabla-vehiculos">
+        <tbody>
+          <tr>
+            <th>Nombre</th>
+            <td><%= concesionario.nombre %></td>
+          </tr>
+          <tr>
+            <th>Ciudad</th>
+            <td><%= concesionario.ciudad %></td>
+          </tr>
+          <tr>
+            <th>Dirección</th>
+            <td><%= concesionario.direccion %></td>
+          </tr>
+          <tr>
+            <th>Teléfono de contacto</th>
+            <td><%= concesionario.telefono_contacto %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="nav-acciones" style="margin-top: 20px;">
+        <a href="/concesionarios" class="cta">← Volver al listado</a>
+
+        <a href="/concesionarios/<%= concesionario.id_concesionario %>/editar" 
+           class="cta">
+          Editar concesionario
+        </a>
+
+        <form action="/concesionarios/<%= concesionario.id_concesionario %>/eliminar"
+              method="POST"
+              style="display:inline;">
+          <button type="submit"
+                  class="eliminar"
+                  onclick="return confirm('¿Seguro que quieres eliminar este concesionario?');">
+            Eliminar
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
