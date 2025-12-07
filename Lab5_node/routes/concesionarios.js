@@ -4,9 +4,15 @@ const requireAuth = require('../middlewares/auth');
 const requireAdmin = require('../middlewares/requireAdmin');
 const db = require('../public/js/conexion'); // conexión MySQL sin promesas
 
+const mensajes = {
+  vehiculos_vinculados: 'No se puede dar de baja el concesionario porque tiene vehículos activos vinculados.'
+};
+
 // --- LISTA DE CONCESIONARIOS ---
 router.get('/', requireAdmin, (req, res) => {
   const q = (req.query.q || '').toLowerCase();
+  const errorKey = req.query.error;
+  const mensajeError = errorKey ? mensajes[errorKey] : null;
 
   let query = 'SELECT * FROM concesionarios WHERE activo = 1';
   let params = [];
@@ -19,7 +25,7 @@ router.get('/', requireAdmin, (req, res) => {
   db.query(query, params, (err, results) => {
     if (err) {
       console.error(err);
-      return res.status(500).render('500', { mensaje: 'Error al obtener los concesionarios' });
+      return res.status(500).render('500', { mensaje: 'Error al obtener los concesionarios', mostrarHeader: true, mostrarFooter: true });
     }
 
     res.render('concesionarios', {
@@ -27,7 +33,8 @@ router.get('/', requireAdmin, (req, res) => {
       results,
       mostrarHeader: true,
       mostrarFooter: true,
-      admin: true
+      admin: true,
+      mensajeError
     });
   });
 });
@@ -72,13 +79,40 @@ router.post('/nuevo', requireAdmin, (req, res) => {
 router.post('/:id/eliminar', requireAdmin, (req, res) => {
   const id = req.params.id;
 
-  const sql = 'UPDATE concesionarios SET activo = 0 WHERE id_concesionario = ?';
-  db.query(sql, [id], (err, result) => {
+  const sqlCheck = `
+    SELECT COUNT(*) AS total
+    FROM vehiculos
+    WHERE id_concesionario = ? AND activo = 1
+  `;
+
+  db.query(sqlCheck, [id], (err, rows) => {
     if (err) {
       console.error(err);
-      return res.status(500).render('500', { mensaje: 'Error al eliminar concesionario' });
+      return res.status(500).render('500', {
+        mensaje: 'Error al comprobar vehículos vinculados',
+        mostrarHeader: true,
+        mostrarFooter: true
+      });
     }
-    return res.redirect('/concesionarios');
+
+    const total = rows[0].total;
+
+    if (total > 0) {
+      return res.redirect('/concesionarios?error=vehiculos_vinculados');
+    }
+
+    const sqlDelete = 'UPDATE concesionarios SET activo = 0 WHERE id_concesionario = ?';
+    db.query(sqlDelete, [id], (err2) => {
+      if (err2) {
+        console.error(err2);
+        return res.status(500).render('500', {
+          mensaje: 'Error al eliminar concesionario',
+          mostrarHeader: true,
+          mostrarFooter: true
+        });
+      }
+      return res.redirect('/concesionarios');
+    });
   });
 });
 
