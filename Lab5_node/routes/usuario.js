@@ -14,7 +14,8 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
       rol,
       telefono,
       id_concesionario,
-      preferencias_accesibilidad
+      preferencias_accesibilidad,
+      activo
     FROM usuarios`;
 
   db.query(sql, (err, resultados) => {
@@ -25,7 +26,7 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
         usuarios: [],
         usuario: req.session.usuario,
         error: "Error al obtener los usuarios de la base de datos",
-         mostrarHeader: true,
+        mostrarHeader: true,
         mostrarFooter: true
       });
     }
@@ -43,11 +44,43 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
       usuarios,
       usuario: req.session.usuario,
       error: null,
-       mostrarHeader: true,
-        mostrarFooter: true
+      mostrarHeader: true,
+      mostrarFooter: true
     });
   });
 
+});
+
+// Ruta para dar de baja a un usuario
+router.post('/baja/:id', requireAuth, requireAdmin, (req, res) => {
+  const idUsuario = req.params.id;
+
+  const sql = 'UPDATE usuarios SET activo = 0 WHERE id_usuario = ?';
+
+  db.query(sql, [idUsuario], (err, resultado) => {
+    if (err) {
+      console.error("Error al dar de baja usuario:", err);
+      return res.redirect('/usuario?error=No se pudo dar de baja el usuario');
+    }
+
+    res.redirect('/usuario');
+  });
+});
+
+// Ruta para activar un usuario
+router.post('/activar/:id', requireAuth, requireAdmin, (req, res) => {
+  const idUsuario = req.params.id;
+
+  const sql = 'UPDATE usuarios SET activo = 1 WHERE id_usuario = ?';
+
+  db.query(sql, [idUsuario], (err, resultado) => {
+    if (err) {
+      console.error("Error al activar usuario:", err);
+      return res.redirect('/usuario?error=No se pudo activar el usuario');
+    }
+
+    res.redirect('/usuario');
+  });
 });
 
 module.exports = router;
