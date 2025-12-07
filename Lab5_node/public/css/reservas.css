@@ -2,6 +2,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 20px;
+  table-layout: auto; /* Permite que las columnas se ajusten automáticamente */
 }
 
 th,
@@ -9,12 +10,23 @@ td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
+  white-space: normal; /* Evita que el texto se parta en múltiples líneas */
+  font-size: 14px; /* Reduce ligeramente el tamaño de fuente */
 }
+
 
 th {
   background-color: #f8f9fa;
   font-weight: bold;
 }
+
+/* Contenedor con scroll horizontal para la tabla */
+.tabla-container {
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 20px;
+}
+
 
 .campo-grupo {
   display: grid;
@@ -62,16 +74,15 @@ th {
 #btn-nueva-reserva {
   display: inline-block; 
   width: auto;            
-  white-space: nowrap;    
+  white-space: normal;    
   padding: 8px 16px; 
-  background-color: #1f7a3a ;     
+  background-color: #1f7a3a;     
 }
 
 .tabla-usuarios thead th {
   background-color: #f8f9fa;   
   color: #072d05;             
 }
-
 
 body.dark-mode .tabla-usuarios thead th {
   background-color: #058d40;   
@@ -103,4 +114,47 @@ body.texto-grande .nota {
 
 body.texto-grande .btn-eliminar {
   font-size: 0.95rem;
+}
+
+.btn-editar {
+  background-color: #058d40;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-editar:hover {
+  background-color: #046d32;
+}
+
+.estado-activa {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.estado-finalizada {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.estado-cancelada {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Responsive: en pantallas pequeñas, permitir scroll horizontal */
+@media (max-width: 1200px) {
+  .tabla-vehiculos {
+    display: block;
+    overflow-x: auto;
+    white-space: normal;
+  }
+  
+  th, td {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

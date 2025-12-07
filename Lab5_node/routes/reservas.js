@@ -16,7 +16,7 @@ router.get('/', requireAuth, (req, res) => {
   const id_concesionario = req.session.usuario.id_concesionario;
 
   let queryReservas = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
-  let queryVehiculos = "SELECT * FROM vehiculos WHERE estado = 'disponible' AND id_concesionario = ?";
+  let queryVehiculos = "SELECT * FROM vehiculos WHERE estado = 'disponible' AND id_concesionario = ? AND activo = 1";
 
   db.query(queryReservas, [id_usuario], (err, reservas) => {
     if (err) {
@@ -117,7 +117,7 @@ router.post('/nueva', requireAuth, (req, res) => {
     const queryInsertar = `
   INSERT INTO reservas 
   (id_usuario, id_vehiculo, dni_cliente, nombre, fecha_inicio, fecha_fin, estado, kilometros_recorridos, incidencias_reportadas) 
-  VALUES (?, ?, ?, ?, ?, ?, 'activa', 0, '')
+  VALUES (?, ?, ?, ?, ?, ?, 'activa', 0, 'Ninguna')
 `;
 
     const params = [
@@ -140,7 +140,6 @@ router.post('/nueva', requireAuth, (req, res) => {
 
       console.log('✅ Reserva creada exitosamente:', result.insertId);
 
-
       db.query('UPDATE vehiculos SET estado = "reservado" WHERE id_vehiculo = ?', [id_vehiculo]);
 
       return res.json({
@@ -152,9 +151,9 @@ router.post('/nueva', requireAuth, (req, res) => {
   });
 });
 
+// --- GET /reservas/lista - Obtener lista de reservas ---
 router.get('/lista', requireAuth, (req, res) => {
- const query = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
-
+  const query = 'SELECT * FROM reservas WHERE id_usuario = ? ORDER BY fecha_inicio DESC';
 
   db.query(query, [req.session.usuario.id_usuario], (err, resultado) => {
     if (err) {
@@ -169,5 +168,106 @@ router.get('/lista', requireAuth, (req, res) => {
   });
 });
 
+// --- GET /reservas/detalle/:id - Obtener detalle de una reserva ---
+router.get('/detalle/:id', requireAuth, (req, res) => {
+  const idReserva = req.params.id;
+  const idUsuario = req.session.usuario.id_usuario;
+
+  const query = 'SELECT * FROM reservas WHERE id_reserva = ? AND id_usuario = ?';
+
+  db.query(query, [idReserva, idUsuario], (err, resultado) => {
+    if (err) {
+      console.error("Error al obtener detalle de reserva:", err);
+      return res.status(500).json({ ok: false, error: "Error al obtener la reserva" });
+    }
+
+    if (resultado.length === 0) {
+      return res.status(404).json({ ok: false, error: "Reserva no encontrada" });
+    }
+
+    res.json({
+      ok: true,
+      reserva: resultado[0]
+    });
+  });
+});
+
+// --- POST /reservas/editar/:id - Editar una reserva ---
+router.post('/editar/:id', requireAuth, (req, res) => {
+  const idReserva = req.params.id;
+  const idUsuario = req.session.usuario.id_usuario;
+  const { estado, kilometros_recorridos, incidencias_reportadas, id_vehiculo } = req.body;
+
+  const errores = [];
+
+  // Validaciones
+  if (!estado || !['activa', 'finalizada', 'cancelada'].includes(estado)) {
+    errores.push('El estado debe ser: activa, finalizada o cancelada');
+  }
+
+  if (kilometros_recorridos && (isNaN(kilometros_recorridos) || kilometros_recorridos < 0)) {
+    errores.push('Los kilómetros recorridos deben ser un número positivo');
+  }
+
+  if (errores.length > 0) {
+    return res.json({ ok: false, errores });
+  }
+
+  // Verificar que la reserva pertenece al usuario
+  const queryVerificar = 'SELECT * FROM reservas WHERE id_reserva = ? AND id_usuario = ?';
+  
+  db.query(queryVerificar, [idReserva, idUsuario], (err, reservas) => {
+    if (err) {
+      console.error('Error al verificar reserva:', err);
+      return res.status(500).json({ ok: false, error: 'Error al verificar la reserva' });
+    }
+
+    if (reservas.length === 0) {
+      return res.status(404).json({ ok: false, error: 'Reserva no encontrada' });
+    }
+
+    const reservaActual = reservas[0];
+
+    // Actualizar la reserva
+    const queryActualizar = `
+      UPDATE reservas 
+      SET estado = ?, 
+          kilometros_recorridos = ?, 
+          incidencias_reportadas = ?
+      WHERE id_reserva = ? AND id_usuario = ?
+    `;
+
+    const params = [
+      estado,
+      kilometros_recorridos || 0,
+      incidencias_reportadas || '',
+      idReserva,
+      idUsuario
+    ];
+
+    db.query(queryActualizar, params, (errUpdate, resultado) => {
+      if (errUpdate) {
+        console.error('Error al actualizar reserva:', errUpdate);
+        return res.status(500).json({ ok: false, error: 'Error al actualizar la reserva' });
+      }
+
+      // Si el estado cambió a 'finalizada' o 'cancelada', liberar el vehículo
+      if ((estado === 'finalizada' || estado === 'cancelada') && reservaActual.estado === 'activa') {
+        const queryLiberarVehiculo = 'UPDATE vehiculos SET estado = "disponible" WHERE id_vehiculo = ?';
+        
+        db.query(queryLiberarVehiculo, [id_vehiculo], (errVehiculo) => {
+          if (errVehiculo) {
+            console.error('Error al liberar vehículo:', errVehiculo);
+          }
+        });
+      }
+
+      res.json({
+        ok: true,
+        mensaje: 'Reserva actualizada correctamente'
+      });
+    });
+  });
+});
 
 module.exports = router;

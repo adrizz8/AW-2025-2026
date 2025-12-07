@@ -14,6 +14,7 @@
     </button>
   </div>
 
+  <div class="tabla-container">
   <table class="tabla-vehiculos">
     <thead>
       <tr>
@@ -23,14 +24,19 @@
         <th>Nombre del cliente</th>
         <th>Fecha de inicio</th>
         <th>Fecha de fin</th>
+        <th>Kilometros recorridos</th>
+        <th>Incidencias reportadas</th>
         <th>Estado</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody id="tbody">
       <tr>
-        <td colspan="7">Cargando...</td>
+        <td colspan="10">Cargando...</td>
       </tr>
     </tbody>
+  </table>
+  </div>
   </table>
 </section>
 
@@ -98,6 +104,61 @@
   </div>
 </div>
 
+<!-- Modal Editar Reserva -->
+<div class="modal fade" id="modalEditarReserva" tabindex="-1" aria-labelledby="modalEditarReservaLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content formulario">
+      <div class="modal-header" style="border-bottom:none; padding-bottom:0;">
+        <h2 class="modal-title" id="modalEditarReservaLabel">Editar reserva</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body" style="padding-top:10px;">
+        <!-- Mensajes de error -->
+        <div id="errores-editar" style="display:none; margin-bottom:15px;">
+          <div style="background-color:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:12px; border-radius:4px;">
+            <ul id="lista-errores-editar" style="margin:0; padding-left:20px;"></ul>
+          </div>
+        </div>
+
+        <form id="form-editar-reserva">
+          <input type="hidden" id="edit_id_reserva" name="id_reserva">
+          <input type="hidden" id="edit_id_vehiculo" name="id_vehiculo">
+
+          <div class="campo-form">
+            <label for="edit_estado">Estado *</label>
+            <select id="edit_estado" name="estado" required>
+              <option value="activa">Activa</option>
+              <option value="finalizada">Finalizada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+
+          <div class="campo-form">
+            <label for="edit_kilometros">Kilómetros recorridos</label>
+            <input type="number" id="edit_kilometros" name="kilometros_recorridos" min="0" step="1">
+          </div>
+
+          <div class="campo-form">
+            <label for="edit_incidencias">Incidencias reportadas</label>
+            <textarea id="edit_incidencias" name="incidencias_reportadas" rows="4" 
+                      style="resize:vertical; width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;"></textarea>
+          </div>
+
+          <button type="submit" class="cta" style="width:100%; margin-top:14px;">
+            Guardar cambios
+          </button>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="border-top:none; justify-content:flex-end;">
+        <button type="button" class="volver" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const pickerInicio = flatpickr("#fecha_inicio", {
@@ -122,3 +183,4 @@
 
 <script src="/js/procesar_reserva.js"></script>
 <script src="/js/cargar_reservas.js"></script>
+<script src="/js/editar_reservas.js"></script>
