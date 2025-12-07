@@ -1,106 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= titulo %></title>
+  <title>
+    <%= titulo %>
+  </title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/setup.css" rel="stylesheet">
 </head>
+
 <body>
   <div class="setup-container">
-    <div class="icono">📁</div>
-    <h1><%= titulo %></h1>
-    
+    <h1>
+      <%= titulo %>
+    </h1>
+
     <% if (bdVacia) { %>
-      <p class="descripcion">La base de datos está vacía. Para comenzar, carga los archivos JSON con los datos iniciales.</p>
-    <% } else { %>
-      <p class="descripcion">Puedes cargar datos adicionales desde archivos JSON.</p>
-    <% } %>
+      <p class="descripcion">La base de datos está vacía. Para comenzar, carga los archivos JSON con los datos
+        iniciales.</p>
+      <% } else { %>
+        <p class="descripcion">Puedes cargar datos adicionales desde archivos JSON.</p>
+        <% } %>
 
-    <!-- Sección Concesionarios -->
-    <div class="upload-section">
-      <h3>📍 Concesionarios</h3>
-      <p>Sube un archivo JSON con los concesionarios</p>
-      <form id="form-concesionarios" enctype="multipart/form-data">
-        <div class="mb-3">
-          <input type="file" class="form-control" id="archivo-concesionarios" name="archivo" accept=".json" required>
-        </div>
-        <button type="submit" class="btn btn-primary" id="btn-concesionarios">
-          <span class="spinner-border spinner-border-sm me-2"></span>
-          Cargar Concesionarios
-        </button>
-      </form>
-    </div>
+          <!-- Sección Concesionarios -->
+          <div class="upload-section">
+            <h3>📍 Concesionarios</h3>
+            <p>Sube un archivo JSON con los concesionarios</p>
+            <form id="form-concesionarios" enctype="multipart/form-data">
+              <div class="mb-3">
+                <input type="file" class="form-control" id="archivo-concesionarios" name="archivo" accept=".json"
+                  required>
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-concesionarios">
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                <span class="btn-text">Cargar Concesionarios</span>
+              </button>
+            </form>
+          </div>
 
-    <!-- Sección Vehículos -->
-    <div class="upload-section">
-      <h3>🚗 Vehículos</h3>
-      <p>Sube un archivo JSON con los vehículos</p>
-      <form id="form-vehiculos" enctype="multipart/form-data">
-        <div class="mb-3">
-          <input type="file" class="form-control" id="archivo-vehiculos" name="archivo" accept=".json" required>
-        </div>
-        <button type="submit" class="btn btn-primary" id="btn-vehiculos">
-          <span class="spinner-border spinner-border-sm me-2"></span>
-          Cargar Vehículos
-        </button>
-      </form>
-    </div>
+          <!-- Sección Vehículos -->
+          <div class="upload-section">
+            <h3>🚗 Vehículos</h3>
+            <p>Sube un archivo JSON con los vehículos</p>
+            <form id="form-vehiculos" enctype="multipart/form-data">
+              <div class="mb-3">
+                <input type="file" class="form-control" id="archivo-vehiculos" name="archivo" accept=".json" required>
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-vehiculos">
+                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                <span class="btn-text">Cargar Vehículos</span>
+              </button>
 
-    <!-- Contenedor de conflictos -->
-    <div class="conflictos-container" id="conflictos-container">
-      <div class="alert alert-warning">
-        <h5>⚠️ Vehículos existentes encontrados</h5>
-        <p>Los siguientes vehículos ya existen en la base de datos. ¿Deseas actualizarlos?</p>
-        <div id="lista-conflictos"></div>
-        <div class="mt-3">
-          <button class="btn btn-success" id="btn-actualizar-todos">Actualizar todos</button>
-          <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
-        </div>
-      </div>
-    </div>
+            </form>
+          </div>
 
-    <!-- Logs -->
-    <div class="logs-container" id="logs-container">
-      <h5>📋 Registro de operaciones</h5>
-      <div id="logs-content"></div>
-    </div>
+          <!-- Contenedor de conflictos -->
+          <div class="conflictos-container" id="conflictos-container">
+            <div class="alert alert-warning">
+              <h5>⚠️ Vehículos existentes encontrados</h5>
+              <p>Los siguientes vehículos ya existen en la base de datos. ¿Deseas actualizarlos?</p>
+              <div id="lista-conflictos"></div>
+              <div class="mt-3">
+                <button class="btn btn-success" id="btn-actualizar-todos">Actualizar todos</button>
+                <button class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+              </div>
+            </div>
+          </div>
 
-    <!-- Estadísticas -->
-    <div class="estadisticas" id="estadisticas" style="display: none;">
-      <div class="stat-card">
-        <div class="stat-number" id="stat-total">0</div>
-        <div class="stat-label">Total</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="stat-exitosos">0</div>
-        <div class="stat-label">Añadidos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="stat-actualizados">0</div>
-        <div class="stat-label">Actualizados</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="stat-errores">0</div>
-        <div class="stat-label">Errores</div>
-      </div>
-    </div>
+          <!-- Logs -->
+          <div class="logs-container" id="logs-container">
+            <h5>📋 Registro de operaciones</h5>
+            <div id="logs-content"></div>
+          </div>
 
-    <% if (!bdVacia) { %>
-      <div class="text-center mt-4">
-        <a href="/" class="btn btn-outline-primary">Volver al inicio</a>
-      </div>
-    <% } %>
+          <!-- Estadísticas -->
+          <div class="estadisticas" id="estadisticas" style="display: none;">
+            <div class="stat-card">
+              <div class="stat-number" id="stat-total">0</div>
+              <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-exitosos">0</div>
+              <div class="stat-label">Añadidos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-actualizados">0</div>
+              <div class="stat-label">Actualizados</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-errores">0</div>
+              <div class="stat-label">Errores</div>
+            </div>
+          </div>
+
+          <% if (!bdVacia) { %>
+            <div class="text-center mt-4">
+              <a href="/" class="btn btn-outline-primary">Volver al inicio</a>
+            </div>
+            <% } %>
   </div>
 
   <!-- Botón para ir a la página principal -->
-<div class="text-center mt-3" id="btn-ir-index-container" style="display:none;">
-  <button class="btn btn-success" id="btn-ir-index">Ir a la página principal</button>
-</div>
+  <div class="text-center mt-3" id="btn-ir-index-container" style="display:none;">
+    <button class="btn btn-success" id="btn-ir-index">Ir a la página principal</button>
+  </div>
 
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/setup.js"></script>
 </body>
+
 </html>

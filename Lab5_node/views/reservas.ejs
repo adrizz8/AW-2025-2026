@@ -1,20 +1,20 @@
 <!-- Overlay de carga -->
 <div class="spinner-overlay" id="spinner">
-  <div class="spinner-border spinner-border-custom text-light" role="status">
+  <div class="spinner-border spinner-border-custom" role="status">
     <span class="visually-hidden">Cargando...</span>
   </div>
 </div>
 
-<div class="container-fluid">
-  <div class="header-container d-flex justify-content-between align-items-center my-3">
-    <h1>Reservas</h1>
-    <button type="button" class="btn btn-primary" id="btn-nueva-reserva" data-bs-toggle="modal"
-      data-bs-target="#modalNuevaReserva">
-      Nueva Reserva
+<section class="formulario">
+  <div class="header-layout" style="margin-bottom: 16px; justify-content: space-between; align-items: center;">
+    <h1 class="titulo-seccion">Reservas</h1>
+    <button type="button" class="cta" id="btn-nueva-reserva" data-bs-toggle="modal"
+            data-bs-target="#modalNuevaReserva">
+      Nueva reserva
     </button>
   </div>
 
-  <table class="table table-striped">
+  <table class="tabla-vehiculos">
     <thead>
       <tr>
         <th>ID de la reserva</th>
@@ -28,84 +28,78 @@
     </thead>
     <tbody id="tbody">
       <tr>
-        <td colspan="10">Cargando...</td>
+        <td colspan="7">Cargando...</td>
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 
 <!-- Modal Nueva Reserva -->
 <div class="modal fade" id="modalNuevaReserva" tabindex="-1" aria-labelledby="modalNuevaReservaLabel"
-  aria-hidden="true">
+     aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNuevaReservaLabel">Añadir Reserva</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-content formulario">
+      <div class="modal-header" style="border-bottom:none; padding-bottom:0;">
+        <h2 class="modal-title" id="modalNuevaReservaLabel">Añadir reserva</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="modal-body">
 
+      <div class="modal-body" style="padding-top:10px;">
         <form id="form-nueva-reserva" method="POST" action="/reservas/nueva">
 
-          <!-- Selector de Vehículo -->
-          <div class="mb-3">
-            <label for="vehiculo" class="form-label">Vehículo *</label>
-            <select class="form-select" id="id_vehiculo" name="id_vehiculo" required>
+          <div class="campo-form">
+            <label for="id_vehiculo">Vehículo *</label>
+            <select id="id_vehiculo" name="id_vehiculo" required>
               <option value="" disabled selected>Seleccione un vehículo...</option>
-              <% if (typeof vehiculos !=='undefined' && vehiculos.length> 0) { %>
-                <% vehiculos.forEach(v=> { %>
+              <% if (typeof vehiculos !== 'undefined' && vehiculos.length > 0) { %>
+                <% vehiculos.forEach(v => { %>
                   <option value="<%= v.id_vehiculo %>">
-                    <%= v.marca %>
-                      <%= v.modelo %> - <%= v.matricula %>
+                    <%= v.marca %> <%= v.modelo %> - <%= v.matricula %>
                   </option>
-                  <% }); %>
-                    <% } %>
+                <% }) %>
+              <% } %>
             </select>
           </div>
 
-          <!-- DNI del cliente -->
-          <div class="mb-3">
-            <label for="DNICliente" class="form-label">DNI del cliente *</label>
-            <input type="text" class="form-control" id="dni_cliente" name="dni_cliente" required>
+          <div class="campo-grupo">
+            <div class="campo-form">
+              <label for="dni_cliente">DNI del cliente *</label>
+              <input type="text" id="dni_cliente" name="dni_cliente" required>
+            </div>
+
+            <div class="campo-form">
+              <label for="nombre">Nombre *</label>
+              <input type="text" id="nombre" name="nombre" required>
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label for="Nombre" class="form-label">Nombre *</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          <div class="campo-grupo">
+            <div class="campo-form">
+              <label for="fecha_inicio">Fecha y hora de inicio *</label>
+              <input type="text" id="fecha_inicio" name="fecha_inicio" required>
+            </div>
+
+            <div class="campo-form">
+              <label for="fecha_fin">Fecha y hora de fin *</label>
+              <input type="text" id="fecha_fin" name="fecha_fin" required>
+            </div>
           </div>
 
-          <!-- Fecha y Hora Inicio -->
-          <div class="mb-3">
-            <label for="fecha_inicio" class="form-label">Fecha y Hora de Inicio *</label>
-            <input type="text" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
-          </div>
-
-          <!-- Fecha y Hora Fin -->
-          <div class="mb-3">
-            <label for="fecha_fin" class="form-label">Fecha y Hora de Fin *</label>
-            <input type="text" class="form-control" id="fecha_fin" name="fecha_fin" required>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100">
-            Crear Reserva
+          <button type="submit" class="cta" style="width:100%; margin-top:14px;">
+            Crear reserva
           </button>
-
         </form>
-
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <div class="modal-footer" style="border-top:none; justify-content:flex-end;">
+        <button type="button" class="volver" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- Scripts necesarios (agregar al final de tu layout principal) -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-
     const pickerInicio = flatpickr("#fecha_inicio", {
       enableTime: true,
       time_24hr: true,
@@ -120,14 +114,11 @@
       dateFormat: "d/m/Y H:i"
     });
 
-    // Evitar que la fecha fin sea anterior a la de inicio
     document.getElementById("fecha_inicio").addEventListener("change", function () {
       pickerFin.set("minDate", this.value);
     });
-
   });
 </script>
 
-<!-- scripts -->
 <script src="/js/procesar_reserva.js"></script>
 <script src="/js/cargar_reservas.js"></script>

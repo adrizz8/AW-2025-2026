@@ -78,6 +78,14 @@ body.dark-mode .tabla-usuarios thead th {
   color: #e8ffe9;            
 }
 
+.titulo-seccion {
+  color: var(--color-primario);
+}
+
+body.dark-mode .titulo-seccion {
+  color: #ffffff;
+}
+
 /* ===== Modo texto grande: formularios/tablas auxiliares ===== */
 
 body.texto-grande table {
