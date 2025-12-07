@@ -113,6 +113,9 @@
   top: 0;
 }
 
+.main-index {
+  overflow-x: hidden;
+}
 
 @keyframes scroll {
   0% {

@@ -35,3 +35,40 @@
 .btn-activar:hover {
     background-color: #218838;
 }
+
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-usuarios th,
+.tabla-usuarios td {
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .tabla-responsive {
+    -webkit-overflow-scrolling: touch;  
+  }
+
+  .tabla-usuarios th,
+  .tabla-usuarios td {
+    padding: 6px 4px;
+    font-size: 0.85rem;
+    white-space: nowrap;  
+  }
+
+  .tabla-usuarios th:nth-child(3),
+  .tabla-usuarios th:nth-child(5),
+  .tabla-usuarios td:nth-child(3),
+  .tabla-usuarios td:nth-child(5) {
+    min-width: 110px;     
+  }
+}
