@@ -286,3 +286,7 @@ body.dark-mode #errores-concesionario * {
   color: #ffe6e6 !important;
   background-color: transparent !important;
 }
+
+body.dark-mode .alerta-error-especial li {
+  color: #3b0b0b;           
+}

@@ -189,10 +189,10 @@ router.post('/cargar-vehiculos', upload.single('archivo'), (req, res) => {
 
     // Procesar cada vehículo
     vehiculos.forEach((vehiculo, index) => {
-      const { matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario } = vehiculo;
+      const { id_vehiculo, matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario } = vehiculo;
 
       // Validar campos obligatorios
-      if (!matricula || !marca || !modelo || !anio_matriculacion || !numero_plazas || !autonomia_km || !color || !imagen || !estado || !id_concesionario) {
+      if (!id_vehiculo || !matricula || !marca || !modelo || !anio_matriculacion || !numero_plazas || !autonomia_km || !color || !imagen || !estado || !id_concesionario) {
         logs.push(`❌ Registro ${index + 1}: Faltan campos obligatorios (matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario)`);
         errores++;
         procesados++;
@@ -232,10 +232,11 @@ router.post('/cargar-vehiculos', upload.single('archivo'), (req, res) => {
           }
         } else {
           // Vehículo nuevo - insertar
-          const sql = `INSERT INTO vehiculos (matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario, activo) 
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+          const sql = `INSERT INTO vehiculos (id_vehiculo, matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario, activo) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           db.query(sql, [
+            id_vehiculo,
             matricula,
             marca,
             modelo,

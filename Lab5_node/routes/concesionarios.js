@@ -74,7 +74,7 @@ router.post('/nuevo', requireAdmin, (req, res) => {
     return res.status(400).json({ ok: false, errores });
   }
 
-  // 1) Buscamos concesionario inactivo con misma ciudad y dirección
+  // 1) Buscar inactivo…
   const sqlBusca = `
     SELECT *
     FROM concesionarios
@@ -85,10 +85,9 @@ router.post('/nuevo', requireAdmin, (req, res) => {
   db.query(sqlBusca, [ciudad, direccion], (errBusca, rows) => {
     if (errBusca) {
       console.error(errBusca);
-      return res.status(500).send('Error al comprobar concesionarios existentes');
+      return res.status(500).json({ ok: false, errores: ['Error al comprobar concesionarios existentes'] });
     }
 
-    // 2) Si existe inactivo → reactivamos y actualizamos los datos
     if (rows.length > 0) {
       const id = rows[0].id_concesionario;
       const sqlReactiva = `
@@ -99,13 +98,12 @@ router.post('/nuevo', requireAdmin, (req, res) => {
       return db.query(sqlReactiva, [nombre, telefono_contacto, id], (errUpd) => {
         if (errUpd) {
           console.error(errUpd);
-          return res.status(500).send('Error al reactivar concesionario');
+          return res.status(500).json({ ok: false, errores: ['Error al reactivar concesionario'] });
         }
-        return res.status(200).send('OK');
+        return res.status(200).json({ ok: true });
       });
     }
 
-    // 3) Si no existe inactivo → INSERT normal
     const sqlInsert = `
       INSERT INTO concesionarios
         (nombre, ciudad, direccion, telefono_contacto, activo)
@@ -114,9 +112,9 @@ router.post('/nuevo', requireAdmin, (req, res) => {
     db.query(sqlInsert, [nombre, ciudad, direccion, telefono_contacto], (errIns) => {
       if (errIns) {
         console.error(errIns);
-        return res.status(500).send('Error al insertar concesionario');
+        return res.status(500).json({ ok: false, errores: ['Error al insertar concesionario'] });
       }
-      return res.status(200).send('OK');
+      return res.status(200).json({ ok: true });
     });
   });
 });

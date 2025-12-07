@@ -1,5 +1,6 @@
 [
   {
+    "id_vehiculo": 1,
     "matricula": "EV001AAA",
     "marca": "Tesla",
     "modelo": "Model 3",
@@ -12,6 +13,7 @@
     "id_concesionario": 1
   },
   {
+    "id_vehiculo": 2,
     "matricula": "EV002BBB",
     "marca": "Nissan",
     "modelo": "Leaf",
@@ -24,6 +26,7 @@
     "id_concesionario": 2
   },
   {
+    "id_vehiculo": 3,
     "matricula": "EV003CCC",
     "marca": "BMW",
     "modelo": "i3",
@@ -36,6 +39,7 @@
     "id_concesionario": 1
   },
   {
+    "id_vehiculo": 4,
     "matricula": "EV004DDD",
     "marca": "Renault",
     "modelo": "Zoe",
@@ -47,7 +51,8 @@
     "estado": "disponible",
     "id_concesionario": 3
   },
-  {
+  { 
+    "id_vehiculo": 5,
     "matricula": "EV005EEE",
     "marca": "Hyundai",
     "modelo": "Kona Electric",
@@ -60,6 +65,7 @@
     "id_concesionario": 2
   },
   {
+    "id_vehiculo": 6,
     "matricula": "EV006FFF",
     "marca": "Kia",
     "modelo": "EV6",
@@ -72,6 +78,7 @@
     "id_concesionario": 4
   },
   {
+    "id_vehiculo": 7,
     "matricula": "EV007GGG",
     "marca": "Volkswagen",
     "modelo": "ID.4",
@@ -84,6 +91,7 @@
     "id_concesionario": 3
   },
   {
+    "id_vehiculo": 8,
     "matricula": "EV008HHH",
     "marca": "Peugeot",
     "modelo": "e-208",
@@ -96,6 +104,7 @@
     "id_concesionario": 3
   },
   {
+    "id_vehiculo": 9,
     "matricula": "EV009III",
     "marca": "Mercedes",
     "modelo": "EQA",
@@ -108,6 +117,7 @@
     "id_concesionario": 1
   },
   {
+    "id_vehiculo": 10,
     "matricula": "EV010JJJ",
     "marca": "Audi",
     "modelo": "Q4 e-tron",

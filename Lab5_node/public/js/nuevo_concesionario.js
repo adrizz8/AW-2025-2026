@@ -14,7 +14,7 @@ document.getElementById('btn-agregar-concesionario').addEventListener('click', a
   try {
     const res = await fetch('/concesionarios/nuevo', {
       method: 'POST',
-      headers: { 'Content-Type':'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nombre, ciudad, direccion, telefono_contacto })
     });
 
@@ -34,7 +34,7 @@ document.getElementById('btn-agregar-concesionario').addEventListener('click', a
 
     // Si no tenemos errores cargamos la lista y cerramos el modal
     const modalEl = document.getElementById('modalNuevoConcesionario');
-    const modal = bootstrap.Modal.getInstance(modalEl);
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
     modal.hide();
     location.reload();
 

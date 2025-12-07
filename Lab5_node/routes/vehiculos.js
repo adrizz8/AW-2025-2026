@@ -217,12 +217,12 @@ router.post('/nuevo', requireAuth, (req, res) => {
     const sqlInsert = `
       INSERT INTO vehiculos
       (matricula, marca, modelo, anio_matriculacion, numero_plazas,
-       autonomia_km, color, imagen, estado, id_concesionario)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       autonomia_km, color, imagen, estado, id_concesionario, activo)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const paramsInsert = [
       matricula, marca, modelo, anio_matriculacion,
-      numero_plazas, autonomia_km, color, imagen, estado, id_concesionario
+      numero_plazas, autonomia_km, color, imagen, estado, id_concesionario, 1
     ];
 
     db.query(sqlInsert, paramsInsert, (errIns) => {
