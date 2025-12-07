@@ -8,46 +8,63 @@
         <th>Email</th>
         <th>Teléfono</th>
         <th>Rol</th>
+        <th>Concesionario</th>
         <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
 
     <tbody>
-      <% if (usuarios && usuarios.length > 0) { %>
-        <% usuarios.forEach(u => { %>
+      <% if (usuarios && usuarios.length> 0) { %>
+        <% usuarios.forEach(u=> { %>
           <tr>
-            <td><%= u.nombre %></td>
-            <td><%= u.correo %></td>
-            <td><%= u.telefono || '-' %></td>
-            <td><%= u.rol %></td>
+            <td>
+              <%= u.nombre %>
+            </td>
+            <td>
+              <%= u.correo %>
+            </td>
+            <td>
+              <%= u.telefono || '-' %>
+            </td>
+            <td>
+              <%= u.rol %>
+            </td>
+            <td>
+              <%= u.nombre_concesionario || '-' %>
+            </td>
             <td>
               <span class="estado-<%= u.activo ? 'activo' : 'inactivo' %>">
                 <%= u.activo ? 'Activo' : 'Inactivo' %>
               </span>
             </td>
             <td>
+              <a href="/usuario/editar/<%= u.id_usuario %>" class="editar" style="margin-right:6px;">
+                Editar
+              </a>
               <% if (u.activo) { %>
                 <form method="POST" action="/usuario/baja/<%= u.id_usuario %>" style="display:inline;">
-                  <button type="submit" class="btn-baja" onclick="return confirm('¿Estás seguro de dar de baja a <%= u.nombre %>?')">
+                  <button type="submit" class="btn-baja"
+                    onclick="return confirm('¿Estás seguro de dar de baja a <%= u.nombre %>?')">
                     Dar de baja
                   </button>
                 </form>
-              <% } else { %>
-                <form method="POST" action="/usuario/activar/<%= u.id_usuario %>" style="display:inline;">
-                  <button type="submit" class="btn-activar" onclick="return confirm('¿Estás seguro de activar a <%= u.nombre %>?')">
-                    Activar
-                  </button>
-                </form>
-              <% } %>
+                <% } else { %>
+                  <form method="POST" action="/usuario/activar/<%= u.id_usuario %>" style="display:inline;">
+                    <button type="submit" class="btn-activar"
+                      onclick="return confirm('¿Estás seguro de activar a <%= u.nombre %>?')">
+                      Activar
+                    </button>
+                  </form>
+                  <% } %>
             </td>
           </tr>
-        <% }) %>
-      <% } else { %>
-        <tr>
-          <td colspan="6">No hay usuarios registrados.</td>
-        </tr>
-      <% } %>
+          <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="6">No hay usuarios registrados.</td>
+              </tr>
+              <% } %>
     </tbody>
   </table>
 
@@ -55,43 +72,3 @@
     <a class="cta" href="/">← Volver al inicio</a>
   </div>
 </section>
-
-<style>
-  .estado-activo {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .estado-inactivo {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .btn-baja {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .btn-baja:hover {
-    background-color: #c82333;
-  }
-  
-  .btn-activar {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .btn-activar:hover {
-    background-color: #218838;
-  }
-</style>

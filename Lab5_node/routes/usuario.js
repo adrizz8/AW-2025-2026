@@ -7,16 +7,21 @@ const db = require('../public/js/conexion');
 
 router.get('/', requireAuth, requireAdmin, (req, res) => {
 
-  const sql = `SELECT 
-      id_usuario,
-      nombre,
-      correo,
-      rol,
-      telefono,
-      id_concesionario,
-      preferencias_accesibilidad,
-      activo
-    FROM usuarios`;
+const sql = `
+    SELECT 
+      u.id_usuario,
+      u.nombre,
+      u.correo,
+      u.rol,
+      u.telefono,
+      u.id_concesionario,
+      u.preferencias_accesibilidad,
+      u.activo,
+      c.nombre AS nombre_concesionario
+    FROM usuarios u
+    LEFT JOIN concesionarios c
+      ON u.id_concesionario = c.id_concesionario
+  `;
 
   db.query(sql, (err, resultados) => {
     if (err) {
@@ -31,7 +36,6 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
       });
     }
 
-    // Parsear campo JSON si existe
     const usuarios = resultados.map(u => ({
       ...u,
       preferencias_accesibilidad: u.preferencias_accesibilidad 
@@ -50,7 +54,6 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
   });
 
 });
-
 // Ruta para dar de baja a un usuario
 router.post('/baja/:id', requireAuth, requireAdmin, (req, res) => {
   const idUsuario = req.params.id;

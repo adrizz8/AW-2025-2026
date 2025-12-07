@@ -55,24 +55,68 @@ router.get('/nuevo', requireAdmin, (req, res) => {
 // --- NUEVO CONCESIONARIO (POST) ---
 router.post('/nuevo', requireAdmin, (req, res) => {
   const { nombre, ciudad, direccion, telefono_contacto } = req.body;
+  const errores = [];
 
   if (!nombre || !ciudad || !direccion || !telefono_contacto) {
-    return res.status(400).send('Todos los campos son obligatorios');
+    errores.push('Todos los campos son obligatorios');
   }
 
   if (isNaN(telefono_contacto)) {
-    return res.status(400).send('El teléfono de contacto debe ser numérico');
+    errores.push('El teléfono de contacto debe ser numérico');
   }
 
   if (telefono_contacto.length != 9) {
-    return res.status(400).send('El teléfono de contacto debe tener 9 dígitos');
+    errores.push('El teléfono de contacto debe tener 9 dígitos');
   }
 
+  if (errores.length > 0) {
+    return res.status(400).json({ ok: false, errores });
+  }
 
-  const sql = 'INSERT INTO concesionarios (nombre,ciudad,direccion,telefono_contacto) VALUES (?, ?, ?, ?)';
-  db.query(sql, [nombre, ciudad, direccion, telefono_contacto], (err, result) => {
-    if (err) return res.status(500).send('Error al insertar concesionario');
-    res.status(200).send('OK');
+  // 1) Buscar concesionario inactivo con misma ciudad y dirección
+  const sqlBusca = `
+    SELECT *
+    FROM concesionarios
+    WHERE ciudad = ? AND direccion = ? AND activo = 0
+    LIMIT 1
+  `;
+
+  db.query(sqlBusca, [ciudad, direccion], (errBusca, rows) => {
+    if (errBusca) {
+      console.error(errBusca);
+      return res.status(500).send('Error al comprobar concesionarios existentes');
+    }
+
+    // 2) Si existe inactivo → reactivar y actualizar datos
+    if (rows.length > 0) {
+      const id = rows[0].id_concesionario;
+      const sqlReactiva = `
+        UPDATE concesionarios
+        SET nombre = ?, telefono_contacto = ?, activo = 1
+        WHERE id_concesionario = ?
+      `;
+      return db.query(sqlReactiva, [nombre, telefono_contacto, id], (errUpd) => {
+        if (errUpd) {
+          console.error(errUpd);
+          return res.status(500).send('Error al reactivar concesionario');
+        }
+        return res.status(200).send('OK');
+      });
+    }
+
+    // 3) Si no existe inactivo → INSERT normal
+    const sqlInsert = `
+      INSERT INTO concesionarios
+        (nombre, ciudad, direccion, telefono_contacto, activo)
+      VALUES (?, ?, ?, ?, 1)
+    `;
+    db.query(sqlInsert, [nombre, ciudad, direccion, telefono_contacto], (errIns) => {
+      if (errIns) {
+        console.error(errIns);
+        return res.status(500).send('Error al insertar concesionario');
+      }
+      return res.status(200).send('OK');
+    });
   });
 });
 

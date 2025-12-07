@@ -85,13 +85,13 @@ app.use('/api/chargers',checkDatabase, cargadoresRoutes);
 
 // --- Middleware 404 ---
 app.use((req, res) => {
-  res.status(404).render('404', { mensaje: 'Página no encontrada' });
+  res.status(404).render('404', { mensaje: 'Página no encontrada', mostrarHeader: true, mostrarFooter: true });
 });
 
 // --- Middleware 500 ---
 app.use((err, req, res, next) => {
   console.error('💥 Error interno:', err.stack);
-  res.status(500).render('500', { mensaje: err.message });
+  res.status(500).render('500', { mensaje: err.message, mostrarHeader: true, mostrarFooter: true });
 });
 
 // --- Iniciar servidor ---

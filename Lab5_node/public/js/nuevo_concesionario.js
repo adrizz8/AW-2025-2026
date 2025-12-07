@@ -3,23 +3,41 @@ document.getElementById('btn-agregar-concesionario').addEventListener('click', a
   const ciudad = document.getElementById('ciudad').value;
   const direccion = document.getElementById('direccion').value;
   const telefono_contacto = document.getElementById('telefono_contacto').value;
+  const erroresDiv = document.getElementById('errores-concesionario');
 
-  const res = await fetch('/concesionarios/nuevo', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ nombre, ciudad, direccion, telefono_contacto })
-  });
+  erroresDiv.style.display = 'none';
+  erroresDiv.innerHTML = '';
 
-  if (res.ok) {
-    const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevoConcesionario'));
+  try {
+    const res = await fetch('/concesionarios/nuevo', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ nombre, ciudad, direccion, telefono_contacto })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      const lista = document.createElement('ul');
+      (data.errores || ['Error al añadir concesionario']).forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        lista.appendChild(li);
+      });
+      erroresDiv.appendChild(lista);
+      erroresDiv.style.display = 'block';
+      return;
+    }
+
+    // éxito: cerrar modal y recargar lista
+    const modalEl = document.getElementById('modalNuevoConcesionario');
+    const modal = bootstrap.Modal.getInstance(modalEl);
     modal.hide();
+    location.reload();
 
-    // Opcional: agregar nuevo concesionario a la tabla dinámicamente
-    const tbody = document.querySelector('.tabla-concesionarios tbody');
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>Nuevo</td><td>${nombre}</td><td>${ciudad}</td><td>${direccion}</td><td>${telefono_contacto}</td>`;
-    tbody.appendChild(row);
-  } else {
-    alert('Error al añadir concesionario');
+  } catch (e) {
+    console.error(e);
+    erroresDiv.textContent = 'Error al añadir concesionario.';
+    erroresDiv.style.display = 'block';
   }
 });

@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const db = require('../public/js/conexion'); // Conexión MySQL sin promesas
+const db = require('../public/js/conexion'); 
 
 const SALT_ROUNDS = 10;
 
@@ -150,8 +150,8 @@ router.post('/registro', (req, res) => {
       }
 
       // Insertar nuevo usuario en la base de datos
-      const sql = `INSERT INTO usuarios (nombre, correo, contraseña, telefono, id_concesionario, preferencias_accesibilidad, rol) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const sql = `INSERT INTO usuarios (nombre, correo, contraseña, telefono, id_concesionario, preferencias_accesibilidad, rol, activo) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
       const params = [
         nombre,
         email,
@@ -159,7 +159,8 @@ router.post('/registro', (req, res) => {
         telefono,
         concesionarios,
         preferencias_accesibilidad || null,
-        rol
+        rol,
+        1
       ];
 
       db.query(sql, params, (err, result) => {
