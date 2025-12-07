@@ -69,7 +69,7 @@
     "color": "Blanco Perlado",
     "imagen": "ev6.jpg",
     "estado": "disponible",
-    "id_concesionario": null
+    "id_concesionario": 4
   },
   {
     "matricula": "EV007GGG",
@@ -93,7 +93,7 @@
     "color": "Amarillo",
     "imagen": "e208.jpg",
     "estado": "disponible",
-    "id_concesionario": null
+    "id_concesionario": 3
   },
   {
     "matricula": "EV009III",

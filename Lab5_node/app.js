@@ -75,13 +75,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/setup', setUpRoutes);
-app.use('/', mainRoutes);
-app.use('/vehiculos', vehiculosRoutes);
-app.use('/reservas', requireAuth, reservasRoutes);
-app.use('/concesionarios', requireAdmin, concesionariosRoutes);
-app.use('/api', apiRoutes);
-app.use('/usuario', usuarioRoutes);
-app.use('/api/chargers', cargadoresRoutes);
+app.use('/',checkDatabase, mainRoutes);
+app.use('/vehiculos',checkDatabase, vehiculosRoutes);
+app.use('/reservas',checkDatabase, requireAuth, reservasRoutes);
+app.use('/concesionarios',checkDatabase, requireAdmin, concesionariosRoutes);
+app.use('/api',checkDatabase, apiRoutes);
+app.use('/usuario',checkDatabase, usuarioRoutes);
+app.use('/api/chargers',checkDatabase, cargadoresRoutes);
 
 // --- Middleware 404 ---
 app.use((req, res) => {

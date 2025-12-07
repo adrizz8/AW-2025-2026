@@ -102,9 +102,9 @@ router.post('/cargar-concesionarios', upload.single('archivo'), (req, res) => {
 
     // Procesar cada concesionario
     concesionarios.forEach((concesionario, index) => {
-      const { nombre, direccion, telefono, horario } = concesionario;
+      const { id_concesionario,nombre,ciudad,direccion,telefono_contacto} = concesionario;
 
-      if (!nombre || !direccion) {
+      if (!id_concesionario || !nombre || !ciudad || !direccion || !telefono_contacto) {
         logs.push(`❌ Registro ${index + 1}: Faltan campos obligatorios (nombre, direccion)`);
         errores++;
         procesados++;
