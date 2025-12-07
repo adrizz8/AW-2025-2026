@@ -67,6 +67,17 @@ th {
   background-color: #1f7a3a ;     
 }
 
+.tabla-usuarios thead th {
+  background-color: #f8f9fa;   
+  color: #072d05;             
+}
+
+
+body.dark-mode .tabla-usuarios thead th {
+  background-color: #058d40;   
+  color: #e8ffe9;            
+}
+
 /* ===== Modo texto grande: formularios/tablas auxiliares ===== */
 
 body.texto-grande table {

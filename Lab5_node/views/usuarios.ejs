@@ -1,25 +1,35 @@
 <h1>Lista completa de usuarios</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Rol</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% usuarios.forEach(u => { %>
+<section class="formulario">
+  <table class="tabla-usuarios">
+    <thead>
       <tr>
-        <td><%= u.nombre %></td>
-        <td><%= u.correo %></td>
-        <td><%= u.telefono %></td>
-        <td><%= u.rol %></td>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
 
-<a class="cta" href="/">Volver al inicio</a>
+    <tbody>
+      <% if (usuarios && usuarios.length > 0) { %>
+        <% usuarios.forEach(u => { %>
+          <tr>
+            <td><%= u.nombre %></td>
+            <td><%= u.correo %></td>
+            <td><%= u.telefono || '-' %></td>
+            <td><%= u.rol %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="4">No hay usuarios registrados.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <div style="margin-top:18px; text-align:center;">
+    <a class="cta" href="/">← Volver al inicio</a>
+  </div>
+</section>
