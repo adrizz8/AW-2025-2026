@@ -5,6 +5,7 @@
     <tr>
       <th>Nombre</th>
       <th>Email</th>
+      <th>Teléfono</th>
       <th>Rol</th>
     </tr>
   </thead>
@@ -13,7 +14,8 @@
     <% usuarios.forEach(u => { %>
       <tr>
         <td><%= u.nombre %></td>
-        <td><%= u.email %></td>
+        <td><%= u.correo %></td>
+        <td><%= u.telefono %></td>
         <td><%= u.rol %></td>
       </tr>
     <% }) %>

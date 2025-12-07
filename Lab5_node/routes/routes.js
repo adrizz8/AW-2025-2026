@@ -100,7 +100,7 @@ router.get('/registro', (req, res) => {
 
 // --- Registro (POST) ---
 router.post('/registro', (req, res) => {
-  const { nombre, email, contraseña, telefono, concesionarios, preferencias_accesibilidad } = req.body;
+  const { nombre, email, contraseña, telefono, concesionarios, preferencias_accesibilidad,rol } = req.body;
   
   // Verificar si el usuario ya existe
   db.query('SELECT * FROM usuarios WHERE correo = ?', [email], (err, usuarioExistente) => {
@@ -159,7 +159,7 @@ router.post('/registro', (req, res) => {
         telefono,
         concesionarios,
         preferencias_accesibilidad || null,
-        'empleado'
+        rol
       ];
 
       db.query(sql, params, (err, result) => {

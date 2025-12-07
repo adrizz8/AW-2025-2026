@@ -24,7 +24,9 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
         titulo: "Listado de usuarios",
         usuarios: [],
         usuario: req.session.usuario,
-        error: "Error al obtener los usuarios de la base de datos"
+        error: "Error al obtener los usuarios de la base de datos",
+         mostrarHeader: true,
+        mostrarFooter: true
       });
     }
 
@@ -40,7 +42,9 @@ router.get('/', requireAuth, requireAdmin, (req, res) => {
       titulo: "Listado de usuarios",
       usuarios,
       usuario: req.session.usuario,
-      error: null
+      error: null,
+       mostrarHeader: true,
+        mostrarFooter: true
     });
   });
 

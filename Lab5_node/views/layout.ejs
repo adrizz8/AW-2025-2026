@@ -56,6 +56,9 @@
               <a href="/reservas" class="cta-layout">Mis Reservas</a>
               <% } %>
             
+              <% if (usuario.rol==="admin" ) { %>
+              <a href="/usuario" class="cta-layout">Lista de usuarios</a>
+              <% } %>
 
             <% if (usuario.rol==="admin" ) { %>
               <a href="/registro" class="cta-layout">Registrar</a>

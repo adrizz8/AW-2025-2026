@@ -102,7 +102,7 @@ router.post('/cargar-concesionarios', upload.single('archivo'), (req, res) => {
 
     // Procesar cada concesionario
     concesionarios.forEach((concesionario, index) => {
-      const { id_concesionario,nombre,ciudad,direccion,telefono_contacto} = concesionario;
+      const { id_concesionario,nombre,ciudad,direccion,telefono_contacto,activo} = concesionario;
 
       if (!id_concesionario || !nombre || !ciudad || !direccion || !telefono_contacto) {
         logs.push(`❌ Registro ${index + 1}: Faltan campos obligatorios (nombre, direccion)`);
@@ -116,8 +116,8 @@ router.post('/cargar-concesionarios', upload.single('archivo'), (req, res) => {
       }
 
       // Insertar concesionario
-      const sql = 'INSERT INTO concesionarios (id_concesionario,nombre,ciudad,direccion,telefono_contacto) VALUES (?, ?, ?, ?,?)';
-      db.query(sql, [id_concesionario,nombre,ciudad,direccion,telefono_contacto], (err, result) => {
+      const sql = 'INSERT INTO concesionarios (id_concesionario,nombre,ciudad,direccion,telefono_contacto,activo) VALUES (?, ?, ?, ?,?,?)';
+      db.query(sql, [id_concesionario,nombre,ciudad,direccion,telefono_contacto,1], (err, result) => {
         if (err) {
           logs.push(`❌ Error al insertar "${nombre}": ${err.message}`);
           errores++;
@@ -232,8 +232,8 @@ router.post('/cargar-vehiculos', upload.single('archivo'), (req, res) => {
           }
         } else {
           // Vehículo nuevo - insertar
-          const sql = `INSERT INTO vehiculos (matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario) 
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+          const sql = `INSERT INTO vehiculos (matricula, marca, modelo, anio_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario, activo) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
           
           db.query(sql, [
             matricula,
@@ -245,7 +245,8 @@ router.post('/cargar-vehiculos', upload.single('archivo'), (req, res) => {
             color || null,
             imagen || null,
             estado || 'disponible',
-            id_concesionario || null
+            id_concesionario || null, 
+            1
           ], (err, result) => {
             if (err) {
               logs.push(`❌ Error al insertar "${matricula}": ${err.message}`);
