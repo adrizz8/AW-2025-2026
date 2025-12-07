@@ -1,3 +1,5 @@
+
+//Aqui tratamos todo lo relativo al formulario usado para la creacion de un nuevo concesionario
 document.getElementById('btn-agregar-concesionario').addEventListener('click', async () => {
   const nombre = document.getElementById('nombre').value;
   const ciudad = document.getElementById('ciudad').value;
@@ -8,6 +10,7 @@ document.getElementById('btn-agregar-concesionario').addEventListener('click', a
   erroresDiv.style.display = 'none';
   erroresDiv.innerHTML = '';
 
+  //Hacemos un fetch de tipo post para intentar enviar los datos del formulario
   try {
     const res = await fetch('/concesionarios/nuevo', {
       method: 'POST',
@@ -29,7 +32,7 @@ document.getElementById('btn-agregar-concesionario').addEventListener('click', a
       return;
     }
 
-    // éxito: cerrar modal y recargar lista
+    // Si no tenemos errores cargamos la lista y cerramos el modal
     const modalEl = document.getElementById('modalNuevoConcesionario');
     const modal = bootstrap.Modal.getInstance(modalEl);
     modal.hide();

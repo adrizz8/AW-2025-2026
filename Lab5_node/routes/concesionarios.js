@@ -41,6 +41,7 @@ router.get('/', requireAdmin, (req, res) => {
 });
 
 
+//Creacion de un nuevo concesionario(GET)
 router.get('/nuevo', requireAdmin, (req, res) => {
   res.render('concesionarios_nuevo', {
     titulo: 'Nuevo Concesionario',
@@ -52,7 +53,7 @@ router.get('/nuevo', requireAdmin, (req, res) => {
 });
 
 
-// --- NUEVO CONCESIONARIO (POST) ---
+// Creacion de un nuevo concesionario(POST)
 router.post('/nuevo', requireAdmin, (req, res) => {
   const { nombre, ciudad, direccion, telefono_contacto } = req.body;
   const errores = [];
@@ -73,7 +74,7 @@ router.post('/nuevo', requireAdmin, (req, res) => {
     return res.status(400).json({ ok: false, errores });
   }
 
-  // 1) Buscar concesionario inactivo con misma ciudad y dirección
+  // 1) Buscamos concesionario inactivo con misma ciudad y dirección
   const sqlBusca = `
     SELECT *
     FROM concesionarios
@@ -87,7 +88,7 @@ router.post('/nuevo', requireAdmin, (req, res) => {
       return res.status(500).send('Error al comprobar concesionarios existentes');
     }
 
-    // 2) Si existe inactivo → reactivar y actualizar datos
+    // 2) Si existe inactivo → reactivamos y actualizamos los datos
     if (rows.length > 0) {
       const id = rows[0].id_concesionario;
       const sqlReactiva = `
@@ -189,9 +190,6 @@ router.post('/:id/eliminar', requireAdmin, (req, res) => {
   });
 });
 
-
-module.exports = router;
-
 router.get('/:id/editar', requireAdmin, (req, res) => {
   const id = req.params.id;
   db.query('SELECT * FROM concesionarios WHERE id_concesionario = ? AND activo = 1',
@@ -223,6 +221,7 @@ router.get('/:id/editar', requireAdmin, (req, res) => {
 });
 
 
+//Edición de los datos de un concesionario
 router.post('/:id/editar', requireAdmin, (req, res) => {
   const id = req.params.id;
   const { nombre, ciudad, direccion, telefono_contacto } = req.body;
@@ -290,3 +289,10 @@ router.get('/:id', requireAdmin, (req, res) => {
     }
   );
 });
+
+
+
+module.exports = router;
+
+
+

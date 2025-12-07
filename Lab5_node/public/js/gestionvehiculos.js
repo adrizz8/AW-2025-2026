@@ -1,5 +1,6 @@
 
 
+//Funcion que utilizamos para mostrar el spinner de carga de la tabla de vehiculos
   function mostrarSpinner(mostrar) {
     const spinner = document.getElementById('spinner');
     if (mostrar) {
@@ -9,6 +10,8 @@
     }
   }
 
+  //Funcion que utilizamos para la carga completa de los vehiculos hacemos un fetch y si obtenemos una respuesta, es decir, hay vehiculos
+  //activos en nuestra base de datos los mostramos junto a todos sus datos en una tabla
   async function cargarVehiculos(query = '', tipo = '') {
     const tbody = document.getElementById('vehiculos-body');
     tbody.innerHTML = '<tr><td colspan="7">Cargando...</td></tr>';
@@ -80,7 +83,7 @@
     cargarVehiculos(query, tipo);
   }
 
-  // Cargar al iniciar
+  // Cargamos los vehiculos al inicio
   cargarVehiculos();
 
   // Enter en el input de búsqueda

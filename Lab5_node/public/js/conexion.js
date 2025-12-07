@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-// Crear pool de conexiones
+// Creacion del pool de conexiones con las credenciales de acceso y estableciendo el limite de conexiones simultaneas
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -13,17 +13,17 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
-// Verificar la conexión inicial
+// Con esto verificamos la conexion inicial
 pool.getConnection((err, connection) => {
   if (err) {
     console.error("❌ Error al conectar a MySQL:", err);
     return;
   }
-  console.log("✅ Conectado a MySQL exitosamente");
-  connection.release(); // Liberar la conexión de vuelta al pool
+  console.log("✔ Conectado a MySQL exitosamente");
+  connection.release(); // Liberamos la conexión de vuelta al pool
 });
 
-// Manejar errores del pool
+// Manejamos posibles errores en el pool de conexiones
 pool.on('error', (err) => {
   console.error('Error inesperado en el pool de MySQL:', err);
   if (err.code === 'PROTOCOL_CONNECTION_LOST') {

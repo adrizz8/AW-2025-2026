@@ -1,4 +1,4 @@
-// routes/reservas.js
+
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -42,7 +42,7 @@ router.get('/', requireAuth, (req, res) => {
 });
 
 
-// --- POST /reservas/nueva - Crear nueva reserva ---
+// --- POST /reservas/nueva - Creacion de una nueva reserva ---
 router.post('/nueva', requireAuth, (req, res) => {
   const { id_vehiculo, dni_cliente, nombre, fecha_inicio, fecha_fin } = req.body;
 
@@ -56,7 +56,7 @@ router.post('/nueva', requireAuth, (req, res) => {
 
   const id_usuario = req.session.usuario.id_usuario;
 
-  // Convertir las fechas del formato dd/MM/yyyy HH:mm a formato MySQL
+  // Convertimos las fechas del formato dd/MM/yyyy HH:mm a formato MySQL
   const parseFecha = (fechaStr) => {
     // Ejemplo entrada: "25/12/2024 14:30"
     const [fecha, hora] = fechaStr.split(' ');
@@ -67,7 +67,7 @@ router.post('/nueva', requireAuth, (req, res) => {
   const fechaInicioMySQL = parseFecha(fecha_inicio);
   const fechaFinMySQL = parseFecha(fecha_fin);
 
-  // Validar que las fechas sean lógicas
+  // Validamos lógica de las fechas
   const inicio = new Date(fechaInicioMySQL);
   const fin = new Date(fechaFinMySQL);
   const ahora = new Date();
@@ -138,7 +138,7 @@ router.post('/nueva', requireAuth, (req, res) => {
         });
       }
 
-      console.log('✅ Reserva creada exitosamente:', result.insertId);
+      console.log('✔ Reserva creada exitosamente:', result.insertId);
 
       db.query('UPDATE vehiculos SET estado = "reservado" WHERE id_vehiculo = ?', [id_vehiculo]);
 
@@ -251,7 +251,7 @@ router.post('/editar/:id', requireAuth, (req, res) => {
         return res.status(500).json({ ok: false, error: 'Error al actualizar la reserva' });
       }
 
-      // Si el estado cambió a 'finalizada' o 'cancelada', liberar el vehículo
+      // Si el estado cambió a 'finalizada' o 'cancelada', ponemos el vehiculo de nuevo disponible para reservas
       if ((estado === 'finalizada' || estado === 'cancelada') && reservaActual.estado === 'activa') {
         const queryLiberarVehiculo = 'UPDATE vehiculos SET estado = "disponible" WHERE id_vehiculo = ?';
         

@@ -1,6 +1,7 @@
 const regexMoveit   = /^[^\s@]+@moveit\.es$/;
 const regexPassword = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
+//Esta función la utilizamos como validador para los campos del formulario tanto del login como del registro
 function crearManejadorFormulario(formId, emailId, passwordId, emailErrorId, passErrorId) {
   const form = document.getElementById(formId);
   if (!form) return;

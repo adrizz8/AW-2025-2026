@@ -5,6 +5,7 @@ const requireAdmin = require('../middlewares/requireAdmin');
 const requireAuth = require('../middlewares/auth');
 const db = require('../public/js/conexion');
 
+//Sacamos la lista de usuarios de la base de datos
 router.get('/', requireAuth, requireAdmin, (req, res) => {
 
 const sql = `
@@ -123,6 +124,7 @@ router.get('/datos/:id', requireAuth, requireAdmin, (req, res) => {
   });
 });
 
+//Ruta para la edicion del usuario
 router.post('/editar/:id', requireAuth, requireAdmin, (req, res) => {
   const id = req.params.id;
   const { nombre, correo, telefono, rol, id_concesionario } = req.body;

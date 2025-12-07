@@ -1,13 +1,13 @@
-// procesar_reserva.js
 
-// Spinner
+
+// El spinner
 function mostrarSpinner(mostrar) {
   const spinner = document.getElementById('spinner');
   if (mostrar) spinner.classList.add('active');
   else spinner.classList.remove('active');
 }
 
-// Toast / Mensajes
+// Toast / Mensajes para avisar de posibles fallos a la hora de procesar la reserva
 function mostrarMensaje(mensaje, tipo) {
   const alertDiv = document.createElement('div');
   alertDiv.className =
@@ -64,7 +64,7 @@ form.addEventListener("submit", function (e) {
         window.agregarReservaATabla(result.reserva_id);
       }
 
-      // Limpiar y cerrar modal
+   
       form.reset();
       const modal = bootstrap.Modal.getInstance(document.getElementById("modalNuevaReserva"));
       if (modal) modal.hide();
@@ -76,7 +76,7 @@ form.addEventListener("submit", function (e) {
     });
 });
 
-// Limpiar al abrir
+// Limpiamos los campos del modal al volver a abrirlo
 document.getElementById("modalNuevaReserva").addEventListener("show.bs.modal", function () {
   form.reset();
 });

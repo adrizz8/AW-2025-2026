@@ -5,10 +5,12 @@ const db = require('../public/js/conexion');
 
 const SALT_ROUNDS = 10;
 
-// --- Crear usuario admin por defecto ---
+//Rutas generales de registro y login
+
+// --- Creamos un usuario admin maestro por defecto ---
 (async () => {
   try {
-    // Verificar si ya existe el admin
+    // Verificamos si ya existe el admin
     db.query('SELECT * FROM usuarios WHERE correo = ?', ['admin@moveit.es'], async (err, adminExistente) => {
       if (err) {
         console.error("Error al verificar usuario admin:", err);
@@ -37,7 +39,7 @@ const SALT_ROUNDS = 10;
   }
 })();
 
-// --- Middleware para recordar sesión ---
+// --- Middleware que utilizamos para recordar sesion
 router.use((req, res, next) => {
   if (!req.session.usuario && req.cookies.usuarioRecordado) {
     db.query(
@@ -60,7 +62,7 @@ router.use((req, res, next) => {
   }
 });
 
-// --- Ruta principal ---
+// --- Index
 router.get('/', (req, res) => {
   const authWarning = res.locals.authWarning || null;
   res.locals.authWarning = null;
@@ -75,13 +77,13 @@ router.get('/', (req, res) => {
 
 // --- Registro (GET) ---
 router.get('/registro', (req, res) => {
-  // Obtener concesionarios de la base de datos
+  // Obtenemos concesionarios de la base de datos
   db.query('SELECT id_concesionario, nombre FROM concesionarios WHERE activo = 1 ORDER BY nombre ASC', (err, concesionarios) => {
     if (err) {
       console.error("Error al cargar concesionarios:", err);
       return res.render('registro', {
         titulo: 'Registro',
-        error: '⚠️ Error al cargar el formulario.',
+        error: '⚠ Error al cargar el formulario.',
         concesionarios: [],
         mostrarHeader: false,
         mostrarFooter: false
@@ -102,15 +104,15 @@ router.get('/registro', (req, res) => {
 router.post('/registro', (req, res) => {
   const { nombre, email, contraseña, telefono, concesionarios, preferencias_accesibilidad,rol } = req.body;
   
-  // Verificar si el usuario ya existe
+  // Verificamos si el usuario ya existe
   db.query('SELECT * FROM usuarios WHERE correo = ?', [email], (err, usuarioExistente) => {
     if (err) {
       console.error("Error en el registro:", err);
-      // Recargar concesionarios en caso de error
+      // Recargamos concesionarios en caso de error
       db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
         res.render('registro', {
           titulo: 'Registro',
-          error: '⚠️ Error al registrar el usuario. Inténtelo de nuevo.',
+          error: '⚠ Error al registrar el usuario. Inténtelo de nuevo.',
           concesionarios: err2 ? [] : concesionariosLista,
           mostrarHeader: false,
           mostrarFooter: false
@@ -120,11 +122,11 @@ router.post('/registro', (req, res) => {
     }
 
     if (usuarioExistente.length > 0) {
-      // Recargar concesionarios en caso de error
+      // Recargamos concesionarios en caso de error
       db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err, concesionariosLista) => {
         res.render('registro', {
           titulo: 'Registro',
-          error: '⚠️ El usuario ya está registrado.',
+          error: '⚠ El usuario ya está registrado.',
           concesionarios: err ? [] : concesionariosLista,
           mostrarHeader: false,
           mostrarFooter: false
@@ -133,14 +135,14 @@ router.post('/registro', (req, res) => {
       return;
     }
 
-    // Hashear la contraseña
+    // Hasheamos la contraseña
     bcrypt.hash(contraseña, SALT_ROUNDS, (err, hash) => {
       if (err) {
         console.error("Error al hashear contraseña:", err);
         db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
           res.render('registro', {
             titulo: 'Registro',
-            error: '⚠️ Error al procesar la contraseña.',
+            error: '⚠ Error al procesar la contraseña.',
             concesionarios: err2 ? [] : concesionariosLista,
             mostrarHeader: false,
             mostrarFooter: false
@@ -149,7 +151,7 @@ router.post('/registro', (req, res) => {
         return;
       }
 
-      // Insertar nuevo usuario en la base de datos
+
       const sql = `INSERT INTO usuarios (nombre, correo, contraseña, telefono, id_concesionario, preferencias_accesibilidad, rol, activo) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
       const params = [
@@ -169,7 +171,7 @@ router.post('/registro', (req, res) => {
           db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err2, concesionariosLista) => {
             res.render('registro', {
               titulo: 'Registro',
-              error: '⚠️ Error al registrar el usuario. Inténtelo de nuevo.',
+              error: '⚠ Error al registrar el usuario. Inténtelo de nuevo.',
               concesionarios: err2 ? [] : concesionariosLista,
               mostrarHeader: false,
               mostrarFooter: false
@@ -197,13 +199,13 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
   const { email, contraseña, recordar } = req.body;
   
-  // Buscar usuario en la base de datos
-  db.query('SELECT * FROM usuarios WHERE correo = ?', [email], (err, usuarios) => {
+  // Buscamos usuario en la base de datos
+  db.query('SELECT * FROM usuarios WHERE correo = ? AND activo = 1', [email], (err, usuarios) => {
     if (err) {
       console.error("Error en el login:", err);
       return res.render('login', {
         titulo: 'Iniciar sesión',
-        errorLogin: '⚠️ Error al iniciar sesión. Inténtelo de nuevo.',
+        errorLogin: '⚠ Error al iniciar sesión. Inténtelo de nuevo.',
         mostrarHeader: false,
         mostrarFooter: false
       });
@@ -220,7 +222,7 @@ router.post('/login', (req, res) => {
 
     const usuario = usuarios[0];
 
-    // Verificar contraseña
+    // Verificamos contraseña
     bcrypt.compare(contraseña, usuario.contraseña, (err, esValida) => {
       if (err) {
         console.error("Error al comparar contraseñas:", err);

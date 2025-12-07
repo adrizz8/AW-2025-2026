@@ -1,3 +1,5 @@
+
+//Aqui gestionamos la edicion de usuarios 
 document.addEventListener('DOMContentLoaded', () => {
   const modalEl = document.getElementById('modalEditarUsuario');
   const bsModal = new bootstrap.Modal(modalEl);
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     erroresDiv.style.display = 'block';
   }
 
-  // Abrir modal al pulsar "Editar"
+  // Abrimos el modal al pulsar el boton de editar
   document.querySelectorAll('.btn-editar-usuario').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const u = data.usuario;
       const conces = data.concesionarios;
 
-      // Rellenar campos
+
       document.getElementById('edit-id_usuario').value = u.id_usuario;
       document.getElementById('edit-nombre').value = u.nombre;
       document.getElementById('edit-correo').value = u.correo;
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Guardar cambios
+  // Guardamos cambios
   document.getElementById('btn-guardar-usuario').addEventListener('click', async () => {
     const id = document.getElementById('edit-id_usuario').value;
     const payload = {
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // recargar la página para ver cambios (o actualizar la fila a mano)
+    // Recargamos la pagina para ver los cambios
     bsModal.hide();
     location.reload();
   });

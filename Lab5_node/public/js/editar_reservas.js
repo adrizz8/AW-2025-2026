@@ -1,11 +1,11 @@
-// Manejar el envío del formulario de edición
+// Con esto manejamos el envio del formulario de edicion de reserva
 document.getElementById('form-editar-reserva').addEventListener('submit', function(e) {
   e.preventDefault();
 
   const formData = new FormData(this);
   const datos = Object.fromEntries(formData);
 
-  // Limpiar errores previos
+  // Limpiamos posibles errores nuevos
   document.getElementById('errores-editar').style.display = 'none';
   document.getElementById('lista-errores-editar').innerHTML = '';
 
@@ -19,7 +19,7 @@ document.getElementById('form-editar-reserva').addEventListener('submit', functi
   .then(res => res.json())
   .then(data => {
     if (!data.ok) {
-      // Mostrar errores
+      // Mostramos los errores que salgan
       if (data.errores && data.errores.length > 0) {
         const listaErrores = document.getElementById('lista-errores-editar');
         listaErrores.innerHTML = '';
@@ -37,7 +37,7 @@ document.getElementById('form-editar-reserva').addEventListener('submit', functi
       return;
     }
 
-    // Éxito: cerrar modal y recargar tabla
+    // Si no quedan errores mostramos la tabla y cerramos el modal de edicion de reservas
     const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarReserva'));
     modal.hide();
     

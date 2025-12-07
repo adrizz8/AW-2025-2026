@@ -5,7 +5,8 @@ const vehiculos = require('../datos/vehiculos.json'); // conexión normal de mys
 
 // ===================== VEHÍCULOS =====================
 
-// GET /api/vehiculos -> listar vehículos del json
+//Obtenemos la lista de vehiculos en JSON
+// GET /api/vehiculos -> lista de vehículos del json
 router.get('/vehiculos', (req, res) => {
  const q = (req.query.q || "").toLowerCase();
 
@@ -23,7 +24,7 @@ router.get('/vehiculos', (req, res) => {
 });
 // ===================== RESERVAS =====================
 
-// POST /api/reservas -> crear reserva
+// POST /api/reservas -> creacion de la reserva
 router.post('/reservas', (req, res) => {
 const datos = req.body;
 
@@ -62,6 +63,7 @@ db.query('SELECT * FROM reservas WHERE id_reserva = ?', [resultado.insertId], (e
 });
 });
 
+//Listamos todas las reservas de la base de datos en JSON
 // GET /api/reservas -> listar todas las reservas
 router.get('/reservas', (req, res) => {
 db.query('SELECT * FROM reservas', (err, results) => {

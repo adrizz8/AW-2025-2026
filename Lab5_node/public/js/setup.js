@@ -1,6 +1,6 @@
 let vehiculosConflicto = [];
 
-// Función para mostrar logs
+// Función que usamos para mostrar todos los logs relativos a las nuevas inserciones
 function mostrarLogs(logs) {
   const logsContainer = document.getElementById('logs-container');
   const logsContent = document.getElementById('logs-content');
@@ -10,10 +10,10 @@ function mostrarLogs(logs) {
     const div = document.createElement('div');
     div.className = 'log-item';
 
-    if (log.includes('✅')) div.classList.add('log-success');
+    if (log.includes('✔')) div.classList.add('log-success');
     else if (log.includes('❌')) div.classList.add('log-error');
-    else if (log.includes('⚠️')) div.classList.add('log-warning');
-    else if (log.includes('🔄')) div.classList.add('log-update');
+    else if (log.includes('⚠')) div.classList.add('log-warning');
+    else if (log.includes('🔁')) div.classList.add('log-update');
 
     div.textContent = log;
     logsContent.appendChild(div);
@@ -23,7 +23,7 @@ function mostrarLogs(logs) {
   logsContainer.scrollTop = logsContainer.scrollHeight;
 }
 
-// Función para mostrar estadísticas
+// Función para mostrar las estadisticas con un grid
 function mostrarEstadisticas(stats) {
   document.getElementById('estadisticas').style.display = 'grid';
   document.getElementById('stat-total').textContent = stats.total || 0;
@@ -32,7 +32,7 @@ function mostrarEstadisticas(stats) {
   document.getElementById('stat-errores').textContent = stats.errores || 0;
 }
 
-// Función para mostrar conflictos
+// Función para mostrar conflictos de las inserciones
 function mostrarConflictos(conflictos) {
   const container = document.getElementById('conflictos-container');
   const listaConflictos = document.getElementById('lista-conflictos');
@@ -48,18 +48,18 @@ function mostrarConflictos(conflictos) {
   container.classList.add('show');
 }
 
-// Mostrar botón de ir a index
+//Mostramos el boton que redirige a index en caso de haber poblado ya nuestra base de datos de vehiculos y concesionarios
 function mostrarBotonIndex() {
   const btnContainer = document.getElementById('btn-ir-index-container');
   btnContainer.style.display = 'block';
 
   const btn = document.getElementById('btn-ir-index');
   btn.addEventListener('click', () => {
-    window.location.href = '/'; // Redirige a index.ejs
+    window.location.href = '/'; 
   });
 }
 
-// Manejar formulario de concesionarios
+// Manejamos la carga del json correspondiente a los datos de los concesionarios
 document.getElementById('form-concesionarios').addEventListener('submit', function(e) {
   e.preventDefault();
   const formData = new FormData(this);
@@ -99,7 +99,7 @@ document.getElementById('form-concesionarios').addEventListener('submit', functi
     });
 });
 
-// Manejar formulario de vehículos
+// // Manejamos la carga del json correspondiente a los datos de los vehiculos
 document.getElementById('form-vehiculos').addEventListener('submit', function(e) {
   e.preventDefault();
   const formData = new FormData(this);
@@ -143,7 +143,7 @@ document.getElementById('form-vehiculos').addEventListener('submit', function(e)
     });
 });
 
-// Actualizar todos los vehículos con conflicto
+// Actualizamos todos los vehículos con conflicto
 document.getElementById('btn-actualizar-todos').addEventListener('click', function() {
   if (vehiculosConflicto.length === 0) return;
 
@@ -183,7 +183,7 @@ document.getElementById('btn-actualizar-todos').addEventListener('click', functi
     });
 });
 
-// Cancelar actualización
+// Boton para cancelar la actualizacion de los vehiculos
 document.getElementById('btn-cancelar').addEventListener('click', function() {
   document.getElementById('conflictos-container').classList.remove('show');
   vehiculosConflicto = [];
