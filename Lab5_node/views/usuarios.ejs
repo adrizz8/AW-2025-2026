@@ -39,7 +39,7 @@
               </span>
             </td>
             <td>
-              <a href="/usuario/editar/<%= u.id_usuario %>" class="editar" style="margin-right:6px;">
+              <a href="#" class="editar btn-editar-usuario" data-id="<%= u.id_usuario %>" style="margin-right:6px;">
                 Editar
               </a>
               <% if (u.activo) { %>
@@ -68,7 +68,62 @@
     </tbody>
   </table>
 
+  <!-- Modal Editar Usuario -->
+  <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div id="errores-editar-usuario" class="alert alert-danger" style="display:none;"></div>
+
+          <form id="form-editar-usuario">
+            <input type="hidden" id="edit-id_usuario">
+
+            <div class="mb-3">
+              <label for="edit-nombre" class="form-label">Nombre *</label>
+              <input type="text" class="form-control" id="edit-nombre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-correo" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="edit-correo" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="edit-telefono">
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-rol" class="form-label">Rol</label>
+              <select id="edit-rol" class="form-select">
+                <option value="empleado">Empleado</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-id_concesionario" class="form-label">Concesionario</label>
+              <select id="edit-id_concesionario" class="form-select">
+                <!-- opciones se rellenan por JS -->
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btn-guardar-usuario">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="margin-top:18px; text-align:center;">
     <a class="cta" href="/">← Volver al inicio</a>
   </div>
 </section>
+
+<script src="/js/usuarios.js"></script>

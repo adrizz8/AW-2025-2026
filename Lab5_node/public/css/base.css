@@ -22,7 +22,6 @@ body {
   background-color: var(--color-fondo);
   max-width: 100%;
   max-height: 100%;
-  overflow-x: hidden;
 }
 
 
@@ -127,7 +126,6 @@ body.dark-mode {
   /* texto claro verdoso */
   max-width: 100%;
   max-height: 100%;
-  overflow-x: hidden;
 }
 
 /* Header y footer en modo oscuro */

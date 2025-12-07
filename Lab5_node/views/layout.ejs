@@ -15,11 +15,11 @@
   <link rel="stylesheet" href="/css/mapa.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="/css/vehiculos.css">
-   <link rel="stylesheet" href="/css/usuarios.css">
+  <link rel="stylesheet" href="/css/usuarios.css">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/reservas.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
- 
+
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </head>
@@ -28,7 +28,7 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  <% if (typeof mostrarHeader !== 'undefined' && mostrarHeader === true) { %>
+  <% if (typeof mostrarHeader !=='undefined' && mostrarHeader===true) { %>
     <header class="header-layout">
 
       <div class="header-left">
@@ -37,59 +37,66 @@
             <img src="/images/logo.png" alt="Logo de la empresa" class="logo-img">
           </a>
         </div>
-
-        <% if (usuario && usuario.rol==="admin" ) { %>
-          <div class="cta-container gestionar">
-            <a href="/vehiculos" class="cta-layout">Gestionar Vehículos</a>
-            <a href="/concesionarios" class="cta-layout">Gestionar Concesionarios</a>
-          </div>
-          <% } %>
       </div>
 
-      <div class="header-right">
-        <% if (usuario) { %>
-          <div class="cta-container usuario">
-            👋 Hola, <strong>
-              <%= usuario.nombre %>
-            </strong>
-            <a href="/logout" class="cta-layout">Cerrar sesión</a>
+      <!-- Botón hamburguesa solo visible en pantallas pequeñas -->
+      <button class="header-toggle" type="button" id="btn-header-toggle">☰</button>
 
-              <% if (usuario.rol==="empleado" ) { %>
-              <a href="/reservas" class="cta-layout">Mis Reservas</a>
-              <% } %>
-            
-              <% if (usuario.rol==="admin" ) { %>
-              <a href="/usuario" class="cta-layout">Lista de usuarios</a>
-              <% } %>
-
-            <% if (usuario.rol==="admin" ) { %>
-              <a href="/registro" class="cta-layout">Registrar</a>
-              <% } %>
-          </div>
-          <% } else { %>
-            <div class="cta-container usuario">
-              <a href="/login" class="cta-layout">Iniciar sesión</a>
+      <div class="header-menu" id="header-menu">
+        <div class="header-left-inner">
+          <% if (usuario && usuario.rol==="admin" ) { %>
+            <div class="cta-container gestionar">
+              <a href="/vehiculos" class="cta-layout">Gestionar Vehículos</a>
+              <a href="/concesionarios" class="cta-layout">Gestionar Concesionarios</a>
             </div>
             <% } %>
-              <div class="dropdown accesibilidad-menu">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="menuAccesibilidad"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  Accesibilidad
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuAccesibilidad">
-                  <li>
-                    <button class="dropdown-item" type="button" id="btn-contraste">
-                      Cambiar contraste
-                    </button>
-                  </li>
-                  <li>
-                    <button class="dropdown-item" type="button" id="btn-texto-grande" aria-pressed="false">
-                      Cambiar tamaño
-                    </button>
-                  </li>
-                </ul>
+        </div>
+
+        <div class="header-right">
+          <% if (usuario) { %>
+            <div class="cta-container usuario">
+              👋 Hola, <strong>
+                <%= usuario.nombre %>
+              </strong>
+              <a href="/logout" class="cta-layout">Cerrar sesión</a>
+
+              <% if (usuario.rol==="empleado" ) { %>
+                <a href="/reservas" class="cta-layout">Mis Reservas</a>
+                <a href="/vehiculos" class="cta-layout">Vehículos</a>
+                <% } %>
+
+                  <% if (usuario.rol==="admin" ) { %>
+                    <a href="/usuario" class="cta-layout">Lista de usuarios</a>
+                    <a href="/registro" class="cta-layout">Registrar</a>
+                    <% } %>
+            </div>
+            <% } else { %>
+              <div class="cta-container usuario">
+                <a href="/login" class="cta-layout">Iniciar sesión</a>
               </div>
+              <% } %>
+
+                <div class="dropdown accesibilidad-menu">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="menuAccesibilidad"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Accesibilidad
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuAccesibilidad">
+                    <li>
+                      <button class="dropdown-item" type="button" id="btn-contraste">
+                        Cambiar contraste
+                      </button>
+                    </li>
+                    <li>
+                      <button class="dropdown-item" type="button" id="btn-texto-grande" aria-pressed="false">
+                        Cambiar tamaño
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+        </div>
       </div>
+
     </header>
 
     <% } %>
@@ -98,7 +105,7 @@
         <%- body %>
       </main>
 
-      <% if (typeof mostrarFooter !== 'undefined' && mostrarFooter === true) { %>
+      <% if (typeof mostrarFooter !=='undefined' && mostrarFooter===true) { %>
         <footer class="footer-layout">
 
           <div class="footer-item centro">

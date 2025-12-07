@@ -85,3 +85,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('btn-header-toggle');
+  const menu = document.getElementById('header-menu');
+
+  if (!toggleBtn || !menu) return;
+
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.toggle('show');
+  });
+});

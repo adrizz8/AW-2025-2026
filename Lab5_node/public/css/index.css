@@ -137,16 +137,11 @@
 .slider .slide-track {
   animation: scroll 40s linear infinite;
   display: flex;
-  width: calc(250px * 14);
 }
 
-.slider .slide {
-  height: 100px;
-  width: 250px;
-}
 
 /* Responsive: en pantallas pequeñas, una sola columna */
-@media (max-width: 768px) {
+@media (max-width: 976px) {
   .columnas-index {
     grid-template-columns: 1fr;
   }

@@ -13,7 +13,7 @@
 
 <% if (admin) { %>
   <a href="/vehiculos/nuevo" class="btn-nuevo">Añadir Vehículo</a>
-<% } %>
+  <% } %>
     <table class="tabla-vehiculos">
       <thead>
         <tr>
@@ -28,7 +28,9 @@
           <th>Imagen</th>
           <th>Estado</th>
           <th>Concesionario</th>
-          <th>Acciones</th>
+          <% if (admin) { %>
+            <th>Acciones</th>
+            <% } %>
         </tr>
       </thead>
 
@@ -74,20 +76,21 @@
                 </td>
 
                 <td>
-                  <%= v.id_concesionario %>
+                  <%= v.nombre_concesionario %>
                 </td>
 
 
-                <td class="acciones">
-                  <a href="/vehiculos/<%= v.id_vehiculo %>" class="ver">Ver</a>
-                  <a href="/vehiculos/<%= v.id_vehiculo %>/editar" class="editar">Editar</a>
-                  <form action="/vehiculos/<%= v.id_vehiculo %>/eliminar" method="POST" style="display:inline;">
-                    <button type="submit" class="eliminar" onclick="return confirm('¿Eliminar vehículo?')">
-                      Eliminar
-                    </button>
-                  </form>
-                </td>
-
+                <% if (admin) { %>
+                  <td class="acciones">
+                    <a href="/vehiculos/<%= v.id_vehiculo %>" class="ver">Ver</a>
+                    <a href="/vehiculos/<%= v.id_vehiculo %>/editar" class="editar">Editar</a>
+                    <form action="/vehiculos/<%= v.id_vehiculo %>/eliminar" method="POST" style="display:inline;">
+                      <button type="submit" class="eliminar" onclick="return confirm('¿Eliminar vehículo?')">
+                        Eliminar
+                      </button>
+                    </form>
+                  </td>
+                  <% } %>
               </tr>
               <% }) %>
                 <% } %>

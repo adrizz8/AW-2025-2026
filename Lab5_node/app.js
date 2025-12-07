@@ -76,7 +76,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/setup', setUpRoutes);
 app.use('/',checkDatabase, mainRoutes);
-app.use('/vehiculos',checkDatabase, vehiculosRoutes);
+app.use('/vehiculos',checkDatabase, requireAuth, vehiculosRoutes);
 app.use('/reservas',checkDatabase, requireAuth, reservasRoutes);
 app.use('/concesionarios',checkDatabase, requireAdmin, concesionariosRoutes);
 app.use('/api',checkDatabase, apiRoutes);

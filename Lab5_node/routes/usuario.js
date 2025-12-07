@@ -86,4 +86,72 @@ router.post('/activar/:id', requireAuth, requireAdmin, (req, res) => {
   });
 });
 
+router.get('/datos/:id', requireAuth, requireAdmin, (req, res) => {
+  const id = req.params.id;
+  const sql = `
+    SELECT 
+      u.id_usuario,
+      u.nombre,
+      u.correo,
+      u.telefono,
+      u.rol,
+      u.id_concesionario
+    FROM usuarios u
+    WHERE u.id_usuario = ?
+  `;
+
+  db.query(sql, [id], (err, rows) => {
+    if (err) {
+      console.error("Error al obtener usuario:", err);
+      return res.status(500).json({ ok: false, error: 'Error al obtener usuario' });
+    }
+    if (rows.length === 0) {
+      return res.status(404).json({ ok: false, error: 'Usuario no encontrado' });
+    }
+
+    // también necesitas la lista de concesionarios para el <select>
+    db.query(
+      'SELECT id_concesionario, nombre FROM concesionarios WHERE activo = 1 ORDER BY nombre ASC',
+      (err2, conces) => {
+        if (err2) {
+          console.error(err2);
+          return res.status(500).json({ ok: false, error: 'Error al cargar concesionarios' });
+        }
+        res.json({ ok: true, usuario: rows[0], concesionarios: conces });
+      }
+    );
+  });
+});
+
+router.post('/editar/:id', requireAuth, requireAdmin, (req, res) => {
+  const id = req.params.id;
+  const { nombre, correo, telefono, rol, id_concesionario } = req.body;
+
+  const errores = [];
+  if (!nombre || !correo) errores.push('Nombre y correo son obligatorios');
+  if (telefono && isNaN(telefono)) errores.push('El teléfono debe ser numérico');
+
+  if (errores.length > 0) {
+    return res.status(400).json({ ok: false, errores });
+  }
+
+  const sqlUpdate = `
+    UPDATE usuarios
+    SET nombre = ?, correo = ?, telefono = ?, rol = ?, id_concesionario = ?
+    WHERE id_usuario = ?
+  `;
+
+  db.query(
+    sqlUpdate,
+    [nombre, correo, telefono || null, rol, id_concesionario || null, id],
+    (err) => {
+      if (err) {
+        console.error("Error al actualizar usuario:", err);
+        return res.status(500).json({ ok: false, errores: ['No se pudo actualizar el usuario'] });
+      }
+      res.json({ ok: true });
+    }
+  );
+});
+
 module.exports = router;

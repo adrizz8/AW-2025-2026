@@ -3,29 +3,49 @@ const router = express.Router();
 const requireAuth = require('../middlewares/auth');
 const db = require('../public/js/conexion'); // conexión MySQL sin promesas
 
-// --- LISTA VEHÍCULOS ---
-// --- LISTA VEHÍCULOS ---
 router.get('/', (req, res) => {
   const q = (req.query.q || '').toLowerCase();
   const tipo = (req.query.tipo || '').toLowerCase();
 
-  let query = 'SELECT * FROM vehiculos WHERE activo = 1';
-  let params = [];
+  const usuario = req.session.usuario || null;
+  const esAdmin = usuario && usuario.rol === 'admin';
+  const idConcUsuario = usuario ? usuario.id_concesionario : null;
+
+  let query = `
+    SELECT 
+      v.*,
+      c.nombre AS nombre_concesionario
+    FROM vehiculos v
+    LEFT JOIN concesionarios c
+      ON v.id_concesionario = c.id_concesionario
+    WHERE v.activo = 1
+  `;
+  const params = [];
+
+  // Si NO es admin y tiene concesionario asignado → filtrar por ese concesionario
+  if (!esAdmin && idConcUsuario) {
+    query += ' AND v.id_concesionario = ?';
+    params.push(idConcUsuario);
+  }
 
   if (q) {
-    query += ' AND (LOWER(marca) LIKE ? OR LOWER(modelo) LIKE ?)';
+    query += ' AND (LOWER(v.marca) LIKE ? OR LOWER(v.modelo) LIKE ?)';
     params.push(`%${q}%`, `%${q}%`);
   }
 
   if (tipo) {
-    query += ' AND LOWER(tipo) = ?';
+    query += ' AND LOWER(v.tipo) = ?';
     params.push(tipo);
   }
 
   db.query(query, params, (err, results) => {
     if (err) {
       console.error(err);
-      return res.status(500).render('500', { mensaje: 'Error al obtener vehículos', mostrarHeader: true, mostrarFooter: true });
+      return res.status(500).render('500', {
+        mensaje: 'Error al obtener vehículos',
+        mostrarHeader: true,
+        mostrarFooter: true
+      });
     }
 
     res.render('vehiculos', {
@@ -34,7 +54,8 @@ router.get('/', (req, res) => {
       q,
       tipo,
       mostrarHeader: true,
-      mostrarFooter: true
+      mostrarFooter: true,
+      admin: esAdmin
     });
   });
 });
@@ -73,7 +94,7 @@ router.post('/nuevo', requireAuth, (req, res) => {
     errores.push("La URL de la imagen debe ser válida.");
   }
   if (!matricula || !marca || !modelo || !anio_matriculacion ||
-      !numero_plazas || !autonomia_km || !color || !estado || !id_concesionario) {
+    !numero_plazas || !autonomia_km || !color || !estado || !id_concesionario) {
     errores.push("Todos los campos marcados con * son obligatorios.");
   }
   if (isNaN(autonomia_km)) errores.push("La autonomía del vehículo debe ser numérica.");
