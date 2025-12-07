@@ -1,3 +1,4 @@
+
 const mapDiv = document.getElementById('map');
 
 let map;

@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", cargarReservas);
 
+// Funcion que usamos para cargar las reservas en nuestra tabla que tiene el histórico de reservas de cada usuario
+// La carga se realiza mediante un fetch a la ruta especificada y si hay reservas las mostramos en nuestra tabla
+// sino devolvemos un error en la propia tabla
 function cargarReservas() {
   fetch("/reservas/lista")
     .then(res => res.json())
@@ -46,9 +49,9 @@ function cargarReservas() {
     });
 }
 
-// Función para abrir el modal de editar con los datos de la reserva
+// Función que usamos para abrir el modal de edición de datos de la reserva, también mediante fetch y con un alert en caso de no obtener los datos de la reserva
 function abrirModalEditar(idReserva) {
-  // Obtener los datos de la reserva
+
   fetch(`/reservas/detalle/${idReserva}`)
     .then(res => res.json())
     .then(data => {
@@ -59,18 +62,18 @@ function abrirModalEditar(idReserva) {
 
       const reserva = data.reserva;
 
-      // Rellenar el formulario
+     
       document.getElementById('edit_id_reserva').value = reserva.id_reserva;
       document.getElementById('edit_id_vehiculo').value = reserva.id_vehiculo;
       document.getElementById('edit_estado').value = reserva.estado;
       document.getElementById('edit_kilometros').value = reserva.kilometros_recorridos || '';
       document.getElementById('edit_incidencias').value = reserva.incidencias_reportadas || '';
 
-      // Limpiar errores previos
+      // Usamos esto para limpiar los errores del formulario
       document.getElementById('errores-editar').style.display = 'none';
       document.getElementById('lista-errores-editar').innerHTML = '';
 
-      // Abrir el modal
+    
       const modal = new bootstrap.Modal(document.getElementById('modalEditarReserva'));
       modal.show();
     })
@@ -80,7 +83,7 @@ function abrirModalEditar(idReserva) {
     });
 }
 
-// Permitir refrescar la tabla después de crear reserva
+// Refrescamos la tabla tras agregar la reserva
 window.agregarReservaATabla = function () {
   cargarReservas();
 };
