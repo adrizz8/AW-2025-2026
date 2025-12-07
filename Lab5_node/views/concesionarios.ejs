@@ -1,5 +1,11 @@
 <h1>Lista de Concesionarios</h1>
 
+<% if (mensajeError) { %>
+  <div class="nota" style="color:#b00020; font-weight:bold;">
+    <%= mensajeError %>
+  </div>
+<% } %>
+
 <form method="GET" action="/concesionarios" class="filtros">
   <div style="flex:1; min-width:250px;">
     <label for="q">Buscar por nombre o ciudad:</label>
@@ -12,11 +18,14 @@
 </form>
 
 <% if (admin) { %>
-  <button type="button" class="btn-nuevo" data-bs-toggle="modal"
-    data-bs-target="#modalNuevoConcesionario">Añadir Concesionarios</button>
+  <!-- Usa la misma clase .btn-nuevo que vehículos -->
+  <button type="button" class="btn-nuevo" id="btn-nuevo-concesionario" data-bs-toggle="modal"
+    data-bs-target="#modalNuevoConcesionario">
+    Añadir Concesionario
+  </button>
   <% } %>
 
-    <table class="tabla-concesionarios">
+    <table class="tabla-vehiculos tabla-concesionarios">
       <thead>
         <tr>
           <th>ID</th>
@@ -24,13 +33,13 @@
           <th>Ciudad</th>
           <th>Dirección</th>
           <th>Teléfono de Contacto</th>
+          <th>Acciones</th>
         </tr>
       </thead>
-
       <tbody>
         <% if (results.length===0) { %>
           <tr>
-            <td colspan="<%= admin ? 12 : 11 %>">No se encontraron concesionarios</td>
+            <td colspan="6">No se encontraron concesionarios</td>
           </tr>
           <% } else { %>
             <% results.forEach(c=> { %>
@@ -50,13 +59,29 @@
                 <td>
                   <%= c.telefono_contacto %>
                 </td>
+                <td class="acciones">
+                  <a href="/concesionarios/<%= c.id_concesionario %>" class="ver">
+                    Ver
+                  </a>
 
+                  <a href="/concesionarios/<%= c.id_concesionario %>/editar" class="editar">
+                    Editar
+                  </a>
+
+                  <form action="/concesionarios/<%= c.id_concesionario %>/eliminar" method="POST"
+                    style="display:inline;">
+                    <button type="submit" class="eliminar"
+                      onclick="return confirm('¿Seguro que quieres eliminar este concesionario?');">
+                      Eliminar
+                    </button>
+                  </form>
               </tr>
               <% }) %>
                 <% } %>
       </tbody>
     </table>
 
+    <!-- Modal Nuevo Concesionario -->
     <div class="modal fade" id="modalNuevoConcesionario" tabindex="-1" aria-labelledby="modalNuevoConcesionarioLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -65,6 +90,7 @@
             <h5 class="modal-title" id="modalNuevoConcesionarioLabel">Añadir Concesionario</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
           <div class="modal-body">
             <form id="form-nuevo-concesionario" method="POST" action="/concesionarios/nuevo">
               <div class="mb-3">
@@ -83,11 +109,18 @@
                 <label for="telefono_contacto" class="form-label">Teléfono de Contacto *</label>
                 <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
               </div>
-              <button type="button" class="btn btn-primary" id="btn-agregar-concesionario">Añadir Concesionario</button>
+
+              <!-- Botón principal del modal (mismo estilo que vehículos) -->
+              <button type="button" class="btn btn-primary" id="btn-agregar-concesionario">
+                Añadir Concesionario
+              </button>
             </form>
           </div>
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cerrar
+            </button>
           </div>
         </div>
       </div>

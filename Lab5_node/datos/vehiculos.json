@@ -7,7 +7,7 @@
     "numero_plazas": 5,
     "autonomia_km": 491,
     "color": "Blanco",
-    "imagen": "model3.jpg",
+    "imagen": "https://www.muchoneumatico.com/blog/wp-content/uploads/2022/02/Un-Tesla-Model-3-de-color-blanco-scaled.jpg",
     "estado": "disponible",
     "id_concesionario": 1
   },
@@ -19,7 +19,7 @@
     "numero_plazas": 5,
     "autonomia_km": 270,
     "color": "Gris",
-    "imagen": "leaf.png",
+    "imagen": "https://static.motor.es/fotos-noticias/2020/11/nissan-leaf-2021-202073181-1606501704_2.jpg",
     "estado": "mantenimiento",
     "id_concesionario": 2
   },
@@ -31,7 +31,7 @@
     "numero_plazas": 4,
     "autonomia_km": 260,
     "color": "Azul",
-    "imagen": "i3.jpg",
+    "imagen": "https://mediapool.bmwgroup.com/cache/P9/201604/P90216947/P90216947-bmw-i3-94ah-05-2016-599px.jpg",
     "estado": "disponible",
     "id_concesionario": 1
   },
@@ -43,7 +43,7 @@
     "numero_plazas": 5,
     "autonomia_km": 300,
     "color": "Rojo",
-    "imagen": "zoe.jpg",
+    "imagen": "https://motork.com/media/2020/01/motork_renault_zoe_50_zen-1-1210x642.png",
     "estado": "disponible",
     "id_concesionario": 3
   },
@@ -55,7 +55,7 @@
     "numero_plazas": 5,
     "autonomia_km": 484,
     "color": "Negro",
-    "imagen": "kona.jpg",
+    "imagen": "https://dealerimages.dealereprocess.com/image/upload/c_limit,f_auto,fl_lossy,w_600/v1/svp/dep/24hyundaikonaelectriclimited/hyundai_24konaelectriclimitedfwd_angularfront_onyxblack",
     "estado": "disponible",
     "id_concesionario": 2
   },
@@ -67,7 +67,7 @@
     "numero_plazas": 5,
     "autonomia_km": 528,
     "color": "Blanco Perlado",
-    "imagen": "ev6.jpg",
+    "imagen": "https://www.kia.com/content/dam/kwcms/kme/global/en/assets/360vr/ev6/my25/cv-pe-ex-my25//swp-snowwhitepearl/20/kia-ev6-pe-ex-my25-SWP-SnowWhitePearl-20_0000.jpg",
     "estado": "disponible",
     "id_concesionario": 4
   },
@@ -79,7 +79,7 @@
     "numero_plazas": 5,
     "autonomia_km": 520,
     "color": "Azul Oscuro",
-    "imagen": "id4.jpg",
+    "imagen": "https://images.prismic.io/carwow/dac6f3de-49ef-493e-ad12-96c6c718261b_LHD+Volkswagen+ID.4+2024+Exterior-05.jpg",
     "estado": "disponible",
     "id_concesionario": 3
   },
@@ -91,7 +91,7 @@
     "numero_plazas": 5,
     "autonomia_km": 340,
     "color": "Amarillo",
-    "imagen": "e208.jpg",
+    "imagen": "https://hips.hearstapps.com/hmg-prod/images/nuevo-208-2020-apertura-1571324638.jpg?resize=640:*",
     "estado": "disponible",
     "id_concesionario": 3
   },
@@ -103,7 +103,7 @@
     "numero_plazas": 5,
     "autonomia_km": 426,
     "color": "Plateado",
-    "imagen": "eqa.jpg",
+    "imagen": "https://www.mercedes-benz.com/en/vehicles/passenger-cars/eqa/_jcr_content/image/MQ6-0-image-20220310120039/02-mercedes-benz-vehicles-eqa-2022-1920x1080.jpeg",
     "estado": "disponible",
     "id_concesionario": 1
   },
@@ -115,7 +115,7 @@
     "numero_plazas": 5,
     "autonomia_km": 450,
     "color": "Gris Metalizado",
-    "imagen": "q4.jpg",
+    "imagen": "https://stockfinder-back.singularecommerce.net/media/catalog/product/cache/cdd3a1b67dc53c8d4efa490004d7e5e4/W/A/WAUZZZFZ4SP012697_1.png",
     "estado": "mantenimiento",
     "id_concesionario": 2
   }

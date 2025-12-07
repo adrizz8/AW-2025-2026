@@ -76,7 +76,7 @@ router.get('/', (req, res) => {
 // --- Registro (GET) ---
 router.get('/registro', (req, res) => {
   // Obtener concesionarios de la base de datos
-  db.query('SELECT id_concesionario, nombre FROM concesionarios ORDER BY nombre ASC', (err, concesionarios) => {
+  db.query('SELECT id_concesionario, nombre FROM concesionarios WHERE activo = 1 ORDER BY nombre ASC', (err, concesionarios) => {
     if (err) {
       console.error("Error al cargar concesionarios:", err);
       return res.render('registro', {

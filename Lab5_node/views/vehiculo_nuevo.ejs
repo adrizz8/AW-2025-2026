@@ -1,86 +1,105 @@
 <h1>Nuevo Vehículo</h1>
 
-<% if (errores && errores.length> 0) { %>
-  <ul style="color: red; font-weight:bold;">
-    <% errores.forEach(e=> { %>
-      <li>
-        <%= e %>
-      </li>
-      <% }) %>
+<% if (errores && errores.length > 0) { %>
+  <ul style="color: red; font-weight:bold; margin-bottom:16px;">
+    <% errores.forEach(e => { %>
+      <li><%= e %></li>
+    <% }) %>
   </ul>
-  <% } %>
+<% } %>
 
-    <form action="/vehiculos/nuevo" method="POST" class="form-vehiculo">
+<section class="formulario">
+  <form action="/vehiculos/nuevo" method="POST">
 
-      <div class="form-grid">
-
-        <div class="campo-form">
-          <label for="matricula">Matrícula</label>
-          <input type="text" id="matricula" name="matricula" value="<%= datos?.matricula || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="marca">Marca</label>
-          <input type="text" id="marca" name="marca" value="<%= datos?.marca || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="modelo">Modelo</label>
-          <input type="text" id="modelo" name="modelo" value="<%= datos?.modelo || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="anio_matriculacion">Año de matriculación</label>
-          <input type="number" id="anio_matriculacion" name="anio_matriculacion"
-            value="<%= datos?.anio_matriculacion || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="numero_plazas">Número de plazas</label>
-          <input type="number" id="numero_plazas" name="numero_plazas" value="<%= datos?.numero_plazas || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="autonomia_km">Autonomía (km)</label>
-          <input type="number" id="autonomia_km" name="autonomia_km" value="<%= datos?.autonomia_km || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="color">Color</label>
-          <input type="text" id="color" name="color" value="<%= datos?.color || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="imagen">Imagen del vehículo (URL)</label>
-          <input type="text" id="imagen" name="imagen" value="<%= datos?.imagen || '' %>">
-        </div>
-
-        <div class="campo-form">
-          <label for="estado">Estado</label>
-          <select id="estado" name="estado">
-            <option value="disponible" <%=datos?.estado==='disponible' ? 'selected' : '' %>>Disponible</option>
-            <option value="no disponible" <%=datos?.estado==='no disponible' ? 'selected' : '' %>>No disponible</option>
-            <option value="mantenimiento" <%=datos?.estado==='mantenimiento' ? 'selected' : '' %>>Mantenimiento</option>
-          </select>
-        </div>
-
-        <div class="campo-form">
-          <label for="id_concesionario">Concesionario</label>
-          <select id="id_concesionario" name="id_concesionario" required>
-            <option value="" disabled <%=!datos?.id_concesionario ? 'selected' : '' %>>
-              Selecciona un concesionario...
-            </option>
-            <% if (concesionarios && concesionarios.length> 0) { %>
-              <% concesionarios.forEach(c=> { %>
-                <option value="<%= c.id_concesionario %>"
-                  <%=String(datos?.id_concesionario)===String(c.id_concesionario) ? 'selected' : '' %>>
-                  <%= c.id_concesionario %> - <%= c.nombre %>
-                </option>
-                <% }) %>
-                  <% } %>
-          </select>
-        </div>
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="matricula">Matrícula *</label>
+        <input type="text" id="matricula" name="matricula"
+               value="<%= datos?.matricula || '' %>" required>
       </div>
 
-      <button type="submit">Guardar</button>
-    </form>
+      <div class="campo-form">
+        <label for="marca">Marca *</label>
+        <input type="text" id="marca" name="marca"
+               value="<%= datos?.marca || '' %>" required>
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="modelo">Modelo *</label>
+        <input type="text" id="modelo" name="modelo"
+               value="<%= datos?.modelo || '' %>" required>
+      </div>
+
+      <div class="campo-form">
+        <label for="anio_matriculacion">Año de matriculación *</label>
+        <input type="number" id="anio_matriculacion" name="anio_matriculacion"
+               value="<%= datos?.anio_matriculacion || '' %>" required>
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="numero_plazas">Número de plazas *</label>
+        <input type="number" id="numero_plazas" name="numero_plazas"
+               value="<%= datos?.numero_plazas || '' %>" required>
+      </div>
+
+      <div class="campo-form">
+        <label for="autonomia_km">Autonomía (km)</label>
+        <input type="number" id="autonomia_km" name="autonomia_km"
+               value="<%= datos?.autonomia_km || '' %>" required>
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="color">Color *</label>
+        <input type="text" id="color" name="color"
+               value="<%= datos?.color || '' %>" required>
+      </div>
+
+      <div class="campo-form">
+        <label for="imagen">Imagen del vehículo (URL)</label>
+        <input type="text" id="imagen" name="imagen"
+               value="<%= datos?.imagen || '' %>" required>
+      </div>
+    </div>
+
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado" required>
+          <option value="disponible" <%= datos?.estado === 'disponible' ? 'selected' : '' %>>Disponible</option>
+          <option value="reservado"  <%= datos?.estado === 'reservado'  ? 'selected' : '' %>>Reservado</option>
+          <option value="mantenimiento" <%= datos?.estado === 'mantenimiento' ? 'selected' : '' %>>Mantenimiento</option>
+        </select>
+      </div>
+
+      <div class="campo-form">
+        <label for="id_concesionario">Concesionario</label>
+        <select id="id_concesionario" name="id_concesionario" required>
+          <option value="" disabled <%= !datos?.id_concesionario ? 'selected' : '' %>>
+            Selecciona un concesionario...
+          </option>
+          <% if (concesionarios && concesionarios.length > 0) { %>
+            <% concesionarios.forEach(c => { %>
+              <option value="<%= c.id_concesionario %>"
+                <%= String(datos?.id_concesionario) === String(c.id_concesionario) ? 'selected' : '' %>>
+                <%= c.id_concesionario %> - <%= c.nombre %>
+              </option>
+            <% }) %>
+          <% } %>
+        </select>
+      </div>
+    </div>
+
+    <p class="meta">Los campos marcados con * no pueden variar si ya estuvo dado de alta anteriormente.</p>
+
+    <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap;">
+      <button type="submit" class="cta">Guardar</button>
+      <a href="/vehiculos" class="volver">← Volver al listado</a>
+    </div>
+  </form>
+</section>

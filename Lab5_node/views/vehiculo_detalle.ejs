@@ -1,14 +1,93 @@
-<h1>Detalle Vehículo</h1>
-<p><strong>ID:</strong> <%= vehiculo.id_vehiculo %></p>
-<p><strong>Matrícula:</strong> <%= vehiculo.matricula %></p>
-<p><strong>Marca:</strong> <%= vehiculo.marca %></p>
-<p><strong>Modelo:</strong> <%= vehiculo.modelo %></p>
-<p><strong>Año de Matriculación:</strong> <%= vehiculo.anio_matriculacion %></p>
-<p><strong>Número de Plazas:</strong> <%= vehiculo.numero_plazas %></p>
-<p><strong>Autonomía (km):</strong> <%= vehiculo.autonomia_km %></p>
-<p><strong>Color:</strong> <%= vehiculo.color %></p>
-<img src="<%= vehiculo.imagen %>" alt="Imagen del vehículo"
-     style="max-width: 300px; border-radius:10px; margin-bottom:20px;">
-<p><strong>Estado:</strong> <%= vehiculo.estado %></p>
-<p><strong>ID del Concesionario:</strong> <%= vehiculo.id_concesionario %></p>
-<a href="/vehiculos">Volver a la lista</a>
+<h1>Detalle del Vehículo</h1>
+<p class="meta">ID: <strong>
+          <%= vehiculo.id_vehiculo %>
+     </strong></p>
+
+<div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+     <!-- Tabla de datos -->
+     <div style="flex:1 1 260px; min-width:260px;">
+          <table class="tabla-vehiculos">
+               <tbody>
+                    <tr>
+                         <th>Matrícula</th>
+                         <td>
+                              <%= vehiculo.matricula %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Marca</th>
+                         <td>
+                              <%= vehiculo.marca %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Modelo</th>
+                         <td>
+                              <%= vehiculo.modelo %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Año matriculación</th>
+                         <td>
+                              <%= vehiculo.anio_matriculacion %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Nº plazas</th>
+                         <td>
+                              <%= vehiculo.numero_plazas %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Autonomía (km)</th>
+                         <td>
+                              <%= vehiculo.autonomia_km %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Color</th>
+                         <td>
+                              <%= vehiculo.color %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>Estado</th>
+                         <td>
+                              <%= vehiculo.estado %>
+                         </td>
+                    </tr>
+                    <tr>
+                         <th>ID concesionario</th>
+                         <td>
+                              <%= vehiculo.id_concesionario %>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+     </div>
+
+     <!-- Imagen -->
+     <div style="flex:0 0 260px; text-align:center;">
+          <% if (vehiculo.imagen) { %>
+               <img src="<%= vehiculo.imagen %>" alt="Imagen del vehículo"
+                    style="max-width:260px; width:100%; border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+               <% } else { %>
+                    <p class="meta">Sin imagen disponible</p>
+                    <% } %>
+     </div>
+</div>
+
+<div class="nav-acciones" style="margin-top: 24px;">
+     <a href="/vehiculos" class="cta">← Volver al listado</a>
+
+     <a href="/vehiculos/<%= vehiculo.id_vehiculo %>/editar" class="cta">
+          Editar vehículo
+     </a>
+
+     <form action="/vehiculos/<%= vehiculo.id_vehiculo %>/eliminar" method="POST" style="display:inline;">
+          <button type="submit" class="eliminar"
+               onclick="return confirm('¿Seguro que quieres eliminar este vehículo?');">
+               Eliminar
+          </button>
+     </form>
+</div>

@@ -1,0 +1,45 @@
+<h1>Editar Concesionario</h1>
+
+<% if (errores && errores.length > 0) { %>
+  <ul style="color: red; font-weight:bold; margin-bottom: 16px;">
+    <% errores.forEach(e => { %>
+      <li><%= e %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<section class="formulario">
+  <form action="/concesionarios/<%= concesionario.id_concesionario %>/editar" method="POST">
+
+    <div class="campo-grupo">
+      <div class="campo-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"
+               value="<%= concesionario.nombre %>" required>
+      </div>
+
+      <div class="campo-form">
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad"
+               value="<%= concesionario.ciudad %>" required>
+      </div>
+    </div>
+
+    <div class="campo-form">
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="direccion"
+             value="<%= concesionario.direccion %>" required>
+    </div>
+
+    <div class="campo-form">
+      <label for="telefono_contacto">Teléfono de contacto:</label>
+      <input type="text" id="telefono_contacto" name="telefono_contacto"
+             value="<%= concesionario.telefono_contacto %>" required>
+    </div>
+
+    <div style="margin-top: 16px; display:flex; gap:12px; flex-wrap:wrap;">
+      <button type="submit" class="cta">Actualizar</button>
+      <a href="/concesionarios" class="volver">← Volver al listado</a>
+    </div>
+  </form>
+</section>
